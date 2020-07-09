@@ -15,3 +15,4 @@ pluginManagement {
 
 include ':servlet:spring-boot:java:hello'
 include ':servlet:spring-boot:java:hello-security'
+include ':servlet:spring-boot:java:hello-security-explicit'
