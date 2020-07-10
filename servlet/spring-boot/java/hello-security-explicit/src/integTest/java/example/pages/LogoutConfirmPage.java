@@ -23,6 +23,7 @@ import org.openqa.selenium.support.PageFactory;
 
 /**
  * The log out confirmation page.
+ *
  * @author Rob Winch
  */
 public class LogoutConfirmPage {
