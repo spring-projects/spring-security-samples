@@ -14,6 +14,7 @@ pluginManagement {
 }
 
 include ':reactive:rsocket:hello-security'
+include ':reactive:webflux:hello-security'
 include ':servlet:spring-boot:java:hello'
 include ':servlet:spring-boot:java:hello-security'
 include ':servlet:spring-boot:java:hello-security-explicit'
