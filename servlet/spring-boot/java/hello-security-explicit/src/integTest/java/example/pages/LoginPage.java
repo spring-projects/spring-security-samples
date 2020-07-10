@@ -23,6 +23,8 @@ import org.openqa.selenium.support.PageFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * The login page.
+ *
  * @author Michael Simons
  */
 public class LoginPage {
@@ -46,9 +48,13 @@ public class LoginPage {
 	}
 
 	public static class LoginForm {
+
 		private WebDriver webDriver;
+
 		private WebElement username;
+
 		private WebElement password;
+
 		@FindBy(css = "button[type=submit]")
 		private WebElement submit;
 
@@ -70,5 +76,7 @@ public class LoginPage {
 			this.submit.click();
 			return PageFactory.initElements(this.webDriver, HomePage.class);
 		}
+
 	}
+
 }

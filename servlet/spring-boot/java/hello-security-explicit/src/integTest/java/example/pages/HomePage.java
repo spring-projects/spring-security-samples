@@ -23,16 +23,19 @@ import org.openqa.selenium.support.PageFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * The home page.
+ *
  * @author Michael Simons
  */
 public class HomePage {
+
 	private final WebDriver webDriver;
 
 	@FindBy(id = "logout")
 	private WebElement logout;
 
 	public static LoginPage to(WebDriver driver, int port) {
-		driver.get("http://localhost:" + port +"/");
+		driver.get("http://localhost:" + port + "/");
 		return PageFactory.initElements(driver, LoginPage.class);
 	}
 
@@ -49,4 +52,5 @@ public class HomePage {
 		this.logout.click();
 		return PageFactory.initElements(this.webDriver, LogoutConfirmPage.class).logout();
 	}
+
 }
