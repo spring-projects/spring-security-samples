@@ -53,7 +53,7 @@ public class HelloMethodApplicationTests {
 		this.rest.get()
 				.uri("/message")
 				.exchange()
-				.expectStatus().isUnauthorized();
+				.expectStatus().isOk();
 		// @formatter:on
 	}
 
