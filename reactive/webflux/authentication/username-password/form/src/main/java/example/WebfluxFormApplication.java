@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,22 @@
  * limitations under the License.
  */
 
-package sample;
+package example;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Sends the user to the views.
+ * Demonstrates how to make a webflux based application with a custom form log in.
  *
  * @author Rob Winch
  * @since 5.0
  */
-@Controller
-public class IndexController {
+@SpringBootApplication
+public class WebfluxFormApplication {
 
-	@GetMapping("/")
-	public String index() {
-		return "index";
-	}
-
-	@GetMapping("/login")
-	public String login() {
-		return "login";
+	public static void main(String[] args) {
+		SpringApplication.run(WebfluxFormApplication.class, args);
 	}
 
 }

@@ -18,7 +18,7 @@ package example;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import example.pages.IndexPage;
 import example.pages.LoginPage;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -40,7 +40,7 @@ public class WebfluxFormApplicationITests {
 	@LocalServerPort
 	int port;
 
-	@BeforeAll
+	@BeforeEach
 	void setup() {
 		this.driver = new HtmlUnitDriver(BrowserVersion.CHROME);
 	}
