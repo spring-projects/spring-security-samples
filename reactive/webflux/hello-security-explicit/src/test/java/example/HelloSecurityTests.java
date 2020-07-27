@@ -40,7 +40,7 @@ public class HelloSecurityTests {
 		this.rest.get()
 			.uri("/")
 			.exchange()
-			.expectStatus().isUnauthorized();
+			.expectStatus().is3xxRedirection();
 		// @formatter:on
 	}
 

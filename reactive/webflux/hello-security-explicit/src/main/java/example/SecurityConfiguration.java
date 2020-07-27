@@ -42,7 +42,7 @@ public class SecurityConfiguration {
 			.authorizeExchange((exchanges) -> exchanges
 				.anyExchange().authenticated()
 			)
-			.httpBasic(withDefaults());
+			.formLogin(withDefaults());
 		// @formatter:on
 		return http.build();
 	}
