@@ -15,4 +15,13 @@ allprojects {
 	dependencies {
 		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.23-SNAPSHOT"
 	}
+
+	// Ensure every test task has at least a single test
+	tasks.withType(Test).configureEach {
+		afterSuite { desc, result ->
+			if (result.testCount == 0) {
+				throw new IllegalStateException("No tests were found. Ensure that useJUnitPlatform was used.")
+			}
+		}
+	}
 }
