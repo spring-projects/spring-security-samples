@@ -13,6 +13,7 @@ pluginManagement {
     }
 }
 
+include ":reactive:webflux-fn:hello"
 include ":reactive:rsocket:hello-security"
 include ":reactive:webflux:hello"
 include ":reactive:webflux:hello-security-explicit"
