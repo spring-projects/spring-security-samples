@@ -5,6 +5,7 @@
 <module name="com.puppycrawl.tools.checkstyle.Checker">
 	<module name="io.spring.javaformat.checkstyle.SpringChecks">
 		<property name="avoidStaticImportExcludes" value="org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.*" />
+		<property name="excludes" value="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck" />
 	</module>
 	<module name="com.puppycrawl.tools.checkstyle.TreeWalker">
 		<module name="io.spring.javaformat.checkstyle.check.SpringJUnit5Check" />
@@ -17,27 +18,22 @@
 					  value="^com\.hazelcast\.util\.Base64, ^org\.junit\.rules\.ExpectedException, ^org\.mockito\.InjectMocks, ^org\.slf4j\.LoggerFactory, ^org.springframework.context.annotation.ScannedGenericBeanDefinition, ^reactor\.core\.support\.Assert" />
 		</module>
 		<module name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
-			<property name="maximum" value="0"/>
-			<property name="format" value="org\.junit\.Assert\.assert" />
+			<property name="format" value="^\t* +\t*\S" />
 			<property name="message"
-					  value="Please use AssertJ imports." />
-			<property name="ignoreComments" value="true" />
-		</module>
-		<module
-				name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
-			<property name="maximum" value="0" />
-			<property name="format"
-					  value="assertThatExceptionOfType\((NullPointerException|IllegalArgumentException|IOException|IllegalStateException)\.class\)" />
-			<property name="message"
-					  value="Please use specialized AssertJ assertThat*Exception method." />
+					  value="Line has leading space characters; indentation should be performed with tabs only." />
 			<property name="ignoreComments" value="true" />
 		</module>
 		<module name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
 			<property name="maximum" value="0"/>
-			<property name="format" value="org\.mockito\.Mockito\.(when|doThrow|doAnswer)" />
+			<property name="format" value="org\.junit\.(Assert|jupiter\.api\.Assertions)\.assert" />
 			<property name="message"
-					  value="Please use BDDMockito imports." />
+					  value="Please use AssertJ imports." />
 			<property name="ignoreComments" value="true" />
+		</module>
+		<module name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpCheck">
+			<property name="format" value="[ \t]+$" />
+			<property name="illegalPattern" value="true" />
+			<property name="message" value="Trailing whitespace" />
 		</module>
 		<module name="io.spring.javaformat.checkstyle.check.SpringJavadocCheck">
 			<property name="publicOnlySinceTags" value="true" />
