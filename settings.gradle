@@ -33,5 +33,7 @@ include ":servlet:spring-boot:java:oauth2:login"
 include ":servlet:spring-boot:java:oauth2:resource-server:hello-security"
 include ":servlet:spring-boot:java:oauth2:resource-server:jwe"
 include ":servlet:spring-boot:java:oauth2:resource-server:opaque"
+include ":servlet:spring-boot:java:oauth2:resource-server:static"
 include ":servlet:spring-boot:java:oauth2:webclient"
 include ":servlet:spring-boot:kotlin:hello-security"
+
