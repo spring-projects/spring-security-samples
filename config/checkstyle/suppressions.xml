@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+		"https://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+	<!-- OpenSamlActionTestingSupport is copied from Open SAML source -->
+	<suppress files="servlet/spring-boot/java/saml2-login/src/integTest/java/example/OpenSamlActionTestingSupport.java" checks=".*"/>
+	<!-- Saml2Utils is copied from Open SAML source -->
+	<suppress files="servlet/spring-boot/java/saml2-login/src/integTest/java/example/Saml2Utils.java" checks=".*"/>
+</suppressions>

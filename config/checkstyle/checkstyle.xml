@@ -3,10 +3,14 @@
 		"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
 		"https://checkstyle.org/dtds/configuration_1_3.dtd">
 <module name="com.puppycrawl.tools.checkstyle.Checker">
+	<module name="SuppressionFilter">
+		<property name="file" value="${config_loc}/suppressions.xml"/>
+	</module>
 	<module name="io.spring.javaformat.checkstyle.SpringChecks">
 		<property name="avoidStaticImportExcludes" value="org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.*,
 			org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.*,
-			org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.*" />
+			org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.*,
+			org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*" />
 		<property name="excludes" value="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck" />
 	</module>
 	<module name="com.puppycrawl.tools.checkstyle.TreeWalker">
