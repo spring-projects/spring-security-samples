@@ -55,8 +55,7 @@ public class OAuth2ResourceServerApplicationITests {
 	MockMvc mvc;
 
 	@Test
-	void tenantOnePerformWhenValidBearerTokenThenAllows()
-		throws Exception {
+	void tenantOnePerformWhenValidBearerTokenThenAllows() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantOne").with(bearerToken(this.tenantOneNoScopesToken)))
@@ -66,8 +65,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	@Test
-	void tenantOnePerformWhenValidBearerTokenWithServletPathThenAllows()
-		throws Exception {
+	void tenantOnePerformWhenValidBearerTokenWithServletPathThenAllows() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantOne").servletPath("/tenantOne").with(bearerToken(this.tenantOneNoScopesToken)))
@@ -79,8 +77,7 @@ public class OAuth2ResourceServerApplicationITests {
 	// -- tests with scopes
 
 	@Test
-	void tenantOnePerformWhenValidBearerTokenThenScopedRequestsAlsoWork()
-			throws Exception {
+	void tenantOnePerformWhenValidBearerTokenThenScopedRequestsAlsoWork() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantOne/message").with(bearerToken(this.tenantOneMessageReadToken)))
@@ -90,8 +87,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	@Test
-	void tenantOnePerformWhenInsufficientlyScopedBearerTokenThenDeniesScopedMethodAccess()
-			throws Exception {
+	void tenantOnePerformWhenInsufficientlyScopedBearerTokenThenDeniesScopedMethodAccess() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantOne/message").with(bearerToken(this.tenantOneNoScopesToken)))
@@ -102,8 +98,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	@Test
-	void tenantTwoPerformWhenValidBearerTokenThenAllows()
-			throws Exception {
+	void tenantTwoPerformWhenValidBearerTokenThenAllows() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantTwo").with(bearerToken(this.tenantTwoNoScopesToken)))
@@ -115,8 +110,7 @@ public class OAuth2ResourceServerApplicationITests {
 	// -- tests with scopes
 
 	@Test
-	void tenantTwoPerformWhenValidBearerTokenThenScopedRequestsAlsoWork()
-			throws Exception {
+	void tenantTwoPerformWhenValidBearerTokenThenScopedRequestsAlsoWork() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantTwo/message").with(bearerToken(this.tenantTwoMessageReadToken)))
@@ -126,8 +120,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	@Test
-	void tenantTwoPerformWhenInsufficientlyScopedBearerTokenThenDeniesScopedMethodAccess()
-			throws Exception {
+	void tenantTwoPerformWhenInsufficientlyScopedBearerTokenThenDeniesScopedMethodAccess() throws Exception {
 
 		// @formatter:off
 		this.mvc.perform(get("/tenantTwo/message").with(bearerToken(this.tenantTwoNoScopesToken)))
@@ -138,8 +131,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	@Test
-	void invalidTenantPerformWhenValidBearerTokenThenThrowsException()
-			throws Exception {
+	void invalidTenantPerformWhenValidBearerTokenThenThrowsException() throws Exception {
 
 		// @formatter:off
 		assertThatIllegalArgumentException()
@@ -155,6 +147,7 @@ public class OAuth2ResourceServerApplicationITests {
 	}
 
 	private static class BearerTokenRequestPostProcessor implements RequestPostProcessor {
+
 		private String token;
 
 		BearerTokenRequestPostProcessor(String token) {
@@ -166,5 +159,7 @@ public class OAuth2ResourceServerApplicationITests {
 			request.addHeader("Authorization", "Bearer " + this.token);
 			return request;
 		}
+
 	}
+
 }

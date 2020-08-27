@@ -38,10 +38,10 @@ import org.springframework.http.MediaType;
 
 /**
  * Adds the mock server url.
+ *
  * @author Rob Winch
  */
-public class MockWebServerPropertySource extends PropertySource<MockWebServer> implements
-		DisposableBean {
+public class MockWebServerPropertySource extends PropertySource<MockWebServer> implements DisposableBean {
 
 	// introspection endpoint
 

@@ -38,6 +38,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 
 /**
  * OAuth Resource Security configuration.
+ *
  * @author Josh Cummings
  */
 @EnableWebSecurity
@@ -93,9 +94,9 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 	}
 
 	AuthenticationManager opaque() {
-		OpaqueTokenIntrospector introspectionClient =
-				new NimbusOpaqueTokenIntrospector(this.introspectionUri,
-						this.introspectionClientId, this.introspectionClientSecret);
+		OpaqueTokenIntrospector introspectionClient = new NimbusOpaqueTokenIntrospector(this.introspectionUri,
+				this.introspectionClientId, this.introspectionClientSecret);
 		return new OpaqueTokenAuthenticationProvider(introspectionClient)::authenticate;
 	}
+
 }

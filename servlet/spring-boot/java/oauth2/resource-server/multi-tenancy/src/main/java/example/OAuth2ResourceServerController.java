@@ -23,13 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * A controller demonstrating OAuth2 Resource server.
+ *
  * @author Josh Cummings
  */
 @RestController
 public class OAuth2ResourceServerController {
 
 	@GetMapping("/{tenantId}")
-	public String index(@AuthenticationPrincipal OAuth2AuthenticatedPrincipal token, @PathVariable("tenantId") String tenantId) {
+	public String index(@AuthenticationPrincipal OAuth2AuthenticatedPrincipal token,
+			@PathVariable("tenantId") String tenantId) {
 		String subject = token.getAttribute("sub");
 		return String.format("Hello, %s for %s!", subject, tenantId);
 	}
@@ -38,4 +40,5 @@ public class OAuth2ResourceServerController {
 	public String message(@PathVariable("tenantId") String tenantId) {
 		return String.format("secret message for %s", tenantId);
 	}
+
 }
