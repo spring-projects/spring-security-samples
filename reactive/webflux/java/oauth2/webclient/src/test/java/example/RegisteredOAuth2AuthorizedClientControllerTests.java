@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sample;
+package example;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;

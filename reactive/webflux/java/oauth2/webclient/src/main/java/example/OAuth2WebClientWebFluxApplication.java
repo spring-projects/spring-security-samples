@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sample;
+package example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * OAuth2 Log In application.
+ * OAuth WebClient application.
  *
  * @author Joe Grandja
  */
 @SpringBootApplication
-public class OAuth2LoginApplication {
+public class OAuth2WebClientWebFluxApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OAuth2LoginApplication.class, args);
+		SpringApplication.run(OAuth2WebClientWebFluxApplication.class, args);
 	}
 
 }

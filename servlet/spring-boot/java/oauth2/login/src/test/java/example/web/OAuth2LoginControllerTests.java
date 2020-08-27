@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sample.web;
+package example.web;
 
 import java.util.Collections;
 

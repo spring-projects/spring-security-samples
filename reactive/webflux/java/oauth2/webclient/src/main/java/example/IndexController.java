@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2018 the original author or authors.
+ * Copyright 2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sample;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package example;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * OAuth WebClient application.
+ * Index controller.
  *
- * @author Joe Grandja
+ * @author Rob Winch
  */
-@SpringBootApplication
-public class OAuth2WebClientWebFluxApplication {
+@Controller
+public class IndexController {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OAuth2WebClientWebFluxApplication.class, args);
+	@GetMapping("/")
+	String index() {
+		return "index";
 	}
 
 }

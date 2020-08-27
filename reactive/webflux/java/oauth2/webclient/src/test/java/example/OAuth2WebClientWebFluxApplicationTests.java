@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sample;
+package example;
 
 import org.junit.jupiter.api.Test;
 

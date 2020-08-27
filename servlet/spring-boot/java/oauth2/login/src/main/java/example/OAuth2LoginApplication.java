@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package example;
 
-package sample;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Index controller.
+ * OAuth2 Log In application.
  *
- * @author Rob Winch
+ * @author Joe Grandja
  */
-@Controller
-public class IndexController {
+@SpringBootApplication
+public class OAuth2LoginApplication {
 
-	@GetMapping("/")
-	String index() {
-		return "index";
+	public static void main(String[] args) {
+		SpringApplication.run(OAuth2LoginApplication.class, args);
 	}
 
 }
