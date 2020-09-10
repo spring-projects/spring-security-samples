@@ -1,0 +1,38 @@
+plugins {
+	id "java"
+	id "nebula.integtest" version "7.0.9"
+	id "org.gretty" version "3.0.3"
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/libs-snapshot" }
+}
+
+dependencies {
+	implementation platform("org.springframework:spring-framework-bom:5.2.8.RELEASE")
+	implementation platform("org.springframework.data:spring-data-releasetrain:Neumann-SR3")
+	implementation platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
+	implementation platform("org.junit:junit-bom:5.6.2")
+
+	implementation "org.springframework.security:spring-security-config"
+	implementation "org.springframework.security:spring-security-data"
+	implementation "org.springframework.security:spring-security-web"
+	implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
+	implementation 'javax.persistence:javax.persistence-api:2.2'
+	implementation 'org.hibernate:hibernate-entitymanager:5.4.20.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final'
+	implementation 'org.hsqldb:hsqldb:2.5.1'
+	implementation 'org.springframework.data:spring-data-jpa'
+
+	testImplementation "org.assertj:assertj-core:3.15.0"
+	testImplementation "org.springframework:spring-test"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+}
