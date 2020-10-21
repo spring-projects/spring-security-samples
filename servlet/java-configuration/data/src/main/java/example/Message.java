@@ -18,9 +18,12 @@ package example;
 
 import java.util.Calendar;
 
-import javax.persistence.*;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Message {
@@ -41,7 +44,7 @@ public class Message {
 	private User to;
 
 	public User getTo() {
-		return to;
+		return this.to;
 	}
 
 	public void setTo(User to) {
@@ -49,7 +52,7 @@ public class Message {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -57,7 +60,7 @@ public class Message {
 	}
 
 	public Calendar getCreated() {
-		return created;
+		return this.created;
 	}
 
 	public void setCreated(Calendar created) {
@@ -65,7 +68,7 @@ public class Message {
 	}
 
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 	public void setText(String text) {
@@ -73,7 +76,7 @@ public class Message {
 	}
 
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
 	public void setSummary(String summary) {
