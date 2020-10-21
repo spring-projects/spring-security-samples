@@ -36,6 +36,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Spring Data Configuration.
+ *
  * @author Rob Winch
  */
 @Configuration

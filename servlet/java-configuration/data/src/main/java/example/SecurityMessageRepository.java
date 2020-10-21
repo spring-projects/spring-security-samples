@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * A repository that integrates with Spring Security for accessing {@link Message}s.
+ *
  * @author Rob Winch
  */
 @Repository
