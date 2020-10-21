@@ -16,10 +16,10 @@
 
 package example;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * A repository that integrates with Spring Security for accessing {@link Message}s.

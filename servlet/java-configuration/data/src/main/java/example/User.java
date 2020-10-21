@@ -22,6 +22,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * A user.
+ *
  * @author Rob Winch
  */
 @Entity
@@ -40,7 +42,7 @@ public class User {
 	private String password;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
