@@ -1,0 +1,40 @@
+plugins {
+	id "io.freefair.aspectj.post-compile-weaving" version "5.2.1"
+	id "java"
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/libs-snapshot" }
+}
+
+dependencies {
+	aspect platform("org.springframework:spring-framework-bom:5.2.8.RELEASE")
+	aspect platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
+	aspect "org.springframework.security:spring-security-aspects"
+
+	implementation platform("org.springframework:spring-framework-bom:5.2.8.RELEASE")
+	implementation platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
+	implementation platform("org.junit:junit-bom:5.6.2")
+
+	implementation "org.springframework.security:spring-security-config"
+
+	runtime "org.springframework.security:spring-security-aspects"
+
+	testImplementation "org.assertj:assertj-core:3.15.0"
+	testImplementation "org.springframework:spring-test"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation "org.junit.jupiter:junit-jupiter-api"
+
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+}
+
+
+//aspectj {
+//	version = aspectjVersion
+//}
+
