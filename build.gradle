@@ -1,6 +1,6 @@
 plugins {
 	id "checkstyle"
-	id "io.spring.javaformat" version "0.0.24-SNAPSHOT"
+	id "io.spring.javaformat" version "0.0.25"
 	id 'io.spring.nohttp' version '0.0.3.RELEASE'
 }
 
@@ -13,7 +13,7 @@ allprojects {
 	}
 
 	dependencies {
-		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.23-SNAPSHOT"
+		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.25"
 	}
 
 	// Ensure every test task has at least a single test
