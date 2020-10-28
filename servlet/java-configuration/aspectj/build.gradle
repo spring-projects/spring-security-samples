@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-	aspect platform("org.springframework:spring-framework-bom:5.2.8.RELEASE")
+	aspect platform("org.springframework:spring-framework-bom:5.3.0")
 	aspect platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
 	aspect "org.springframework.security:spring-security-aspects"
 
