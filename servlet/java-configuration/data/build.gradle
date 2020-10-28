@@ -12,7 +12,7 @@ repositories {
 dependencies {
 	implementation platform("org.springframework:spring-framework-bom:5.3.0.RELEASE")
 	implementation platform("org.springframework.data:spring-data-releasetrain:Neumann-SR3")
-	implementation platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
+	implementation platform("org.springframework.security:spring-security-bom:5.5.0-SNAPSHOT")
 	implementation platform("org.junit:junit-bom:5.6.2")
 
 	implementation "org.springframework.security:spring-security-config"
