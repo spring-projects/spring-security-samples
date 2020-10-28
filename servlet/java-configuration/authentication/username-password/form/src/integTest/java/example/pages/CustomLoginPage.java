@@ -27,19 +27,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Michael Simons
  */
-public class LoginPage {
+public class CustomLoginPage {
 
 	private final WebDriver webDriver;
 
 	private final LoginForm loginForm;
 
-	public LoginPage(WebDriver webDriver) {
+	public CustomLoginPage(WebDriver webDriver) {
 		this.webDriver = webDriver;
 		this.loginForm = PageFactory.initElements(this.webDriver, LoginForm.class);
 	}
 
-	public LoginPage assertAt() {
-		assertThat(this.webDriver.getTitle()).isEqualTo("Please sign in");
+	public CustomLoginPage assertAt() {
+		assertThat(this.webDriver.getTitle()).isEqualTo("Custom Log In Page");
 		return this;
 	}
 

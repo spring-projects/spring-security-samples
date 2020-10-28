@@ -15,8 +15,8 @@
  */
 package example;
 
+import example.pages.CustomLoginPage;
 import example.pages.HomePage;
-import example.pages.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  *
  * @author Michael Simons
  */
-public class HelloWorldTests {
+public class FormLoginTests {
 
 	private WebDriver driver;
 
@@ -47,7 +47,7 @@ public class HelloWorldTests {
 
 	@Test
 	void accessHomePageWithUnauthenticatedUserSendsToLoginPage() {
-		final LoginPage loginPage = HomePage.to(this.driver, this.port);
+		final CustomLoginPage loginPage = HomePage.to(this.driver, this.port);
 		loginPage.assertAt();
 	}
 
@@ -66,7 +66,7 @@ public class HelloWorldTests {
 	@Test
 	void authenticatedUserLogsOut() {
 		// @formatter:off
-		LoginPage loginPage = HomePage.to(this.driver, this.port)
+		CustomLoginPage loginPage = HomePage.to(this.driver, this.port)
 				.loginForm()
 					.username("user")
 					.password("password")

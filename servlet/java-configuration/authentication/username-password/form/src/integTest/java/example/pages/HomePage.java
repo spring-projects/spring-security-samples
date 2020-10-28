@@ -37,9 +37,9 @@ public class HomePage {
 	@FindBy(css = "input[type=submit]")
 	private WebElement logoutButton;
 
-	public static LoginPage to(WebDriver driver, int port) {
+	public static CustomLoginPage to(WebDriver driver, int port) {
 		driver.get("http://localhost:" + port + "/");
-		return PageFactory.initElements(driver, LoginPage.class);
+		return PageFactory.initElements(driver, CustomLoginPage.class);
 	}
 
 	public HomePage(WebDriver webDriver) {
@@ -51,9 +51,9 @@ public class HomePage {
 		return this;
 	}
 
-	public LoginPage logout() {
+	public CustomLoginPage logout() {
 		this.logoutButton.submit();
-		return PageFactory.initElements(this.webDriver, LoginPage.class);
+		return PageFactory.initElements(this.webDriver, CustomLoginPage.class);
 	}
 
 }

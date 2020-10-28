@@ -24,8 +24,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -33,11 +31,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// @formatter:off
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.authorizeRequests((requests) -> requests
-						.anyRequest().authenticated()
-				)
-				.httpBasic(withDefaults())
-				.formLogin(withDefaults());
+			.authorizeRequests((requests) -> requests
+				.anyRequest().authenticated()
+			)
+			.formLogin((form) -> form
+				.loginPage("/login")
+				.permitAll()
+			);
 	}
 	// @formatter:on
 

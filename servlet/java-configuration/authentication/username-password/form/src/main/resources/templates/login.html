@@ -1,9 +1,10 @@
 <html xmlns:th="https://www.thymeleaf.org">
-	<head th:include="layout :: head(title=~{::title},links=~{})">
-		<title>Please Login</title>
+	<head>
+		<title>Custom Log In Page</title>
 	</head>
-	<body th:include="layout :: body" th:with="content=~{::content}">
-		<div th:fragment="content">
+	<body>
+		<h1>Custom Log In Page</h1>
+		<div>
 			<form name="f" th:action="@{/login}" method="post">
 				<fieldset>
 					<legend>Please Login</legend>
