@@ -25,7 +25,7 @@ dependencies {
 	implementation 'org.hsqldb:hsqldb:2.5.1'
 	implementation 'org.springframework.data:spring-data-jpa'
 
-	testImplementation "org.assertj:assertj-core:3.15.0"
+	testImplementation "org.assertj:assertj-core:3.18.0"
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
