@@ -1,7 +1,7 @@
 plugins {
 	id "checkstyle"
 	id "io.spring.javaformat" version "0.0.25"
-	id 'io.spring.nohttp' version '0.0.3.RELEASE'
+	id 'io.spring.nohttp' version '0.0.5.RELEASE'
 }
 
 allprojects {
