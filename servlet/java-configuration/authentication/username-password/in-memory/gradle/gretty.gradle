@@ -1,0 +1,41 @@
+gretty {
+	servletContainer = "tomcat85"
+	contextPath = "/"
+	fileLogEnabled = false
+	integrationTestTask = 'integrationTest'
+}
+
+Task prepareAppServerForIntegrationTests = project.tasks.create('prepareAppServerForIntegrationTests') {
+	group = 'Verification'
+	description = 'Prepares the app server for integration tests'
+	doFirst {
+		project.gretty {
+			httpPort = -1
+		}
+	}
+}
+
+project.tasks.matching { it.name == "appBeforeIntegrationTest" }.all { task ->
+	task.dependsOn prepareAppServerForIntegrationTests
+}
+
+project.tasks.matching { it.name == "integrationTest" }.all {
+	task -> task.doFirst {
+		def gretty = project.gretty
+		String host = project.gretty.host ?: 'localhost'
+		boolean isHttps = gretty.httpsEnabled
+		Integer httpPort = integrationTest.systemProperties['gretty.httpPort']
+		Integer httpsPort = integrationTest.systemProperties['gretty.httpsPort']
+		int port = isHttps ? httpsPort : httpPort
+		String contextPath = project.gretty.contextPath
+		String httpBaseUrl = "http://${host}:${httpPort}${contextPath}"
+		String httpsBaseUrl = "https://${host}:${httpsPort}${contextPath}"
+		String baseUrl = isHttps ? httpsBaseUrl : httpBaseUrl
+		integrationTest.systemProperty 'app.port', port
+		integrationTest.systemProperty 'app.httpPort', httpPort
+		integrationTest.systemProperty 'app.httpsPort', httpsPort
+		integrationTest.systemProperty 'app.baseURI', baseUrl
+		integrationTest.systemProperty 'app.httpBaseURI', httpBaseUrl
+		integrationTest.systemProperty 'app.httpsBaseURI', httpsBaseUrl
+	}
+}
