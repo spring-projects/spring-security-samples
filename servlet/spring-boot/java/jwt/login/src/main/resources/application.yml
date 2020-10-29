@@ -1,0 +1,10 @@
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+#    org.springframework.boot.autoconfigure: DEBUG
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
