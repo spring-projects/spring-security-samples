@@ -4,7 +4,7 @@ plugins {
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 	maven { url "https://repo.spring.io/libs-snapshot" }
 }
 

@@ -8,10 +8,6 @@ allprojects {
 	apply plugin: 'checkstyle'
 	apply plugin: 'io.spring.javaformat'
 
-	repositories {
-		maven { url "https://repo.spring.io/libs-snapshot" }
-	}
-
 	dependencies {
 		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.25"
 	}
