@@ -6,10 +6,6 @@ on:
   schedule:
     - cron: '0 10 * * *' # Once per day at 10am UTC
 
-env:
-  ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-  ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
-
 jobs:
   build:
     name: Build
@@ -27,4 +23,4 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
       - name: Build with Gradle
-        run: ./gradlew check -PartifactoryUsername="$ARTIFACTORY_USERNAME" -PartifactoryPassword="$ARTIFACTORY_PASSWORD" --continue
+        run: ./gradlew check --continue
