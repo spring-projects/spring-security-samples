@@ -39,6 +39,7 @@ include ":servlet:java-configuration:hello-mvc-security"
 include ":servlet:java-configuration:hello-security"
 include ":servlet:java-configuration:hello-security-explicit"
 include ":servlet:java-configuration:max-sessions"
+include ":servlet:spring-boot:java:authentication:username-password:user-details-service:custom-user"
 include ":servlet:spring-boot:java:hello"
 include ":servlet:spring-boot:java:hello-security"
 include ":servlet:spring-boot:java:hello-security-explicit"
@@ -52,5 +53,3 @@ include ":servlet:spring-boot:java:oauth2:resource-server:static"
 include ":servlet:spring-boot:java:oauth2:webclient"
 include ":servlet:spring-boot:java:saml2-login"
 include ":servlet:spring-boot:kotlin:hello-security"
-
-
