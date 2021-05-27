@@ -8,9 +8,15 @@ plugins {
 repositories {
 	jcenter()
 	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
 dependencies {
+	constraints {
+		implementation "org.opensaml:opensaml-core:4.1.1"
+		implementation "org.opensaml:opensaml-saml-api:4.1.1"
+		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
+	}
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
