@@ -17,8 +17,8 @@
 package org.springframework.security.samples
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,12 +26,12 @@ import org.springframework.mock.web.MockHttpSession
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class KotlinApplicationTests {
@@ -41,16 +41,14 @@ class KotlinApplicationTests {
 
     @Test
     fun `index page is not protected`() {
-        this.mockMvc.get("/")
-                .andExpect {
-                    status { isOk }
-                }
+        this.mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
     }
 
     @Test
     fun `protected page redirects to login`() {
-        val mvcResult = this.mockMvc.get("/user/index")
-                .andExpect { status { is3xxRedirection } }
+        val mvcResult = this.mockMvc.perform(get("/user/index"))
+                .andExpect(status().is3xxRedirection())
                 .andReturn()
 
         assertThat(mvcResult.response.redirectedUrl).endsWith("/log-in")
@@ -76,10 +74,8 @@ class KotlinApplicationTests {
 
         val httpSession = mvcResult.request.getSession(false) as MockHttpSession
 
-        this.mockMvc.get("/user/index") {
-            session = httpSession
-        }.andExpect {
-            status { isOk }
-        }
+        this.mockMvc.perform(get("/user/index")
+                .session(httpSession))
+                .andExpect(status().isOk());
     }
 }
