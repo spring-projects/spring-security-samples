@@ -1,0 +1,22 @@
+= LDAP Sample
+
+This sample demonstrates how to connect to an LDAP server using bind authentication.
+
+[[usage]]
+To use the application, first run it:
+
+```bash
+./gradlew :servlet:spring-boot:java:ldap:bootRun
+```
+
+Then, request `/`, using the following credentials:
+
+```bash
+curl --user user:password localhost:8080 && echo
+```
+
+You should see a response like:
+
+```bash
+Hello, user!
+```
