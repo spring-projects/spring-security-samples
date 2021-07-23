@@ -1,0 +1,32 @@
+plugins {
+	id "java"
+	id "war"
+}
+
+repositories {
+	jcenter()
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
+	implementation platform("org.junit:junit-bom:5.7.0")
+
+	implementation "org.springframework.security:spring-security-config"
+	implementation "org.springframework.security:spring-security-web"
+	implementation 'org.slf4j:slf4j-api:1.7.30'
+	implementation 'org.slf4j:slf4j-simple:1.7.30'
+
+	providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
+
+	testImplementation "org.springframework:spring-test"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+}
