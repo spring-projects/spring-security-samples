@@ -107,6 +107,17 @@ public class OAuth2AuthorizationServerApplicationITests {
 	}
 
 	@Test
+	void performTokenRequestWhenGrantTypeNotRegisteredThenBadRequest() throws Exception {
+		// @formatter:off
+		this.mockMvc.perform(post("/oauth2/token")
+				.param("grant_type", "client_credentials")
+				.with(basicAuth("login-client", "openid-connect")))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").value("unauthorized_client"));
+		// @formatter:on
+	}
+
+	@Test
 	void performIntrospectionRequestWhenValidTokenThenOk() throws Exception {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/introspect")
