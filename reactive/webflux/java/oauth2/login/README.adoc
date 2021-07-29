@@ -1,17 +1,104 @@
-NOTE: Spring Security Reactive OAuth only supports authentication using a user info endpoint.
-Support for JWT validation will be added in https://github.com/spring-projects/spring-security/issues/5330[gh-5330].
-
 = OAuth 2.0 Login Sample
 
 This guide provides instructions on setting up the sample application with OAuth 2.0 Login using an OAuth 2.0 Provider or OpenID Connect 1.0 Provider.
-The sample application uses Spring Boot 2.0.0.M6 and the `spring-security-oauth2-client` module which is new in Spring Security 5.0.
+The sample application uses Spring Boot 2.5 and the `spring-security-oauth2-client` module which is new in Spring Security 5.0.
 
 The following sections provide detailed steps for setting up OAuth 2.0 Login for these Providers:
 
+* <<spring-login, Spring Authorization Server>>
 * <<google-login, Google>>
 * <<github-login, GitHub>>
 * <<facebook-login, Facebook>>
 * <<okta-login, Okta>>
+
+[[spring-login]]
+== Login with Spring Authorization Server
+
+This section shows how to configure the sample application using Spring Authorization Server as the Authentication Provider and covers the following topics:
+
+* <<spring-initial-setup,Initial setup>>
+* <<spring-redirect-uri,Setting the redirect URI>>
+* <<spring-application-config,Configure application.yml>>
+* <<spring-boot-application,Boot up the application>>
+
+[[spring-initial-setup]]
+=== Initial setup
+
+The sample application is pre-configured to work out of the box with Spring Authorization Server, which runs locally on port `9000`. See the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/authorization-server[authorization-server sample] to run the authorization server used in this section.
+
+NOTE: https://github.com/spring-projects-external/spring-authorization-server[Spring Authorization Server] supports the https://openid.net/connect/[OpenID Connect 1.0] specification.
+
+[[spring-redirect-uri]]
+=== Setting the redirect URI
+
+The redirect URI is the path in the application that the end-user's user-agent is redirected back to after they have authenticated with Spring Authorization Server
+and have granted access to the OAuth Client on the Consent page.
+
+The default redirect URI is `http://127.0.0.1:8080/login/oauth2/code/login-client`. No special setup is required to use the sample locally.
+
+TIP: The default redirect URI template is `{baseUrl}/login/oauth2/code/{registrationId}`.
+The *_registrationId_* is a unique identifier for the `ClientRegistration`.
+
+IMPORTANT: If the application is running behind a proxy server, it is recommended to check https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#appendix-proxy-server[Proxy Server Configuration] to ensure the application is correctly configured.
+Also, see the supported https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#oauth2Client-auth-code-redirect-uri[`URI` template variables] for `redirect-uri`.
+
+[[spring-application-config]]
+=== Configure application.yml
+
+If you wish to customize the OAuth Client to work with a non-local deployment of Spring Authorization Server, you need to configure the application to use the OAuth Client for the _authentication flow_. To do so:
+
+. Go to `application.yml` and set the following configuration:
++
+[source,yaml]
+----
+spring:
+  security:
+    oauth2:
+      client:
+        registration:	<1>
+          login-client:		<2>
+            provider: spring	<3>
+            client-id: login-client
+            client-secret: openid-connect
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8080/login/oauth2/code/login-client
+            scope: openid,profile	<4>
+            client-name: Spring
+        provider:<5>
+          spring:
+            authorization-uri: http://localhost:9000/oauth2/authorize
+            token-uri: http://localhost:9000/oauth2/token
+            jwk-set-uri: http://localhost:9000/oauth2/jwks
+            issuer-uri: http://localhost:9000
+----
++
+.OAuth Client properties
+====
+<1> `spring.security.oauth2.client.registration` is the base property prefix for OAuth Client properties.
+<2> Following the base property prefix is the ID for the `ClientRegistration`, such as login-client.
+<3> The `provider` property specifies which provider configuration is used by this `ClientRegistration`.
+<4> The `openid` scope is required by Spring Authorization Server to perform https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth[authentication using OpenID Connect 1.0].
+<5> `spring.security.oauth2.client.provider` is the base property prefix for OAuth Provider properties.
+====
+
+. Replace the values in the `client-id` and `client-secret` property with the OAuth 2.0 credentials for your Spring Authorization Server. As well, replace `http://localhost:9000` in `authorization-uri`, `token-uri` and `jwk-set-uri` with the actual domain of your authorization server.
+
+[[spring-boot-application]]
+=== Boot up the application
+
+Launch the Spring Boot 2.0 sample and go to `http://127.0.0.1:8080`.
+You are then redirected to the default _auto-generated_ login page, which displays a link for Spring.
+
+Click on the Spring link, and you are then redirected to the Spring Authorization Server for authentication.
+
+After authenticating with your credentials (`user` and `password` by default), the next page presented to you is the Consent screen.
+The Consent screen asks you to either allow or deny access to the OAuth Client. Select "profile" and
+click *Submit Consent* to authorize the OAuth Client to access your basic profile information.
+
+At this point, the OAuth Client retrieves your basic profile information via the https://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken[ID Token] and establishes an authenticated session.
+
+NOTE: Spring Authorization Server does not currently support the https://openid.net/specs/openid-connect-core-1_0.html#UserInfo[UserInfo Endpoint], which is optional in OpenID Connect 1.0. See https://github.com/spring-projects-experimental/spring-authorization-server/issues/176[#176] fo more information.
 
 [[google-login]]
 == Login with Google
@@ -41,7 +128,7 @@ After completing the "Obtain OAuth 2.0 credentials" instructions, you should hav
 The redirect URI is the path in the application that the end-user's user-agent is redirected back to after they have authenticated with Google
 and have granted access to the OAuth Client _(created in the previous step)_ on the Consent page.
 
-In the "Set a redirect URI" sub-section, ensure that the *Authorized redirect URIs* field is set to `http://localhost:8080/login/oauth2/code/google`.
+In the "Set a redirect URI" sub-section, ensure that the *Authorized redirect URIs* field is set to `http://127.0.0.1:8080/login/oauth2/code/google`.
 
 TIP: The default redirect URI template is `{baseUrl}/login/oauth2/code/{registrationId}`.
  The *_registrationId_* is a unique identifier for the `ClientRegistration`.
@@ -79,7 +166,7 @@ spring:
 [[google-boot-application]]
 === Boot up the application
 
-Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+Launch the Spring Boot 2.0 sample and go to `http://127.0.0.1:8080`.
 You are then redirected to the default _auto-generated_ login page, which displays a link for Google.
 
 Click on the Google link, and you are then redirected to Google for authentication.
@@ -105,7 +192,7 @@ This section shows how to configure the sample application using GitHub as the A
 
 To use GitHub's OAuth 2.0 authentication system for login, you must https://github.com/settings/applications/new[Register a new OAuth application].
 
-When registering the OAuth application, ensure the *Authorization callback URL* is set to `http://localhost:8080/login/oauth2/code/github`.
+When registering the OAuth application, ensure the *Authorization callback URL* is set to `http://127.0.0.1:8080/login/oauth2/code/github`.
 
 The Authorization callback URL (redirect URI) is the path in the application that the end-user's user-agent is redirected back to after they have authenticated with GitHub
 and have granted access to the OAuth application on the _Authorize application_ page.
@@ -146,7 +233,7 @@ spring:
 [[github-boot-application]]
 === Boot up the application
 
-Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+Launch the Spring Boot 2.0 sample and go to `http://127.0.0.1:8080`.
 You are then redirected to the default _auto-generated_ login page, which displays a link for GitHub.
 
 Click on the GitHub link, and you are then redirected to GitHub for authentication.
@@ -183,7 +270,7 @@ NOTE: The selection for the _Category_ field is not relevant but it's a required
 The next page presented is "Product Setup". Click the "Get Started" button for the *Facebook Login* product.
 In the left sidebar, under _Products -> Facebook Login_, select _Settings_.
 
-For the field *Valid OAuth redirect URIs*, enter `http://localhost:8080/login/oauth2/code/facebook` then click _Save Changes_.
+For the field *Valid OAuth redirect URIs*, enter `http://127.0.0.1:8080/login/oauth2/code/facebook` then click _Save Changes_.
 
 The OAuth redirect URI is the path in the application that the end-user's user-agent is redirected back to after they have authenticated with Facebook
 and have granted access to the application on the _Authorize application_ page.
@@ -224,7 +311,7 @@ spring:
 [[facebook-boot-application]]
 === Boot up the application
 
-Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+Launch the Spring Boot 2.0 sample and go to `http://127.0.0.1:8080`.
 You are then redirected to the default _auto-generated_ login page, which displays a link for Facebook.
 
 Click on the Facebook link, and you are then redirected to Facebook for authentication.
@@ -259,7 +346,7 @@ From the "Add Application" page, select the "Create New App" button and enter th
 
 Select the _Create_ button.
 On the "General Settings" page, enter the Application Name (for example, "Spring Security Okta Login") and then select the _Next_ button.
-On the "Configure OpenID Connect" page, enter `http://localhost:8080/login/oauth2/code/okta` for the field *Redirect URIs* and then select _Finish_.
+On the "Configure OpenID Connect" page, enter `http://127.0.0.1:8080/login/oauth2/code/okta` for the field *Redirect URIs* and then select _Finish_.
 
 The redirect URI is the path in the application that the end-user's user-agent is redirected back to after they have authenticated with Okta
 and have granted access to the application on the _Authorize application_ page.
@@ -315,7 +402,7 @@ As well, replace `https://your-subdomain.oktapreview.com` in `authorization-uri`
 [[okta-boot-application]]
 === Boot up the application
 
-Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+Launch the Spring Boot 2.0 sample and go to `http://127.0.0.1:8080`.
 You are then redirected to the default _auto-generated_ login page, which displays a link for Okta.
 
 Click on the Okta link, and you are then redirected to Okta for authentication.

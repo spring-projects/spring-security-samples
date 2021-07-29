@@ -267,7 +267,7 @@ public class OAuth2LoginApplicationTests {
 	private void assertLoginPage(HtmlPage page) {
 		assertThat(page.getTitleText()).isEqualTo("Please sign in");
 
-		int expectedClients = 4;
+		int expectedClients = 5;
 
 		List<HtmlAnchor> clientAnchorElements = page.getAnchors();
 		assertThat(clientAnchorElements.size()).isEqualTo(expectedClients);
@@ -277,19 +277,23 @@ public class OAuth2LoginApplicationTests {
 		ClientRegistration facebookClientRegistration = this.clientRegistrationRepository
 				.findByRegistrationId("facebook");
 		ClientRegistration oktaClientRegistration = this.clientRegistrationRepository.findByRegistrationId("okta");
+		ClientRegistration springClientRegistration = this.clientRegistrationRepository
+				.findByRegistrationId("login-client");
 
 		String baseAuthorizeUri = AUTHORIZATION_BASE_URI + "/";
 		String googleClientAuthorizeUri = baseAuthorizeUri + googleClientRegistration.getRegistrationId();
 		String githubClientAuthorizeUri = baseAuthorizeUri + githubClientRegistration.getRegistrationId();
 		String facebookClientAuthorizeUri = baseAuthorizeUri + facebookClientRegistration.getRegistrationId();
 		String oktaClientAuthorizeUri = baseAuthorizeUri + oktaClientRegistration.getRegistrationId();
+		String springClientAuthorizeUri = baseAuthorizeUri + springClientRegistration.getRegistrationId();
 
 		for (int i = 0; i < expectedClients; i++) {
 			assertThat(clientAnchorElements.get(i).getAttribute("href")).isIn(googleClientAuthorizeUri,
-					githubClientAuthorizeUri, facebookClientAuthorizeUri, oktaClientAuthorizeUri);
+					githubClientAuthorizeUri, facebookClientAuthorizeUri, oktaClientAuthorizeUri,
+					springClientAuthorizeUri);
 			assertThat(clientAnchorElements.get(i).asText()).isIn(googleClientRegistration.getClientName(),
 					githubClientRegistration.getClientName(), facebookClientRegistration.getClientName(),
-					oktaClientRegistration.getClientName());
+					oktaClientRegistration.getClientName(), springClientRegistration.getClientName());
 		}
 	}
 
