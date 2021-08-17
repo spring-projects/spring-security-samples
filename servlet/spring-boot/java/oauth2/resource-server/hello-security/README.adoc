@@ -1,7 +1,7 @@
 = OAuth 2.0 Resource Server Sample
 
-This sample demonstrates integrating Resource Server with a mock Authorization Server, though it can be modified to integrate
-with your favorite Authorization Server.
+This sample demonstrates integrating Resource Server with the Spring Authorization Server, though it can be modified to integrate
+with a mock server or your favorite Authorization Server.
 
 With it, you can run the integration tests or run the application as a stand-alone service to explore how you can
 secure your own service with OAuth 2.0 Bearer Tokens using Spring Security.
@@ -18,7 +18,7 @@ Or import the project into your IDE and run `OAuth2ResourceServerApplicationTest
 
 === What is it doing?
 
-By default, the tests are pointing at a mock Authorization Server instance.
+By default, the tests are pointing at a mock Authorization Server instance via the `test` profile.
 
 The tests are configured with a set of hard-coded tokens originally obtained from the mock Authorization Server,
 and each makes a query to the Resource Server with their corresponding token.
@@ -31,7 +31,17 @@ Hello, subject!
 
 where "subject" is the value of the `sub` field in the JWT returned by the Authorization Server.
 
-== 2. Running the app
+== 2. Running the app with Spring Authorization Server
+
+Before running this application with the default configuration, you will need to start up an Authorization Server, such as the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/authorization-server[authorization-server sample] in this project which is pre-configured to work with this Resource Server sample out of the box.
+
+To run the Authorization Server as a stand-alone application, navigate to the `servlet/spring-boot/java/oauth2/authorization-server` and do:
+
+```bash
+./gradlew bootRun
+```
+
+Or import the project into your IDE and run `OAuth2AuthorizationServerApplication` from there. Next, you can run this Resource Server.
 
 To run as a stand-alone application, do:
 
@@ -40,6 +50,89 @@ To run as a stand-alone application, do:
 ```
 
 Or import the project into your IDE and run `OAuth2ResourceServerApplication` from there.
+
+Once it is up and running, you can issue the following request:
+
+```bash
+curl -X POST messaging-client:secret@localhost:9000/oauth2/token -d "grant_type=client_credentials" -d "scope=message:read"
+```
+
+This returns something like the following:
+
+```json
+{
+    "access_token": "eyJraWQiOiI4YWY4Zjc2Zi0zMTdkLTQxZmYtYWY5Yi1hZjg5NDg4ODM5YzciLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJtZXNzYWdpbmctY2xpZW50IiwiYXVkIjoibWVzc2FnaW5nLWNsaWVudCIsIm5iZiI6MTYyNzMzNDQ1MCwic2NvcGUiOlsibWVzc2FnZTpyZWFkIl0sImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjI3MzM0NzUwLCJpYXQiOjE2MjczMzQ0NTAsImp0aSI6IjBiYjYwZjhkLWIzNjItNDk0MC05MGRmLWZhZDg4N2Q1Yzg1ZSJ9.O8dI67B_feRjOn6pJi5ctPJmUJCNpV77SC4OiWqmpa5UHvf4Ud6L6EFe9LKuPIRrEWi8rMdCdMBOPKQMXvxLoI3LMUPf7Yj973uvZN0E988MsKwhGwxyaa_Wam8wFlk8aQlN8SbW3cKdeH-nKloNMdwjfspovefX521mxouaMjmyXdIFrM5WZ15GZK69NIniACSatE-pc9TAjKYBDbC65jVt_zHEvDQbEkZulF2bjrGOZC8C3IbJWnlKgkcshrY44TtrGPyCp2gIS0TSUUsG00iSBBC8E8zPU-YdfaP8gB9_FwUwK9zfy_hU2Ykf2aU3eulpGDVLn2rCwFeK86Rw1w",
+    "expires_in": 299,
+    "scope": "message:read",
+    "token_type": "Bearer"
+}
+```
+
+Then, export the access token from the response:
+
+```bash
+export TOKEN=...
+```
+
+Then issue the following request:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" localhost:8080
+```
+
+Which will respond with the phrase:
+
+```
+Hello, messaging-client!
+```
+
+where `messaging-client` is the value of the `sub` field in the JWT returned by the Authorization Server.
+
+Or this to make a GET request to /message:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" localhost:8080/message
+```
+
+Will respond with:
+
+```bash
+secret message
+```
+
+In order to make a POST request to /message, you can use the following request:
+
+```bash
+curl -X POST messaging-client:secret@localhost:9000/oauth2/token -d "grant_type=client_credentials" -d "scope=message:write"
+```
+
+Then, export the access token from the response:
+
+```bash
+export TOKEN=...
+```
+
+Then issue the following request:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" -d "my message" localhost:8080/message
+```
+
+Which will respond with:
+
+```bash
+Message was created. Content: my message
+```
+
+== 3. Running the app with a mock Authorization Server
+
+To run as a stand-alone application with an embedded mock Authorization Server, do:
+
+```bash
+./gradlew bootRun --args='--spring.profiles.active=test'
+```
+
+Or import the project into your IDE and run `OAuth2ResourceServerApplication` from there with the `test` profile active.
 
 Once it is up, you can use the following token:
 
@@ -61,7 +154,7 @@ Hello, subject!
 
 where `subject` is the value of the `sub` field in the JWT returned by the Authorization Server.
 
-Or this to make a GET request to /messages:
+Or this to make a GET request to /message:
 
 ```bash
 export TOKEN=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdWJqZWN0IiwiZXhwIjoyMTY0MjQ1NjQ4LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiY2I1ZGMwNDYtMDkyMi00ZGJmLWE5MzAtOGI2M2FhZTYzZjk2IiwiY2xpZW50X2lkIjoicmVhZGVyIiwic2NvcGUiOlsibWVzc2FnZTpyZWFkIl19.Pre2ksnMiOGYWQtuIgHB0i3uTnNzD0SMFM34iyQJHK5RLlSjge08s9qHdx6uv5cZ4gZm_cB1D6f4-fLx76bCblK6mVcabbR74w_eCdSBXNXuqG-HNrOYYmmx5iJtdwx5fXPmF8TyVzsq_LvRm_LN4lWNYquT4y36Tox6ZD3feYxXvHQ3XyZn9mVKnlzv-GCwkBohCR3yPow5uVmr04qh_al52VIwKMrvJBr44igr4fTZmzwRAZmQw5rZeyep0b4nsCjadNcndHtMtYKNVuG5zbDLsB7GGvilcI9TDDnUXtwthB_3iq32DAd9x8wJmJ5K8gmX6GjZFtYzKk_zEboXoQ
@@ -89,7 +182,7 @@ Will respond this:
 Message was created. Content: my message
 ```
 
-== 2. Testing against other Authorization Servers
+== 4. Testing against other Authorization Servers
 
 _In order to use this sample, your Authorization Server must support JWTs that either use the "scope" or "scp" attribute._
 
@@ -101,7 +194,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: ${mockwebserver.url}/.well-known/jwks.json
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
 ```
 
 And change the property to your Authorization Server's JWK set endpoint:
