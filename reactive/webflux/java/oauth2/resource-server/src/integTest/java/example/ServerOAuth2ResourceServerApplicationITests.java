@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.hamcrest.Matchers.containsString;
@@ -36,6 +37,7 @@ import static org.hamcrest.Matchers.containsString;
  */
 @SpringBootTest
 @AutoConfigureWebTestClient
+@ActiveProfiles("test")
 public class ServerOAuth2ResourceServerApplicationITests {
 
 	Consumer<HttpHeaders> noScopesToken = (http) -> http.setBearerAuth(
