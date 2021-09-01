@@ -1,0 +1,3 @@
+= Azure Active Directory B2C with Spring Security Sample for resource server
+
+Please refer to this <<../README.adoc#work-as-web-application,document>>

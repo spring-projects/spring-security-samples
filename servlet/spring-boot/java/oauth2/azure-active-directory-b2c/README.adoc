@@ -35,7 +35,7 @@ Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/
 [[work-as-web-application]]
 == Work as web application
 
-After prepare Azure Active Directory B2C resources, we can use this sample to use it as a web application.
+After prepare Azure Active Directory B2C resources, we can use this <<../azure-active-directory-b2c/web-application-1-simple-sample/, sample>> to use it as a web application.
 
 === Setting the redirect URI
 
@@ -58,7 +58,7 @@ Then, you can edit your profile with the button `Profile edit` or reset your pas
 [[work-as-resource-server]]
 == Work as Resource Server
 
-After prepare Azure Active Directory B2C resources, we can use this [sample](azure-active-directory-b2c/resource-server-1-simple-sample) to use it as a web application.
+After prepare Azure Active Directory B2C resources, we can use this <<../azure-active-directory-b2c/resource-server-1-simple-sample/, sample>> to use it as a web application.
 
 === Application config
 
