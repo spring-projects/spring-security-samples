@@ -26,11 +26,15 @@ Follow the guide of https://docs.microsoft.com/azure/active-directory-b2c/tutori
 
 === Enable forgot password
 
-Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-password-reset-policy?pivots=b2c-user-flow[AAD B2C set up a password reset flow].
+Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-password-reset-policy?pivots=b2c-user-flow#self-service-password-reset-recommended[AAD B2C enable forgot password].
 
 === Enable profile edit
 
 Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-profile-editing-policy?pivots=b2c-user-flow[AAD B2C set up a profile edit flow].
+
+=== Enable password reset
+
+Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-password-reset-policy?pivots=b2c-user-flow#create-a-password-reset-user-flow[AAD B2C set up a password reset user flow]
 
 [[work-as-web-application]]
 == Work as web application
