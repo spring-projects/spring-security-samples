@@ -1,0 +1,70 @@
+= Azure Active Directory B2C with Spring Security Sample
+
+In the current folder, we have the these samples to introduce how to use the Azure Active Directory B2C functions through Spring Security.
+
+The following sections provide the samples for Azure Active Directory B2C work with Spring Security.
+
+* <<work-as-web-application, Work as Web Application>>
+* <<work-as-resource-server, Work as Resource Server>>
+
+[[create-azure-active-directory-B2C-resources]]
+
+== Prepare Azure Active Directory B2C resources
+
+=== Create your Azure Active Directory B2C tenant
+
+Follow the guide of https://docs.microsoft.com/azure/active-directory-b2c/tutorial-create-tenant[AAD B2C tenant creation].
+
+=== Register your Azure Active Directory B2C application
+
+Follow the guide of https://docs.microsoft.com/azure/active-directory-b2c/tutorial-register-applications[AAD B2C application registry].
+Please ensure that your b2c application's `Redirect URL` is configured to `http://localhost:8080/login/oauth2/code/`.
+
+=== Create user flows
+
+Follow the guide of https://docs.microsoft.com/azure/active-directory-b2c/tutorial-create-user-flows[AAD B2C user flows creation].
+
+=== Enable forgot password
+
+Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-password-reset-policy?pivots=b2c-user-flow[AAD B2C set up a password reset flow].
+
+=== Enable profile edit
+
+Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-profile-editing-policy?pivots=b2c-user-flow[AAD B2C set up a profile edit flow].
+
+[[work-as-web-application]]
+== Work as web application
+
+After prepare Azure Active Directory B2C resources, we can use this sample to use it as a web application.
+
+=== Setting the redirect URI
+
+In order to jump to the correct page (home) after `profile-edit` and `password-reset`, we need to add `http://localhost:8080/` in the redirect uri.
+With the guide https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga#register-a-web-application[AAD-B2C-application-registry] and step 7.
+
+=== Application config
+
+1. Fill necessary contents in `application.yml`, like `${your-jwk-set-uri}`.
+
+2. Fill necessary contents in `home.html`, like `${your-tenant-name}`.
+
+=== Boot up the application
+
+Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+You are then redirected to the default _auto-generated_ login page. You can sign in or sign up with your account.
+
+Then, you can edit your profile with the button `Profile edit` or reset your password with `Password reset`.
+
+[[work-as-resource-server]]
+== Work as Resource Server
+
+After prepare Azure Active Directory B2C resources, we can use this [sample](azure-active-directory-b2c/resource-server-1-simple-sample) to use it as a web application.
+
+=== Application config
+
+1. Fill necessary contents in `application.yml`, like `${your-jwk-set-uri}`.
+
+=== Boot up the application
+
+Launch the Spring Boot 2.0 sample and now you can visit this resource server with the Web application launched before.
+You can go to `http://localhost:8080/getResourceServer`. Which will call resource server with accessToken this application acquired.

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Home Page</h1>
+<div>
+    <form style="display:inline" method="get" action="/logout">
+        <button class="btn btn-md btn-primary btn-block" type="submit">Log out</button>
+    </form>
+
+<!-- this uri is used to redirect you to edit your profile with your profile edit user flow,
+  please replace ${your-tenant-name} with your tenant name
+         replace ${your-profile-edit-user-flow-name} with your profile edit user flow name
+         replace ${your-client-id} with your `Application ID`-->
+    <form style="display:inline" method="post" action="https://${your-tenant-name}.b2clogin.com/${your-tenant-name}.onmicrosoft.com/${your-profile-edit-user-flow-name}/oauth2/v2.0/authorize?response_type=code&client_id=${your-client-id}&scope=openid%20profile%20offline_access&redirect_uri=http://localhost:8080/">
+        <button class="btn btn-md btn-primary btn-block" type="submit">Profile edit</button>
+    </form>
+
+<!-- this uri is used to redirect you to reset password with your password reset user flow,
+  please replace ${your-tenant-name} with your tenant name
+         replace ${your-password-reset-user-flow-name} with your password reset user flow name
+         replace ${your-client-id} with your `Application ID`-->
+    <form style="display:inline" method="post" action="https://${your-tenant-name}.b2clogin.com/${your-tenant-name}.onmicrosoft.com/${your-password-reset-user-flow-name}/oauth2/v2.0/authorize?response_type=code&client_id=${your-client-id}&scope=openid%20profile%20offline_access&redirect_uri=http://localhost:8080/">
+        <button class="btn btn-md btn-primary btn-block" type="submit">Password reset</button>
+    </form>
+</div>
+
+</body>
+</html>
