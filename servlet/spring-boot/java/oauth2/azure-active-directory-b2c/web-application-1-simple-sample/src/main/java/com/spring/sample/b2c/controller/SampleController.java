@@ -21,7 +21,7 @@ public class SampleController {
         return "home";
     }
 
-    @GetMapping(value = { "/getResourceServer" })
+    @GetMapping(value = { "/resourceServer" })
     @ResponseBody
     public String getResourceServer(@RegisteredOAuth2AuthorizedClient("sign-up-or-sign-in") OAuth2AuthorizedClient signUpOrSignIn) {
         return canVisitUri(signUpOrSignIn, "http://localhost:8091/hello");

@@ -13,6 +13,6 @@ public class SampleController {
     @ResponseBody
     @GetMapping(value = { "/hello" })
     public String hello() {
-        return "Hello, this is aad-b2c-resource-server-simple-sample.";
+        return "this is a resource-server protected by Azure Active Directory B2C. ";
     }
 }
