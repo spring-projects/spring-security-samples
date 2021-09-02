@@ -58,7 +58,7 @@ Then, you can edit your profile with the button `Profile edit` or reset your pas
 [[work-as-resource-server]]
 == Work as Resource Server
 
-After prepare Azure Active Directory B2C resources, we can use this <<../azure-active-directory-b2c/resource-server-1-simple-sample/, sample>> to use it as a web application.
+Sample project: <<./resource-server-1-simple-sample/, resource-server-1-simple-sample>>
 
 === Fill necessary contents in sample project.
 
