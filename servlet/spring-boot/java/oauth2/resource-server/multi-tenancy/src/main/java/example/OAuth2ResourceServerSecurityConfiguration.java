@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2020-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,60 +21,50 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
-import org.springframework.security.oauth2.server.resource.introspection.NimbusOpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * OAuth Resource Security configuration.
  *
  * @author Josh Cummings
  */
-@EnableWebSecurity
-public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+public class OAuth2ResourceServerSecurityConfiguration {
 
-	@Value("${tenantOne.jwk-set-uri}")
-	String jwkSetUri;
-
-	@Value("${tenantTwo.introspection-uri}")
-	String introspectionUri;
-
-	@Value("${tenantTwo.introspection-client-id}")
-	String introspectionClientId;
-
-	@Value("${tenantTwo.introspection-client-secret}")
-	String introspectionClientSecret;
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	SecurityFilterChain apiSecurity(HttpSecurity http,
+			AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver) throws Exception {
 		// @formatter:off
 		http
 			.authorizeRequests((requests) -> requests
-					.mvcMatchers("/**/message/**").hasAuthority("SCOPE_message:read")
-					.anyRequest().authenticated()
+				.mvcMatchers("/**/message/**").hasAuthority("SCOPE_message:read")
+				.anyRequest().authenticated()
 			)
 			.oauth2ResourceServer((resourceServer) -> resourceServer
-					.authenticationManagerResolver(multitenantAuthenticationManager())
+				.authenticationManagerResolver(authenticationManagerResolver)
 			);
 		// @formatter:on
+
+		return http.build();
 	}
 
 	@Bean
-	AuthenticationManagerResolver<HttpServletRequest> multitenantAuthenticationManager() {
+	AuthenticationManagerResolver<HttpServletRequest> multitenantAuthenticationManager(JwtDecoder jwtDecoder,
+			OpaqueTokenIntrospector opaqueTokenIntrospector) {
 		Map<String, AuthenticationManager> authenticationManagers = new HashMap<>();
-		authenticationManagers.put("tenantOne", jwt());
-		authenticationManagers.put("tenantTwo", opaque());
+		authenticationManagers.put("tenantOne", jwt(jwtDecoder));
+		authenticationManagers.put("tenantTwo", opaque(opaqueTokenIntrospector));
 		return (request) -> {
 			String[] pathParts = request.getRequestURI().split("/");
 			String tenantId = (pathParts.length > 0) ? pathParts[1] : null;
@@ -86,17 +76,14 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 		};
 	}
 
-	AuthenticationManager jwt() {
-		JwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(this.jwkSetUri).build();
+	AuthenticationManager jwt(JwtDecoder jwtDecoder) {
 		JwtAuthenticationProvider authenticationProvider = new JwtAuthenticationProvider(jwtDecoder);
 		authenticationProvider.setJwtAuthenticationConverter(new JwtBearerTokenAuthenticationConverter());
-		return authenticationProvider::authenticate;
+		return new ProviderManager(authenticationProvider);
 	}
 
-	AuthenticationManager opaque() {
-		OpaqueTokenIntrospector introspectionClient = new NimbusOpaqueTokenIntrospector(this.introspectionUri,
-				this.introspectionClientId, this.introspectionClientSecret);
-		return new OpaqueTokenAuthenticationProvider(introspectionClient)::authenticate;
+	AuthenticationManager opaque(OpaqueTokenIntrospector introspectionClient) {
+		return new ProviderManager(new OpaqueTokenAuthenticationProvider(introspectionClient));
 	}
 
 }
