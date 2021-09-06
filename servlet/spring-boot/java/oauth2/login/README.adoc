@@ -9,6 +9,7 @@ The following sections provide detailed steps for setting up OAuth 2.0 Login for
 * <<github-login, GitHub>>
 * <<facebook-login, Facebook>>
 * <<okta-login, Okta>>
+* <<Azure-Active-Directory-B2C-login, Azure-Active-Directory-B2C>>
 
 [[google-login]]
 == Login with Google
@@ -319,3 +320,77 @@ Click on the Okta link, and you are then redirected to Okta for authentication.
 
 After authenticating with your Okta account credentials, the OAuth Client retrieves your email address and basic profile information
 from the https://openid.net/specs/openid-connect-core-1_0.html#UserInfo[UserInfo Endpoint] and establishes an authenticated session.
+
+[[Azure-Active-Directory-B2C-login]]
+== Azure Active Directory B2C login
+
+This section shows how to configure the sample application using Azure Active Directory B2C as the Authentication Provider and covers the following topics:
+
+* <<Azure-Active-Directory-B2C-initial-setup,Initial setup>>
+* <<Azure-Active-Directory-B2C-application-config,Configure application.yml>>
+* <<Azure-Active-Directory-B2C-boot-application,Boot up the application>>
+
+[[Azure-Active-Directory-B2C-initial-setup]]
+=== Create Azure Active Directory B2C tenant
+
+To use Azure Active Directory B2C's OAuth 2.0 authentication system for login, you have to https://docs.microsoft.com/azure/active-directory-b2c/tutorial-create-tenant[create your Azure Active Directory B2C tenant]
+
+=== Register Azure Active Directory B2C application
+
+Follow the guide of https://docs.microsoft.com/azure/active-directory-b2c/tutorial-register-applications[Register your Azure Active Directory B2C application]
+Please ensure that your b2c application's `Redirect URL` is configured to `http://localhost:8080/login/oauth2/code/`.
+
+=== Create user flows
+
+You also need to https://docs.microsoft.com/azure/active-directory-b2c/tutorial-create-user-flows[Create user flows].
+NOTE: Azure Active Directory enable forgot password, follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/add-password-reset-policy?pivots=b2c-user-flow#self-service-password-reset-recommended[AAD B2C enable forgot password].
+
+[[Azure-Active-Directory-B2C-application-config]]
+=== Configure application.yml
+
+Now that you have a application with Azure Active Directory B2C, you need to configure the sample application to use the application for the _authentication flow_. To do so:
+
+. Go to `application.yml` and set the following configuration:
++
+[source,yaml]
+----
+spring:
+  security:
+    oauth2:
+      client:
+        registration:	<1>
+          B2C:		<2>
+            provider: b2c
+            client-id: <b2c-client-id>
+            client-secret: <b2c-client-secret>
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/"
+            scope: <b2c-client-id>, openid, offline_access, profile
+        provider:	<3>
+          b2c:
+            authorization-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/<your-user-flow-name>/oauth2/v2.0/authorize
+            token-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/oauth2/v2.0/token?p=<your-user-flow-name>
+            user-info-uri: https://graph.microsoft.com/oidc/userinfo
+            jwk-set-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/discovery/v2.0/keys?p=<your-user-flow-name>
+----
++
+.OAuth Client properties
+====
+<1> `spring.security.oauth2.client.registration` is the base property prefix for OAuth Client properties.
+<2> Following the base property prefix is the ID for the `ClientRegistration`, such as B2C.
+<3> `spring.security.oauth2.client.provider` is the base property prefix for OAuth Provider properties.
+====
+
+. Replace the values in the `client-id`, `client-secret` and `scope` property with the OAuth 2.0 credentials you created earlier.
+As well, replace `<your-tenant-name>` and `<your-user-flow-name>` in `authorization-uri`, `token-uri`, `user-info-uri` and `jwk-set-uri` with the value of your tenant name and user flow name you created earlier.
+
+[[Azure-Active-Directory-B2C-boot-application]]
+=== Boot up the application
+
+Launch the Spring Boot 2.0 sample and go to `http://localhost:8080`.
+You are then redirected to the default _auto-generated_ login page, which displays a link for B2C.
+
+Click on the B2C link, and you are then redirected to B2C for authentication.
+
+Now you can sign up or sign in with your email,
+or you can https://docs.microsoft.com/azure/active-directory-b2c/add-identity-provider[add identity provider] to allow users to sign in to your application with credentials from external social or enterprise identity providers (IdP).

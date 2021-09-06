@@ -25,11 +25,24 @@ spring:
             client-id: your-app-client-id
             client-secret: your-app-client-secret
           okta:
+            provider: okta
             client-id: your-app-client-id
             client-secret: your-app-client-secret
+          B2C:
+            provider: b2c
+            client-id: <b2c-client-id>
+            client-secret: <b2c-client-secret>
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/"
+            scope: <b2c-client-id>, openid, offline_access, profile
         provider:
           okta:
             authorization-uri: https://your-subdomain.oktapreview.com/oauth2/v1/authorize
             token-uri: https://your-subdomain.oktapreview.com/oauth2/v1/token
             user-info-uri: https://your-subdomain.oktapreview.com/oauth2/v1/userinfo
             jwk-set-uri: https://your-subdomain.oktapreview.com/oauth2/v1/keys
+          b2c:
+            authorization-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/<your-user-flow-name>/oauth2/v2.0/authorize
+            token-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/oauth2/v2.0/token?p=<your-user-flow-name>
+            user-info-uri: https://graph.microsoft.com/oidc/userinfo
+            jwk-set-uri: https://<your-tenant-name>.b2clogin.com/<your-tenant-name>.onmicrosoft.com/discovery/v2.0/keys?p=<your-user-flow-name>
