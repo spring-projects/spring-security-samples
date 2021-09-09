@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2020 the original author or authors.
+ * Copyright 2002-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package example;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,10 +25,12 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,11 @@ public class Saml2LoginApplicationITests {
 	@Autowired
 	WebClient webClient;
 
+	@BeforeEach
+	void setup() {
+		this.webClient.getCookieManager().clearCookies();
+	}
+
 	@Test
 	void indexWhenSamlResponseThenShowsUserInformation() throws Exception {
 		HttpSession session = this.mvc.perform(get("http://localhost:8080/")).andExpect(status().is3xxRedirection())
@@ -79,6 +87,27 @@ public class Saml2LoginApplicationITests {
 
 	@Test
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
+		HtmlPage relyingParty = performLogin();
+		assertThat(relyingParty.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
+	}
+
+	@Test
+	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
+		HtmlPage relyingParty = performLogin();
+		HtmlElement rpLogoutButton = relyingParty.getHtmlElementById("rp_logout_button");
+		HtmlPage loginPage = rpLogoutButton.click();
+		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+	}
+
+	@Test
+	void logoutWhenAssertingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
+		HtmlPage relyingParty = performLogin();
+		HtmlElement apLogoutButton = relyingParty.getHtmlElementById("ap_logout_button");
+		HtmlPage loginPage = apLogoutButton.click();
+		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+	}
+
+	private HtmlPage performLogin() throws IOException {
 		HtmlPage assertingParty = this.webClient.getPage("/");
 		HtmlForm form = assertingParty.getFormByName("f");
 		HtmlInput username = form.getInputByName("username");
@@ -86,8 +115,7 @@ public class Saml2LoginApplicationITests {
 		HtmlSubmitInput submit = assertingParty.getHtmlElementById("submit_button");
 		username.setValueAttribute("user");
 		password.setValueAttribute("password");
-		HtmlPage relyingParty = submit.click();
-		assertThat(relyingParty.asText()).contains("You're email address is testuser@spring.security.saml");
+		return submit.click();
 	}
 
 }
