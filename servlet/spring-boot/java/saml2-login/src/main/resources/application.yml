@@ -4,5 +4,12 @@ spring:
       relyingparty:
         registration:
           one:
+            signing.credentials:
+              - private-key-location: classpath:credentials/rp-private.key
+                certificate-location: classpath:credentials/rp-certificate.crt
             identityprovider:
               metadata-uri: https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/metadata.php
+
+
+logging.level:
+  org.springframework.security: TRACE
