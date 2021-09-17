@@ -40,9 +40,10 @@ Follow the guide of https://docs.microsoft.com/en-us/azure/active-directory-b2c/
 [[work-as-web-application]]
 == Work as web application
 
+[[work-application-simple-sample]]
 === Web application simple sample
 
-Sample project: <<./web-application-1-simple-sample/, web-application-1-simple-sample>>
+Sample project: <<./web-application-1-simple-sample/README.adoc#chapter-link, web-application-1-simple-sample>>
 
 ==== Fill necessary contents in sample project.
 
@@ -57,9 +58,10 @@ You are then redirected to the default _auto-generated_ login page. You can sign
 
 Then, you can edit your profile with the button `Profile edit` or reset your password with `Password reset`.
 
+[[Web-application-with-scopes]]
 === Web application with scopes
 
-Sample project: <<./web-application-2-with-scopes/, web-application-2-with-scopes>>
+Sample project: <<./web-application-2-with-scopes/README.adoc#chapter-link, web-application-2-with-scopes>>
 
 Compared with the previous sample, updated the `application.yml` and `SampleController.java`
 
@@ -80,9 +82,10 @@ Lunch the sample project, then open `http://localhost:8081` by browser.
 Compared with the previous sample, this sample adds scope for permission authentication.
 Please refer to <<Resource server authorize by scopes,Resource server authorize by scopes>>.
 
+[[Web-application-with-client-credentials]]
 === Web application with client credentials
 
-Sample project: <<./web-application-3-with-client-credentials/, web-application-3-with-client-credentials>>
+Sample project: <<./web-application-3-with-client-credentials/README.adoc#chapter-link, web-application-3-with-client-credentials>>
 
 Compared with the previous sample, updated the `application.yml` and `WebSecurityConfiguration.java`
 
@@ -104,9 +107,10 @@ Lunch the sample project, then open `http://localhost:8082` by browser.
 Compared with the previous example, this sample adds a client to obtain a token for your custom resource.
 Please refer to <<Resource server authorize by app roles,Resource server authorize by app roles>>.
 
+[[Web-application-with-additional-parameters]]
 === Web application with additional parameters
 
-Sample project: <<./web-application-4-with-additional-parameters/, web-application-4-with-additional-parameters>>
+Sample project: <<./web-application-4-with-additional-parameters/README.adoc#chapter-link, web-application-4-with-additional-parameters>>
 
 Compared with the previous sample, updated the `application.yml` and `WebSecurityConfiguration.java`
 
@@ -123,9 +127,10 @@ Compared with the previous sample, this application just add `additional-Paramet
 [[work-as-resource-server]]
 == Work as Resource Server
 
+[[Resource-server-simple-sample]]
 === Resource server simple sample
 
-Sample project: <<./resource-server-1-simple-sample/, resource-server-1-simple-sample>>
+Sample project: <<./resource-server-1-simple-sample/README.adoc#chapter-link, resource-server-1-simple-sample>>
 
 ==== Fill necessary contents in sample project.
 
@@ -135,9 +140,10 @@ Sample project: <<./resource-server-1-simple-sample/, resource-server-1-simple-s
 
 Lunch the sample project. Then open `http://localhost:8080/resourceServer` by browser. The browser will access <<Web application simple sample,Web application simple sample>> , and which will access this resource server by access token.
 
+[[Resource-server-validate-audience]]
 === Resource server validate audience
 
-Sample project: <<./resource-server-2-validate-audience/, resource-server-2-validate-audience>>
+Sample project: <<./resource-server-2-validate-audience/README.adoc#chapter-link, resource-server-2-validate-audience>>
 
 Compared with the previous sample, updated the `application.yml` and `WebSecurityConfiguration.java`
 
@@ -150,9 +156,10 @@ Compared with the previous sample, updated the `application.yml` and `WebSecurit
 Lunch the sample project. Then open `http://localhost:8080/resourceServerValidateAudience` by browser. The browser will access <<Web application simple sample,Web application simple sample>>, and which will access this resource server by access token.
 This resource server will validate the accessToken's audience.
 
+[[Resource-server-authorize-by-scopes]]
 === Resource server authorize by scopes
 
-Sample project: <<./resource-server-3-authorize-by-scopes/, resource-server-3-authorize-by-scopes>>
+Sample project: <<./resource-server-3-authorize-by-scopes/README.adoc#chapter-link, resource-server-3-authorize-by-scopes>>
 
 Compared with the previous sample, updated the `application.yml`, `SampleController.java` and `WebSecurityConfiguration.java`
 
@@ -165,9 +172,10 @@ Compared with the previous sample, updated the `application.yml`, `SampleControl
 Lunch the sample project. Then open `http://localhost:8081/resourceServerWithScope` by browser. The browser will access <<Web application with scopes,Web application with scopes>>, and which will access this resource server by access token.
 This resource server will validate the accessToken's `scp` claim.
 
+[[Resource-server-authorize-by-app-roles]]
 === Resource server authorize by app roles
 
-Sample project: <<./resource-server-4-authorize-by-app-roles/, resource-server-4-authorize-by-app-roles>>
+Sample project: <<./resource-server-4-authorize-by-app-roles/README.adoc#chapter-link, resource-server-4-authorize-by-app-roles>>
 
 Compared with the previous sample, updated the `application.yml`, `SampleController.java` and `WebSecurityConfiguration.java`
 
@@ -180,9 +188,10 @@ Compared with the previous sample, updated the `application.yml`, `SampleControl
 Lunch the sample project. Then open `http://localhost:8082/resourceServerWithRoles` by browser. The browser will access <<Web application with client credentials,Web application with client credentials>>, and which will access this resource server by access token.
 This resource server will validate the accessToken's `roles` claim.
 
+[[Resource-server-multi-tenant]]
 === Resource server multi tenant
 
-Sample project: <<./resource-server-5-multi-tenant/, resource-server-5-multi-tenant>>
+Sample project: <<./resource-server-5-multi-tenant/README.adoc#chapter-link, resource-server-5-multi-tenant>>
 
 Compared with the previous sample, updated the `application.yml`, `SampleController.java` and `WebSecurityConfiguration.java`
 
