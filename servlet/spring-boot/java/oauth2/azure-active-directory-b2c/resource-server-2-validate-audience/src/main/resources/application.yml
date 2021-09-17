@@ -1,0 +1,14 @@
+# From **Azure AD B2C** portal `App registrations` blade, select **Endpoints**, Access `Azure AD B2C OpenID Connect metadata document`(Global cloud format may looks like
+#`https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/<policy-name>/v2.0/.well-known/openid-configuration`,
+# China Cloud looks like `https://{your-tenant-name}.b2clogin.cn/{your-tenant-name}.partner.onmschina.cn/<policy-name>/v2.0/.well-known/openid-configuration`) replace <policy-name> with your user flow name.
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwkSetUri: ${your-jwk-set-uri}  # You can find your jwkSetUri from the result page of Azure AD B2C OpenID Connect metadata document
+server:
+  port: 8092
+
+# Select your instance under `Applications` from portal, Fill in `${validate-audience}` from `Application ID`.
+validateAudience: ${validate-audience}

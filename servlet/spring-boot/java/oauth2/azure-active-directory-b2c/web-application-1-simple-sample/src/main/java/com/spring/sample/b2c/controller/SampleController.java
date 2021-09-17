@@ -27,6 +27,12 @@ public class SampleController {
         return canVisitUri(signUpOrSignIn, "http://localhost:8091/hello");
     }
 
+    @GetMapping(value = { "/resourceServerValidateAudience" })
+    @ResponseBody
+    public String getResourceServerValidateAudience(@RegisteredOAuth2AuthorizedClient("sign-up-or-sign-in") OAuth2AuthorizedClient signUpOrSignIn) {
+        return canVisitUri(signUpOrSignIn, "http://localhost:8092/hello");
+    }
+
     /**
      * Check whether uri is accessible by provided client.
      *

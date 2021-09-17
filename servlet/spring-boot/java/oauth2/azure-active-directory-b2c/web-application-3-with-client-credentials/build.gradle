@@ -1,0 +1,22 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.2'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id "nebula.integtest" version "7.0.9"
+	id 'java'
+}
+
+repositories {
+	jcenter()
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+}

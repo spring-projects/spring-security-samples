@@ -1,0 +1,15 @@
+# Now B2C don't support client_credential, but we can use AAD point to realize this function.
+# From **Azure AD B2C** portal `App registrations` blade, select **Endpoints**, Access `Azure AD OpenID Connect metadata document`(Global cloud format may looks like
+#`https://login.microsoftonline.com/${your-tenant-id}/v2.0/.well-known/openid-configuration`,
+# China Cloud looks like `https://login.chinacloudapi.cn/${your-tenant-id}/v2.0/.well-known/openid-configuration`) replace <policy-name> with your user flow name.
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwkSetUri: ${your-jwk-set-uri}  # You can find your jwkSetUri from the result page of Azure AD OpenID Connect metadata document
+server:
+  port: 8094
+
+# Select your instance under `Applications` from portal, Fill in `${validate-audience}` from `Application ID`.
+validateAudience: ${validate-audience}
