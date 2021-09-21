@@ -119,7 +119,6 @@ public class OAuth2AuthorizationServerApplicationITests {
 				.andExpect(jsonPath("$.exp").isNumber())
 				.andExpect(jsonPath("$.iat").isNumber())
 				.andExpect(jsonPath("$.iss").value("http://localhost:9000"))
-				.andExpect(jsonPath("$.jti").isString())
 				.andExpect(jsonPath("$.nbf").isNumber())
 				.andExpect(jsonPath("$.scope").value("message:read"))
 				.andExpect(jsonPath("$.sub").value(CLIENT_ID))
