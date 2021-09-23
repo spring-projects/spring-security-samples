@@ -1,3 +1,71 @@
 image::https://github.com/spring-projects/spring-security-samples/workflows/CI/badge.svg[link=https://github.com/spring-projects/spring-security-samples/actions?query=workflow%3ACI]
 
 Samples for https://github.com/spring-projects/spring-security
+
+== Samples catalog
+
+=== Getting Started
+
+* Hello Security - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/hello-security[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/hello-security[WebFlux] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux-fn/hello-security[WebFlux.fn] | https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/hello-security[Java Configuration] | https://github.com/spring-projects/spring-security-samples/tree/main/servlet/xml/java/helloworld[XML] | https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/kotlin/hello-security[Kotlin] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/kotlin/hello-security[WebFlux Kotlin] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/rsocket/hello-security[RSocket]
+
+* Hello Security (without Spring MVC) - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/hello-security-explicit[Java Configuration]
+
+* Hello Security with Explicit Configuration - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/hello-security-explicit[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/hello-security-explicit[WebFlux] | https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/hello-mvc-security[Java Configuration]
+
+* Method Security - https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/method[WebFlux]
+
+* Spring Data Integration - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/data[Java Configuration]
+
+* Max Sessions - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/max-sessions[Java Configuration]
+
+* AspectJ Security Configuration - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/aspectj[Java Configuration]
+
+=== OAuth 2.0
+
+* https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/authorization-server[Authorization Server]
+
+* Login - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/login[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/oauth2/login[WebFlux]
+
+* Resource Server
+
+** Hello Security - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/hello-security[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/oauth2/resource-server[WebFlux]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/jwe[JSON Web Encryption (JWE)]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/multi-tenancy[Multi-tenancy]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/opaque[Opaque Token]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/static[Static]
+
+* WebClient - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/webclient[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/oauth2/webclient[WebFlux]
+
+=== SAML 2.0
+
+* https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/saml2-login[Login & Logout]
+
+=== Authentication
+
+* https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/preauth[Pre-authentication]
+
+* https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/remember-me[Remember-me]
+
+* Username and password
+
+** Form Login - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/username-password/form[Java Configuration] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/authentication/username-password/form[WebFlux]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/username-password/in-memory[In-memory `UserDetailsService`]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/username-password/jdbc[JDBC]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/username-password/ldap[LDAP]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/authentication/username-password/mfa[Multi-factor authentication]
+
+** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/authentication/username-password/user-details-service/custom-user[Custom `UserDetails`]
+
+* X.509 - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/x509[Java Configuration] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/authentication/x509[WebFlux]
+
+=== JWT
+
+* Login - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/jwt/login[Spring Boot]
