@@ -19,7 +19,7 @@ dependencies {
 
 	implementation "org.springframework.security:spring-security-config"
 
-	runtime "org.springframework.security:spring-security-aspects"
+	runtimeOnly "org.springframework.security:spring-security-aspects"
 
 	testImplementation "org.assertj:assertj-core:3.18.0"
 	testImplementation "org.springframework:spring-test"

@@ -24,9 +24,9 @@ dependencies {
 	implementation 'org.slf4j:slf4j-api:1.7.30'
 	implementation 'org.slf4j:slf4j-simple:1.7.30'
 
-	runtime 'net.sf.ehcache:ehcache:2.10.5'
-	runtime 'org.hsqldb:hsqldb:2.5.0'
-	runtime 'org.springframework:spring-context-support'
+	runtimeOnly 'net.sf.ehcache:ehcache:2.10.5'
+	runtimeOnly 'org.hsqldb:hsqldb:2.5.0'
+	runtimeOnly 'org.springframework:spring-context-support'
 
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"

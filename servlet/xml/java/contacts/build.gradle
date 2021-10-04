@@ -1,8 +1,8 @@
 plugins {
 	id "java"
 	id "war"
-	id "nebula.integtest" version "7.0.9"
-	id "org.gretty" version "3.0.3"
+	id "nebula.integtest" version "8.2.0"
+	id "org.gretty" version "3.0.6"
 }
 
 apply from: "gradle/gretty.gradle"
@@ -32,9 +32,9 @@ dependencies {
 	implementation 'org.slf4j:slf4j-simple:1.7.30'
 	implementation 'javax.servlet:jstl:1.2'
 
-	runtime 'net.sf.ehcache:ehcache:2.10.5'
-	runtime 'org.hsqldb:hsqldb:2.5.0'
-	runtime 'org.springframework:spring-context-support'
+	runtimeOnly 'net.sf.ehcache:ehcache:2.10.5'
+	runtimeOnly 'org.hsqldb:hsqldb:2.5.0'
+	runtimeOnly 'org.springframework:spring-context-support'
 
 	providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
 

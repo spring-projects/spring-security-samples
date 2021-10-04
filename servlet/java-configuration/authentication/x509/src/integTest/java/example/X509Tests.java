@@ -24,7 +24,6 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.core.io.ClassPathResource;
@@ -42,13 +41,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * @author Michael Simons
  */
 public class X509Tests {
-
-	private int port;
-
-	@BeforeEach
-	void setup() {
-		this.port = Integer.parseInt(System.getProperty("app.httpPort", "8443"));
-	}
 
 	@Test
 	void notCertificateThenSslHandshakeException() {
