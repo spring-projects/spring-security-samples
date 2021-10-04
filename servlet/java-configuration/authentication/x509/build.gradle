@@ -5,7 +5,7 @@ plugins {
 	id "war"
 }
 
-apply from: "gradle/gretty.gradle"
+//apply from: "gradle/gretty.gradle"
 
 repositories {
 	jcenter()

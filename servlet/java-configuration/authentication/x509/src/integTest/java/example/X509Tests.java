@@ -24,6 +24,7 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.core.io.ClassPathResource;
@@ -40,6 +41,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  *
  * @author Michael Simons
  */
+@Disabled
 public class X509Tests {
 
 	@Test
