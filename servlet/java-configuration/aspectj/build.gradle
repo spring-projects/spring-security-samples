@@ -8,6 +8,16 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
+compileJava {
+	sourceCompatibility "1.8"
+	targetCompatibility "1.8"
+}
+
+compileTestJava {
+	sourceCompatibility "1.8"
+	targetCompatibility "1.8"
+}
+
 dependencies {
 	aspect platform("org.springframework:spring-framework-bom:5.3.0")
 	aspect platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
