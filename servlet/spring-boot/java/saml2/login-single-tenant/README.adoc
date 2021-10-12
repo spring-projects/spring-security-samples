@@ -1,0 +1,51 @@
+= SAML 2.0 Login & Logout Sample
+
+This guide provides instructions on setting up this SAML 2.0 Login & Logout sample application.
+It uses https://simplesamlphp.org/[SimpleSAMLphp] as its asserting party.
+
+The sample application uses Spring Boot and the `spring-security-saml2-service-provider`
+module which is new in Spring Security 5.2.
+
+The https://docs.spring.io/spring-security/site/docs/5.6.0-SNAPSHOT/reference/html5/#servlet-saml2login-logout[SAML 2.0 Logout feature] is new in Spring Security 5.6.
+
+== Goals
+
+=== SAML 2.0 Login
+
+`saml2Login()` provides a very simple implementation of a Service Provider that can receive a SAML 2.0 Response via the HTTP-POST and HTTP-REDIRECT bindings against the SimpleSAMLphp SAML 2.0 reference implementation.
+
+The following features are implemented in the MVP:
+
+1. Receive and validate a SAML 2.0 Response containing an assertion, and create a corresponding authentication in Spring Security
+2. Send a SAML 2.0 AuthNRequest to an Identity Provider
+3. Provide a framework for components used in SAML 2.0 authentication that can be swapped by configuration
+4. Work against the SimpleSAMLphp reference implementation
+
+=== SAML 2.0 Single Logout
+
+`saml2Logout()` supports RP- and AP-initiated SAML 2.0 Single Logout via the HTTP-POST and HTTP-REDIRECT bindings against the SimpleSAMLphp SAML 2.0 reference implementation.
+
+On this sample, the SAML 2.0 Logout is using the HTTP-POST binding.
+
+You can refer to the https://docs.spring.io/spring-security/site/docs/5.6.0-SNAPSHOT/reference/html5/#servlet-saml2login-logout[reference documentation] for more details about the RP- and AP-initiated SAML 2.0 Logout.
+
+== Run the Sample
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :spring-security-samples-boot-saml2login:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirect to the SimpleSAMLphp IDP
+
+=== Type in your credentials
+
+```
+User: user
+Password: password
+```
+
