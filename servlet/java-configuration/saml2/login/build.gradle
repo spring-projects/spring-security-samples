@@ -1,0 +1,66 @@
+/*
+ * Copyright 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+	id "java"
+	id "nebula.integtest" version "8.2.0"
+	id "org.gretty" version "3.0.6"
+	id "war"
+}
+
+apply from: "gradle/gretty.gradle"
+
+repositories {
+	jcenter()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
+}
+
+dependencies {
+	constraints {
+		implementation "org.opensaml:opensaml-core:4.1.1"
+		implementation "org.opensaml:opensaml-saml-api:4.1.1"
+		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
+	}
+	implementation platform("org.springframework:spring-framework-bom:5.3.11")
+	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
+	implementation platform("org.junit:junit-bom:5.7.0")
+
+	implementation "org.springframework.security:spring-security-config"
+	implementation "org.springframework.security:spring-security-web"
+	implementation "org.springframework:spring-webmvc"
+	implementation "org.springframework.security:spring-security-saml2-service-provider"
+	implementation "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2"
+	implementation "org.apache.taglibs:taglibs-standard-jstlel:1.2.5"
+	implementation "org.thymeleaf:thymeleaf-spring5:3.0.11.RELEASE"
+	implementation "org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE"
+
+	providedCompile "javax.servlet:javax.servlet-api:4.0.1"
+	providedCompile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
+
+	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.springframework:spring-test"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:2.44.0"
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+}

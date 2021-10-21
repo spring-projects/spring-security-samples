@@ -42,7 +42,7 @@ Samples for https://github.com/spring-projects/spring-security
 
 === SAML 2.0
 
-* https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/saml2/login[Login & Logout]
+* Login & Logout - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/saml2/login[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/saml2/login[Java Configuration]
 
 === Authentication
 
