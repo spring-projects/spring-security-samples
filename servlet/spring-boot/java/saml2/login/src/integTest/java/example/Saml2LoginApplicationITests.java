@@ -74,7 +74,7 @@ public class Saml2LoginApplicationITests {
 	@Test
 	void indexWhenSamlResponseThenShowsUserInformation() throws Exception {
 		HttpSession session = this.mvc.perform(get("http://localhost:8080/")).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("http://localhost:8080/saml2/authenticate/one")).andReturn().getRequest()
+				.andExpect(redirectedUrl("http://localhost:8080/login")).andReturn().getRequest()
 				.getSession();
 
 		this.mvc.perform(post("http://localhost:8080/login/saml2/sso/one").param("SAMLResponse", SIGNED_RESPONSE)
@@ -108,7 +108,8 @@ public class Saml2LoginApplicationITests {
 	}
 
 	private HtmlPage performLogin() throws IOException {
-		HtmlPage assertingParty = this.webClient.getPage("/");
+		HtmlPage login = this.webClient.getPage("/");
+		HtmlPage assertingParty = login.getAnchorByHref("/saml2/authenticate/one").click();
 		HtmlForm form = assertingParty.getFormByName("f");
 		HtmlInput username = form.getInputByName("username");
 		HtmlInput password = form.getInputByName("password");
