@@ -74,8 +74,7 @@ public class Saml2LoginApplicationITests {
 	@Test
 	void indexWhenSamlResponseThenShowsUserInformation() throws Exception {
 		HttpSession session = this.mvc.perform(get("http://localhost:8080/")).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("http://localhost:8080/login")).andReturn().getRequest()
-				.getSession();
+				.andExpect(redirectedUrl("http://localhost:8080/login")).andReturn().getRequest().getSession();
 
 		this.mvc.perform(post("http://localhost:8080/login/saml2/sso/one").param("SAMLResponse", SIGNED_RESPONSE)
 				.session((MockHttpSession) session)).andExpect(redirectedUrl("http://localhost:8080/"));
