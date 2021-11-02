@@ -32,8 +32,6 @@ import org.springframework.security.saml2.provider.service.registration.InMemory
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
-import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
-import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -54,12 +52,6 @@ public class SecurityConfiguration {
 		// @formatter:on
 
 		return http.build();
-	}
-
-	@Bean
-	RelyingPartyRegistrationResolver relyingPartyRegistrationResolver(
-			RelyingPartyRegistrationRepository registrations) {
-		return new DefaultRelyingPartyRegistrationResolver(registrations);
 	}
 
 	@Bean
