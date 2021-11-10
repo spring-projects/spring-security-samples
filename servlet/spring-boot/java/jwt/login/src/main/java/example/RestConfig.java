@@ -62,7 +62,7 @@ public class RestConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((authorize) -> authorize
+			.authorizeHttpRequests((authorize) -> authorize
 				.anyRequest().authenticated()
 			)
 			.csrf((csrf) -> csrf.ignoringAntMatchers("/token"))

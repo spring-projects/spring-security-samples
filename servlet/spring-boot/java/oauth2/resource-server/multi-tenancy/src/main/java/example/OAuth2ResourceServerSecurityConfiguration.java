@@ -47,7 +47,7 @@ public class OAuth2ResourceServerSecurityConfiguration {
 			AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((authorize) -> authorize
+			.authorizeHttpRequests((authorize) -> authorize
 				.mvcMatchers("/**/message/**").hasAuthority("SCOPE_message:read")
 				.anyRequest().authenticated()
 			)

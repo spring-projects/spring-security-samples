@@ -72,7 +72,7 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((authorize) -> authorize
+			.authorizeHttpRequests((authorize) -> authorize
 				.antMatchers("/message/**").hasAuthority("SCOPE_message:read")
 				.anyRequest().authenticated()
 			)
