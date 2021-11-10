@@ -53,7 +53,7 @@ public class WebfluxFormSecurityConfiguration {
 	SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 		// @formatter:off
 		http
-			.authorizeExchange((exchanges) -> exchanges
+			.authorizeExchange((authorize) -> authorize
 				.pathMatchers("/login").permitAll()
 				.anyExchange().authenticated()
 			)

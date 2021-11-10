@@ -30,7 +30,9 @@ public class SecurityConfiguration {
 	SecurityFilterChain app(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((authorize) -> authorize.anyRequest().authenticated())
+			.authorizeRequests((authorize) -> authorize
+				.anyRequest().authenticated()
+			)
 			.saml2Login(withDefaults())
 			.saml2Logout(withDefaults());
 		// @formatter:on

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 	SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 		// @formatter:off
 		http
-			.authorizeExchange((exchanges) -> exchanges
+			.authorizeExchange((authorize) -> authorize
 				.pathMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
 				.pathMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
 				.anyExchange().authenticated()

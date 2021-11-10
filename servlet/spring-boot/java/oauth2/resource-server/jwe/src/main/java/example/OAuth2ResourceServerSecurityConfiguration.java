@@ -72,15 +72,11 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((requests) ->
-				requests
-					.antMatchers("/message/**").hasAuthority("SCOPE_message:read")
-					.anyRequest().authenticated()
+			.authorizeRequests((authorize) -> authorize
+				.antMatchers("/message/**").hasAuthority("SCOPE_message:read")
+				.anyRequest().authenticated()
 			)
-			.oauth2ResourceServer((resourceServer) ->
-				resourceServer
-					.jwt(withDefaults())
-			);
+			.oauth2ResourceServer((oauth2) -> oauth2.jwt(withDefaults()));
 		// @formatter:on
 	}
 

@@ -40,11 +40,10 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((requests) ->
-				requests
-					.antMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
-					.antMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
-					.anyRequest().authenticated()
+			.authorizeRequests((authorize) -> authorize
+				.antMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
+				.antMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
+				.anyRequest().authenticated()
 			)
 			.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 		// @formatter:on

@@ -33,9 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// @formatter:off
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests((authorizeRequests) ->
-					authorizeRequests
-							.anyRequest().authenticated()
+			.authorizeRequests((authorize) -> authorize
+				.anyRequest().authenticated()
 			)
 			.x509(withDefaults());
 	}

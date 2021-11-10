@@ -38,9 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((requests) -> requests
-					.mvcMatchers("/", "/public/**").permitAll()
-					.anyRequest().authenticated()
+			.authorizeRequests((authorize) -> authorize
+				.mvcMatchers("/", "/public/**").permitAll()
+				.anyRequest().authenticated()
 			)
 			.formLogin(withDefaults())
 			.oauth2Login(withDefaults())

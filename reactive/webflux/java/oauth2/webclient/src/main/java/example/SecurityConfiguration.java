@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 	SecurityWebFilterChain configure(ServerHttpSecurity http) {
 		// @formatter:off
 		http
-			.authorizeExchange((exchanges) -> exchanges
+			.authorizeExchange((authorize) -> authorize
 				.pathMatchers("/", "/public/**").permitAll()
 				.anyExchange().authenticated()
 			)

@@ -334,16 +334,12 @@ public class OAuth2LoginApplicationTests {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-				.authorizeRequests((requests) -> requests
+				.authorizeRequests((authorize) -> authorize
 					.anyRequest().authenticated()
 				)
 				.oauth2Login((oauth2) -> oauth2
-					.tokenEndpoint((tokens) -> tokens
-						.accessTokenResponseClient(this.mockAccessTokenResponseClient())
-					)
-					.userInfoEndpoint((userInfo) -> userInfo
-						.userService(this.mockUserService())
-					)
+					.tokenEndpoint((token) -> token.accessTokenResponseClient(mockAccessTokenResponseClient()))
+					.userInfoEndpoint((userInfo) -> userInfo.userService(mockUserService()))
 				);
 		}
 		// @formatter:on

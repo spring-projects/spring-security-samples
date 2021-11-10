@@ -44,19 +44,26 @@ public class SecurityConfig {
 	SecurityFilterChain web(HttpSecurity http,
 			AuthorizationManager<RequestAuthorizationContext> mfaAuthorizationManager) throws Exception {
 		MfaAuthenticationHandler mfaAuthenticationHandler = new MfaAuthenticationHandler("/second-factor");
-		http.authorizeHttpRequests((authz) -> authz.mvcMatchers("/second-factor", "/third-factor")
-				.access(mfaAuthorizationManager).anyRequest().authenticated())
-				.formLogin((form) -> form.successHandler(mfaAuthenticationHandler)
-						.failureHandler(mfaAuthenticationHandler))
-				.exceptionHandling((exceptions) -> exceptions
-						.withObjectPostProcessor(new ObjectPostProcessor<ExceptionTranslationFilter>() {
-							@Override
-							public <O extends ExceptionTranslationFilter> O postProcess(O filter) {
-								filter.setAuthenticationTrustResolver(new MfaTrustResolver());
-								return filter;
-							}
-						}));
-
+		// @formatter:off
+		http
+			.authorizeHttpRequests((authorize) -> authorize
+				.mvcMatchers("/second-factor", "/third-factor").access(mfaAuthorizationManager)
+				.anyRequest().authenticated()
+			)
+			.formLogin((form) -> form
+				.successHandler(mfaAuthenticationHandler)
+				.failureHandler(mfaAuthenticationHandler)
+			)
+			.exceptionHandling((exceptions) -> exceptions
+				.withObjectPostProcessor(new ObjectPostProcessor<ExceptionTranslationFilter>() {
+					@Override
+					public <O extends ExceptionTranslationFilter> O postProcess(O filter) {
+						filter.setAuthenticationTrustResolver(new MfaTrustResolver());
+						return filter;
+					}
+				})
+			);
+		// @formatter:on
 		return http.build();
 	}
 

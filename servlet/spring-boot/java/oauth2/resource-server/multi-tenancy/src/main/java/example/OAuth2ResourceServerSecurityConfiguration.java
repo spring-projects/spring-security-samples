@@ -47,11 +47,11 @@ public class OAuth2ResourceServerSecurityConfiguration {
 			AuthenticationManagerResolver<HttpServletRequest> authenticationManagerResolver) throws Exception {
 		// @formatter:off
 		http
-			.authorizeRequests((requests) -> requests
+			.authorizeRequests((authorize) -> authorize
 				.mvcMatchers("/**/message/**").hasAuthority("SCOPE_message:read")
 				.anyRequest().authenticated()
 			)
-			.oauth2ResourceServer((resourceServer) -> resourceServer
+			.oauth2ResourceServer((oauth2) -> oauth2
 				.authenticationManagerResolver(authenticationManagerResolver)
 			);
 		// @formatter:on

@@ -61,7 +61,10 @@ public class RestConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.authorizeRequests((authz) -> authz.anyRequest().authenticated())
+		http
+			.authorizeRequests((authorize) -> authorize
+				.anyRequest().authenticated()
+			)
 			.csrf((csrf) -> csrf.ignoringAntMatchers("/token"))
 			.httpBasic(Customizer.withDefaults())
 			.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

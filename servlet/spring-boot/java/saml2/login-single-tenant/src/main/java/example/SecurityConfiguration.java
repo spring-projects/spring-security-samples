@@ -36,11 +36,11 @@ public class SecurityConfiguration {
 	SecurityFilterChain app(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-				.authorizeRequests((authorize) -> authorize
-					.anyRequest().authenticated()
-				)
-				.saml2Login((saml2) -> saml2.loginProcessingUrl("/login/saml2/sso"))
-				.saml2Logout(Customizer.withDefaults());
+			.authorizeRequests((authorize) -> authorize
+				.anyRequest().authenticated()
+			)
+			.saml2Login((saml2) -> saml2.loginProcessingUrl("/login/saml2/sso"))
+			.saml2Logout(Customizer.withDefaults());
 		// @formatter:on
 
 		return http.build();

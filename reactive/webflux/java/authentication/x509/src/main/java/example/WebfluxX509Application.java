@@ -53,7 +53,7 @@ public class WebfluxX509Application {
 		// @formatter:off
 		http
 			.x509(withDefaults())
-			.authorizeExchange((exchanges) -> exchanges
+			.authorizeExchange((authorize) -> authorize
 				.anyExchange().authenticated()
 			);
 		// @formatter:on

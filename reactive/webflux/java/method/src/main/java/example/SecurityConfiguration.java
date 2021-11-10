@@ -45,7 +45,7 @@ public class SecurityConfiguration {
 		http
 			// Demonstrate that method security works
 			// Best practice to use both for defense in depth
-			.authorizeExchange((exchanges) -> exchanges
+			.authorizeExchange((authorize) -> authorize
 				.anyExchange().permitAll()
 			)
 			.httpBasic(withDefaults());

@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// @formatter:off
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests((requests) -> requests
+			.authorizeRequests((authorize) -> authorize
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form

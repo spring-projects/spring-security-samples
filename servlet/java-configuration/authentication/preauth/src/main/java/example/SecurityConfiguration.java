@@ -31,15 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.authorizeRequests((authorizeRequests) ->
-						authorizeRequests
-								.antMatchers("/login", "/resources/**").permitAll()
-								.anyRequest().authenticated()
-				)
-				.jee((jee) ->
-						jee
-								.mappableRoles("USER", "ADMIN")
-				);
+			.authorizeRequests((authorize) -> authorize
+				.antMatchers("/login", "/resources/**").permitAll()
+				.anyRequest().authenticated()
+			)
+			.jee((jee) -> jee.mappableRoles("USER", "ADMIN"));
 	}
 	// @formatter:on
 

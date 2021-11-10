@@ -33,11 +33,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// @formatter:off
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.authorizeRequests((requests) -> requests
-						.anyRequest().authenticated()
-				)
-				.httpBasic(withDefaults())
-				.formLogin(withDefaults());
+			.authorizeRequests((authorize) -> authorize
+				.anyRequest().authenticated()
+			)
+			.httpBasic(withDefaults())
+			.formLogin(withDefaults());
 	}
 	// @formatter:on
 
