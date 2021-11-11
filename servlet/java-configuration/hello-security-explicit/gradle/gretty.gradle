@@ -1,5 +1,5 @@
 gretty {
-	servletContainer = "tomcat9"
+	servletContainer = "tomcat10"
 	contextPath = "/"
 	fileLogEnabled = false
 	integrationTestTask = 'integrationTest'
