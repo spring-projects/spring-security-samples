@@ -1,0 +1,10 @@
+name: reference
+version: master
+prerelease: '-SNAPSHOT'
+
+title: Spring Security Samples
+display_version: latest
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/guides/nav.adoc

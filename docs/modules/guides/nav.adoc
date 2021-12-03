@@ -1,0 +1,6 @@
+.xref:index.adoc[Cookbook]
+* xref:basic-auth.adoc[Basic Auth]
+* xref:database.adoc[Authenticating with a Database]
+* xref:angular.adoc[Securing an Angular Web Application]
+* xref:oauth-client.adoc[Securing a Client Application with OAuth]
+* xref:oauth-resource-server.adoc[Creating an OAuth Resource Server]
