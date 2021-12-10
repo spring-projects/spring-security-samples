@@ -6,7 +6,7 @@ It uses https://simplesamlphp.org/[SimpleSAMLphp] as its asserting party.
 The sample application uses Spring Boot and the `spring-security-saml2-service-provider`
 module which is new in Spring Security 5.2.
 
-The https://docs.spring.io/spring-security/site/docs/5.6.0-SNAPSHOT/reference/html5/#servlet-saml2login-logout[SAML 2.0 Logout feature] is new in Spring Security 5.6.
+The https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[SAML 2.0 Logout feature] is new in Spring Security 5.6.
 
 == Goals
 
@@ -27,7 +27,7 @@ The following features are implemented in the MVP:
 
 On this sample, the SAML 2.0 Logout is using the HTTP-POST binding.
 
-You can refer to the https://docs.spring.io/spring-security/site/docs/5.6.0-SNAPSHOT/reference/html5/#servlet-saml2login-logout[reference documentation] for more details about the RP- and AP-initiated SAML 2.0 Logout.
+You can refer to the https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[reference documentation] for more details about the RP- and AP-initiated SAML 2.0 Logout.
 
 === Refreshable Asserting Party Metadata
 
