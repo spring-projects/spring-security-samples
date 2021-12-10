@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
+	implementation platform("org.springframework.security:spring-security-bom:5.6.0")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"

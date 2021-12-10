@@ -36,7 +36,7 @@ dependencies {
 		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
 	}
 	implementation platform("org.springframework:spring-framework-bom:5.3.11")
-	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
+	implementation platform("org.springframework.security:spring-security-bom:5.6.0")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"
