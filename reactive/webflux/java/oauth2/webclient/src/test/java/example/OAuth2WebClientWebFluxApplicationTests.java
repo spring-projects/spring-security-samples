@@ -27,7 +27,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @author Rob Winch
  */
 @SpringBootTest
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "36000")
 public class OAuth2WebClientWebFluxApplicationTests {
 
 	@Autowired
