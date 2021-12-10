@@ -36,7 +36,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
  * @author Rob Winch
  */
 @SpringBootTest
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "36000")
 public class OAuth2LoginApplicationTests {
 
 	@Autowired

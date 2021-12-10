@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.containsString;
  * @since 5.1
  */
 @SpringBootTest
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "36000")
 @ActiveProfiles("test")
 public class ServerOAuth2ResourceServerApplicationITests {
 
