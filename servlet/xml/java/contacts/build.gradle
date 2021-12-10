@@ -2,7 +2,7 @@ plugins {
 	id "java"
 	id "war"
 	id "nebula.integtest" version "8.2.0"
-	id "org.gretty" version "3.0.6"
+	id "org.gretty" version "4.0.0"
 }
 
 apply from: "gradle/gretty.gradle"
@@ -13,8 +13,8 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
-	implementation platform("org.springframework:spring-framework-bom:5.3.9")
+	implementation platform("org.springframework.security:spring-security-bom:6.0.0-SNAPSHOT")
+	implementation platform("org.springframework:spring-framework-bom:6.0.0-SNAPSHOT")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"
@@ -30,13 +30,13 @@ dependencies {
 	implementation 'org.springframework:spring-tx'
 	implementation 'org.slf4j:slf4j-api:1.7.30'
 	implementation 'org.slf4j:slf4j-simple:1.7.30'
-	implementation 'javax.servlet:jstl:1.2'
+
+	providedCompile "jakarta.servlet:jakarta.servlet-api:5.0.0"
+	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
 	runtimeOnly 'net.sf.ehcache:ehcache:2.10.5'
 	runtimeOnly 'org.hsqldb:hsqldb:2.5.0'
 	runtimeOnly 'org.springframework:spring-context-support'
-
-	providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
 
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
