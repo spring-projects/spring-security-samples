@@ -17,28 +17,27 @@ package example;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
-	@Autowired
-	DataSource dataSource;
-
-	// @formatter:off
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-				.jdbcAuthentication()
-				.dataSource(this.dataSource)
-				.withDefaultSchema()
-				.withUser(User.withDefaultPasswordEncoder().username("user").password("password").roles("USER"))
-				.withUser(User.withDefaultPasswordEncoder().username("admin").password("password").roles("ADMIN", "USER"));
+	@Bean
+	UserDetailsManager users(DataSource dataSource) {
+		UserDetails user = User.builder().username("user")
+				.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.").roles("USER").build();
+		UserDetails admin = User.builder().username("admin")
+				.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.").roles("USER", "ADMIN")
+				.build();
+		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+		users.createUser(user);
+		users.createUser(admin);
+		return users;
 	}
-	// @formatter:on
 
 }
