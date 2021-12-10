@@ -28,7 +28,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @since 5.0
  */
 @SpringBootTest
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "36000")
 public class HelloMethodApplicationTests {
 
 	@Autowired
