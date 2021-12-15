@@ -16,10 +16,11 @@
 package example;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * OAuth2 Security Configuration.
@@ -27,7 +28,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Josh Cummings
  */
 @EnableWebSecurity
-public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class OAuth2ResourceServerSecurityConfiguration {
 
 	@Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
 	String introspectionUri;
@@ -38,22 +39,23 @@ public class OAuth2ResourceServerSecurityConfiguration extends WebSecurityConfig
 	@Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
 	String clientSecret;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeHttpRequests((authorize) -> authorize
-				.mvcMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
-				.mvcMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
-				.anyRequest().authenticated()
-			)
-			.oauth2ResourceServer((oauth2) -> oauth2
-				.opaqueToken((opaque) -> opaque
-					.introspectionUri(this.introspectionUri)
-					.introspectionClientCredentials(this.clientId, this.clientSecret)
+				.authorizeHttpRequests((authorize) -> authorize
+						.mvcMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
+						.mvcMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
+						.anyRequest().authenticated()
 				)
-			);
+				.oauth2ResourceServer((oauth2) -> oauth2
+						.opaqueToken((opaque) -> opaque
+								.introspectionUri(this.introspectionUri)
+								.introspectionClientCredentials(this.clientId, this.clientSecret)
+						)
+				);
 		// @formatter:on
+		return http.build();
 	}
 
 }

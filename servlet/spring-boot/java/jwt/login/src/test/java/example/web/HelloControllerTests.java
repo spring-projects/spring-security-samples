@@ -16,10 +16,12 @@
 
 package example.web;
 
+import example.RestConfig;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -35,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Josh Cummings
  */
 @WebMvcTest({ HelloController.class, TokenController.class })
+@Import(RestConfig.class)
 public class HelloControllerTests {
 
 	@Autowired

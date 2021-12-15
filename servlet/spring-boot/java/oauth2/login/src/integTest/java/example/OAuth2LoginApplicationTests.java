@@ -44,7 +44,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
@@ -63,6 +62,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -328,21 +328,22 @@ public class OAuth2LoginApplicationTests {
 	}
 
 	@EnableWebSecurity
-	public static class SecurityTestConfig extends WebSecurityConfigurerAdapter {
+	public static class SecurityTestConfig {
 
-		// @formatter:off
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+		@Bean
+		public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+			// @formatter:off
 			http
-				.authorizeHttpRequests((authorize) -> authorize
-					.anyRequest().authenticated()
-				)
-				.oauth2Login((oauth2) -> oauth2
-					.tokenEndpoint((token) -> token.accessTokenResponseClient(mockAccessTokenResponseClient()))
-					.userInfoEndpoint((userInfo) -> userInfo.userService(mockUserService()))
-				);
+					.authorizeHttpRequests((authorize) -> authorize
+							.anyRequest().authenticated()
+					)
+					.oauth2Login((oauth2) -> oauth2
+							.tokenEndpoint((token) -> token.accessTokenResponseClient(mockAccessTokenResponseClient()))
+							.userInfoEndpoint((userInfo) -> userInfo.userService(mockUserService()))
+					);
+			// @formatter:on
+			return http.build();
 		}
-		// @formatter:on
 
 		private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> mockAccessTokenResponseClient() {
 			OAuth2AccessTokenResponse accessTokenResponse = OAuth2AccessTokenResponse.withToken("access-token-1234")
