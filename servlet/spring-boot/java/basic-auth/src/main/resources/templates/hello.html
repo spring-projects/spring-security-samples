@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, World!</title>
+    <link href="https://bootswatch.com/4/materia/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+    <form class="form-signin" method="post" th:action="@{/logout}">
+        <h1>Hello, world!</h1>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
+    </form>
+</body>
+</html>
