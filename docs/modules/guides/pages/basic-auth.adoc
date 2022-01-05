@@ -10,7 +10,8 @@ If you are new to Spring Security, this recipe is worth reviewing, to learn the 
 [[security-cookbook-the-web-application]]
 == The Application to Secure
 
-For this guide, we'll be building an application from scratch using Spring Boot, so head over to the https://start.spring.io[Spring Initializr], and add the Web and Thymeleaf dependencies.
+For this guide, we build an application from scratch with Spring Boot
+To do so, navigate to the https://start.spring.io[Spring Initializr] and add the Web and Thymeleaf dependencies.
 
 Alternatively, you can perform the following steps on the command line:
 
@@ -28,7 +29,7 @@ $ curl -G https://start.spring.io/starter.tgz -d dependencies=web,thymeleaf -d n
 ----
 ====
 
-You can then import that project into your favorite IDE, or just work with the files and `./mvnw` or `./gradlew` on the command line.
+You can then import that project into your favorite IDE or work directly with the files and `./mvnw` or `./gradlew` on the command line.
 
 Spring Security secures applications, so we need an application to secure.
 A simple web application suffices as an example that we can then secure in the various recipes.
@@ -49,64 +50,28 @@ The following listing shows our `home.html` file:
 ====
 [source,html]
 ----
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-    <head>
-        <title>Spring Security Example</title>
-    </head>
-    <body>
-        <h1>Welcome!</h1>
-
-        <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
-    </body>
-</html>
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/resources/templates/home.html[]
 ----
 ====
 
 We also need a `hello.html` file, so that visitors to our web site can see the greeting we mention in the `home.html` file.
 The following listing shows the `hello.html` file:
 
-====
 [source,html]
+====
 ----
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-    <head>
-        <title>Hello, World!</title>
-    </head>
-    <body>
-        <h1>Hello, world!</h1>
-    </body>
-</html>
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/resources/templates/hello.html[]
 ----
 ====
 
 Once we have HTML pages for our visitors to see, we need to route them to the pages.
-We do that with a class using the `@Controller` annotation (from the Spring framework).
+We do that with a class that uses the `@Controller` annotation (from the Spring framework).
 The following listing shows that class, which is called `HelloController`:
 
 ====
 [source,java]
 ----
-package example;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-public class HelloController {
-
-	@GetMapping({"/", "/home"})
-	public String home() {
-		return "home";
-	}
-
-	@GetMapping("/hello")
-	public String hello() {
-		return "hello";
-	}
-
-}
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/java/example/HelloController.java[tag=sans-header]
 ----
 ====
 
@@ -149,26 +114,7 @@ We also need a login page. The following HTML file serves that need:
 ====
 [source,html]
 ----
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Spring Security Example </title>
-    </head>
-    <body>
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
-        </form>
-    </body>
-</html>
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/resources/templates/login.html[]
 ----
 ====
 
@@ -177,20 +123,7 @@ We also need to add another class to our application, as the following listing s
 ====
 [source,java]
 ----
-package example;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-public class LoginController {  // <1>
-
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
-
-}
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/java/example/LoginController.java[tag=sans-header]
 ----
 <1> We need to add this class to make the `/login` path work.
 ====
@@ -201,63 +134,16 @@ The following listing shows that class (called `SecurityConfiguration`):
 ====
 [source,java]
 ----
-package example;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-
-@EnableWebSecurity
-public class SecurityConfiguration {
-
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// @formatter:off
-		http
-			.authorizeHttpRequests((authorize) -> authorize     // <1>
-				.mvcMatchers("/", "/home").permitAll()          // <2>
-				.anyRequest().authenticated()                   // <3>
-			)
-			.formLogin((formLogin) -> formLogin                 // <4>
-				.loginPage("/login")                            // <5>
-				.permitAll()
-			)
-			.logout(LogoutConfigurer::permitAll);               // <6>
-		// @formatter:on
-
-		return http.build();
-	}
-
-	@Bean
-	public UserDetailsService userDetailsService() {
-		// @formatter:off
-		UserDetails userDetails =                               // <7>
-			User.withDefaultPasswordEncoder()                   // <8>
-				.username("user")                               // <9>
-				.password("password")                           // <10>
-				.roles("USER")                                  // <11>
-				.build();                                       // <12>
-		// @formatter:on
-
-		return new InMemoryUserDetailsManager(userDetails);
-	}
-
-}
+include::../../../../servlet/spring-boot/java/basic-auth/src/main/java/example/SecurityConfiguration.java[tag=sans-header]
 ----
-<1> Turn on security by authorizing request.
+<1> Turn on security by authorizing the request.
 <2> Let anyone see the default and `home` paths.
 <3> Require that any request be authenticated. (This is where we apply security.)
 <4> Allow a login form.
 <5> Allow that form from the `/login` path.
 <6> Let anyone see the logout success page.
 <7> Define a user object.
-<8> Encode the password in memory (used only for demonstration purposes, this is not to be used in production)
+<8> Encode the password in memory (used only for demonstration purposes -- do NOT do this in production).
 <9> The user's user name is `user`.
 <10> The user's password is `password`.
 <11> The user's role is `USER`.
@@ -267,9 +153,9 @@ public class SecurityConfiguration {
 WARNING: _NEVER_ put user names and passwords in code for a real application.
 It is tolerable for demonstrations and samples, but it is very poor practice for real applications.
 
-The `SecurityConfiguration` class has two key parts: A `configure` method (which overrides the `configure` method in `WebSecurityConfigurerAdapter`) and a `UserDetailsService` bean.
+The `SecurityConfiguration` class has two key parts: a `configure` method (which overrides the `configure` method in `WebSecurityConfigurerAdapter`) and a `UserDetailsService` bean.
 The `configure` method has a chain of methods that define the security for the paths in our application.
 In essence, the preceding configuration says, "`Let anyone see the login and logout pages, as well as the home page. Make everyone authenticate (log in) to see anything else.`"
 We also define the one and only user who can view our web application.
-Normally, we would get user details from a database or an LDAP or OAuth server (or from some other source - many options exist).
+Normally, we would get user details from a database or an LDAP or OAuth server (or from some other source -- the other Spring Security guides cover the most common ways to get user details).
 We created this simple arrangement to show the basic outline of what happens.

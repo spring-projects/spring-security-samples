@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+// tag::sans-header[]
 package example;
 
 import org.springframework.context.annotation.Bean;
@@ -67,3 +67,4 @@ public class SecurityConfiguration {
 	}
 
 }
+// end::sans-header[]

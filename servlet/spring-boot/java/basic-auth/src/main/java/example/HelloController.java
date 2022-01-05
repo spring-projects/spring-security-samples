@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+// tag::sans-header[]
 package example;
 
 import org.springframework.stereotype.Controller;
@@ -38,3 +38,4 @@ public class HelloController {
 	}
 
 }
+// end::sans-header[]
