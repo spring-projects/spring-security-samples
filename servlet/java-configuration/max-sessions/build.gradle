@@ -9,6 +9,7 @@ apply from: "gradle/gretty.gradle"
 
 repositories {
 	jcenter()
+	maven { url "https://repo.spring.io/milestone" }
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
