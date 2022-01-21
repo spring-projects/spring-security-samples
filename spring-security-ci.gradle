@@ -1,0 +1,34 @@
+allprojects {
+	repositories {
+		exclusiveContent {
+			forRepository {
+				maven {
+					url "file://$localRepositoryPath"
+				}
+			}
+			filter {
+				includeVersion "org.springframework.security", "spring-security-acl", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-aspects", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-bom", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-cas", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-config", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-core", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-crypto", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-data", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-ldap", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-messaging", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-client", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-core", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-jose", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-resource-server", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-openid", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-remoting", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-rsocket", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-saml2-service-provider", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-taglibs", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-test", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-web", "$springSecurityVersion"
+			}
+		}
+	}
+}
