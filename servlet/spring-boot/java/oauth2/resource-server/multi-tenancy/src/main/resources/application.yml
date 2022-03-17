@@ -8,3 +8,6 @@ spring:
           introspection-uri: ${mockwebserver.url}/introspect
           client-id: client
           client-secret: secret
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

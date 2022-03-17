@@ -1,6 +1,7 @@
 plugins {
 	id "java"
-	id "org.gretty" version "3.0.6"
+	id "nebula.integtest" version "8.2.0"
+	id "org.gretty" version "4.0.0"
 	id "war"
 }
 
@@ -34,7 +35,7 @@ dependencies {
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation "org.junit.jupiter:junit-jupiter-api"
-	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.49.1'
+	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.44.0'
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
 

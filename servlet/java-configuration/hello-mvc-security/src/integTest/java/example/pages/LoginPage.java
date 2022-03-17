@@ -51,8 +51,10 @@ public class LoginPage {
 
 		private WebDriver webDriver;
 
+		@FindBy(id = "username")
 		private WebElement username;
 
+		@FindBy(id = "password")
 		private WebElement password;
 
 		@FindBy(css = "button[type=submit]")

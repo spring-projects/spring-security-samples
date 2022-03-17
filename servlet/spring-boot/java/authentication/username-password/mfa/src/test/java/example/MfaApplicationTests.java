@@ -15,9 +15,8 @@
  */
 package example;
 
-import javax.servlet.http.HttpSession;
-
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;

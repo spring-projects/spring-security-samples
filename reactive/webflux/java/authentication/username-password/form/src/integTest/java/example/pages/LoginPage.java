@@ -70,8 +70,10 @@ public class LoginPage {
 
 		private WebDriver driver;
 
+		@FindBy(id = "username")
 		private WebElement username;
 
+		@FindBy(id = "password")
 		private WebElement password;
 
 		@FindBy(css = "button[type=submit]")

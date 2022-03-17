@@ -15,8 +15,8 @@
  */
 
 plugins {
-	id 'org.springframework.boot' version '2.5.2'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'org.springframework.boot' version '2.6.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "nebula.integtest" version "8.2.0"
 	id 'java'
 }
@@ -31,7 +31,7 @@ dependencies {
 	implementation 'com.squareup.okhttp3:mockwebserver'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.nimbusds:oauth2-oidc-sdk'
+	implementation 'com.nimbusds:oauth2-oidc-sdk:9.29'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

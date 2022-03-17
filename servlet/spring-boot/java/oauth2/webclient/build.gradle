@@ -15,8 +15,8 @@
  */
 
 plugins {
-	id 'org.springframework.boot' version '2.5.2'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'org.springframework.boot' version '3.0.0-M1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "nebula.integtest" version "8.2.0"
 	id 'java'
 }
@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.springframework:spring-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'io.projectreactor.netty:reactor-netty'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
