@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-saml2-service-provider'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
-	testImplementation 'net.sourceforge.htmlunit:htmlunit'
+	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.44.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
