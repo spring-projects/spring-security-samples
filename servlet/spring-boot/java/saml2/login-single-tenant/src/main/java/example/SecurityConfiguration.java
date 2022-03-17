@@ -16,13 +16,26 @@
 
 package example;
 
+import java.io.InputStream;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPrivateKey;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.saml2.core.Saml2X509Credential;
 import org.springframework.security.saml2.provider.service.metadata.OpenSamlMetadataResolver;
+import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository;
+import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
+import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
+import org.springframework.security.saml2.provider.service.registration.Saml2MessageBinding;
 import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.Saml2AuthenticationTokenConverter;
@@ -39,7 +52,7 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests((authorize) -> authorize
 				.anyRequest().authenticated()
 			)
-			.saml2Login((saml2) -> saml2.loginProcessingUrl("/login/saml2/sso"))
+			.saml2Login(Customizer.withDefaults())
 			.saml2Logout(Customizer.withDefaults());
 		// @formatter:on
 
@@ -49,7 +62,7 @@ public class SecurityConfiguration {
 	@Bean
 	RelyingPartyRegistrationResolver relyingPartyRegistrationResolver(
 			RelyingPartyRegistrationRepository registrations) {
-		return new DefaultRelyingPartyRegistrationResolver((id) -> registrations.findByRegistrationId("metadata"));
+		return new DefaultRelyingPartyRegistrationResolver((id) -> registrations.findByRegistrationId("two"));
 	}
 
 	@Bean
@@ -63,6 +76,31 @@ public class SecurityConfiguration {
 		FilterRegistrationBean<Saml2MetadataFilter> filter = new FilterRegistrationBean<>(metadata);
 		filter.setOrder(-101);
 		return filter;
+	}
+
+	@Bean
+	RelyingPartyRegistrationRepository repository(
+			@Value("classpath:credentials/rp-private.key") RSAPrivateKey privateKey) {
+		RelyingPartyRegistration two = RelyingPartyRegistrations
+				.fromMetadataLocation("https://dev-05937739.okta.com/app/exk4842vmapcMkohr5d7/sso/saml/metadata")
+				.registrationId("two")
+				.signingX509Credentials(
+						(c) -> c.add(Saml2X509Credential.signing(privateKey, relyingPartyCertificate())))
+				.singleLogoutServiceLocation(
+						"https://dev-05937739.okta.com/app/dev-05937739_springsecuritysaml2idptwo_1/exk4842vmapcMkohr5d7/slo/saml")
+				.singleLogoutServiceResponseLocation("http://localhost:8080/logout/saml2/slo")
+				.singleLogoutServiceBinding(Saml2MessageBinding.POST).build();
+		return new InMemoryRelyingPartyRegistrationRepository(two);
+	}
+
+	X509Certificate relyingPartyCertificate() {
+		Resource resource = new ClassPathResource("credentials/rp-certificate.crt");
+		try (InputStream is = resource.getInputStream()) {
+			return (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(is);
+		}
+		catch (Exception ex) {
+			throw new UnsupportedOperationException(ex);
+		}
 	}
 
 }

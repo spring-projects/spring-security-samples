@@ -16,15 +16,14 @@
 
 package example;
 
-import java.io.IOException;
-
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +38,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -66,35 +67,45 @@ public class Saml2JavaConfigurationITests {
 
 	@Test
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
-		HtmlPage relyingParty = performLogin();
-		Assertions.assertThat(relyingParty.asText()).contains("You're email address is testuser@spring.security.saml");
+		performLogin();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		assertThat(home.asText()).contains("You're email address is testuser@spring.security.saml");
 	}
 
 	@Test
 	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
-		HtmlPage relyingParty = performLogin();
-		HtmlElement rpLogoutButton = relyingParty.getHtmlElementById("rp_logout_button");
+		performLogin();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
 		HtmlPage loginPage = rpLogoutButton.click();
-		Assertions.assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
 	}
 
-	@Test
-	void logoutWhenAssertingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
-		HtmlPage relyingParty = performLogin();
-		HtmlElement apLogoutButton = relyingParty.getHtmlElementById("ap_logout_button");
-		HtmlPage loginPage = apLogoutButton.click();
-		Assertions.assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
-	}
-
-	private HtmlPage performLogin() throws IOException {
+	private void performLogin() throws Exception {
 		HtmlPage login = this.webClient.getPage("/");
-		HtmlForm form = login.getFormByName("f");
+		this.webClient.waitForBackgroundJavaScript(10000);
+		HtmlForm form = findForm(login);
 		HtmlInput username = form.getInputByName("username");
-		HtmlInput password = form.getInputByName("password");
-		HtmlSubmitInput submit = login.getHtmlElementById("submit_button");
-		username.setValueAttribute("user");
-		password.setValueAttribute("password");
-		return submit.click();
+		HtmlPasswordInput password = form.getInputByName("password");
+		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
+		username.type("testuser@spring.security.saml");
+		password.type("12345678");
+		submit.click();
+		this.webClient.waitForBackgroundJavaScript(10000);
+	}
+
+	private HtmlForm findForm(HtmlPage login) {
+		for (HtmlForm form : login.getForms()) {
+			try {
+				if (form.getId().equals("form19")) {
+					return form;
+				}
+			}
+			catch (ElementNotFoundException ex) {
+				// Continue
+			}
+		}
+		throw new IllegalStateException("Could not resolve login form");
 	}
 
 }

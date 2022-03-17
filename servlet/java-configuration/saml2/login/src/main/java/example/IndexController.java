@@ -31,7 +31,7 @@ public class IndexController {
 
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Saml2AuthenticatedPrincipal principal) {
-		String emailAddress = principal.getFirstAttribute("emailAddress");
+		String emailAddress = principal.getFirstAttribute("email");
 		model.addAttribute("emailAddress", emailAddress);
 		model.addAttribute("userAttributes", principal.getAttributes());
 		return "index";

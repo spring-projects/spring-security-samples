@@ -4,7 +4,7 @@
 		 xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http>
+	<http auto-config="true">
 		<intercept-url pattern="/**" access="authenticated"/>
 		<saml2-login />
 		<saml2-logout />
@@ -14,40 +14,15 @@
 		<user name="user" password="{noop}password" authorities="ROLE_USER" />
 	</user-service>
 
-<!--	<relying-party-registrations>-->
-<!--		<relying-party-registration registration-id="one" metadata-location="https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/metadata.php"-->
-<!--				single-logout-service-location="{baseUrl}/logout/saml2/slo" single-logout-service-response-location="{baseUrl}/logout/saml2/slo">-->
-<!--			<signing-credential certificate-location="classpath:credentials/rp-certificate.crt"-->
-<!--													private-key-location="classpath:credentials/rp-private.key"/>-->
-<!--		</relying-party-registration>-->
-<!--	</relying-party-registrations>-->
-	
 	<relying-party-registrations>
 		<relying-party-registration registration-id="one"
-																entity-id="{baseUrl}/saml2/service-provider-metadata/{registrationId}"
-																assertion-consumer-service-location="{baseUrl}/login/saml2/sso/{registrationId}"
-																assertion-consumer-service-binding="POST"
-																single-logout-service-location="{baseUrl}/logout/saml2/slo"
-																single-logout-service-response-location="{baseUrl}/logout/saml2/slo"
-																asserting-party-id="simple-saml">
+																metadata-location="https://dev-05937739.okta.com/app/exk46xofd8NZvFCpS5d7/sso/saml/metadata"
+																single-logout-service-location="https://dev-05937739.okta.com/app/dev-05937739_springgsecuritysaml2idp_1/exk46xofd8NZvFCpS5d7/slo/saml"
+																single-logout-service-response-location="{baseUrl}/logout/saml2/slo">
 			<signing-credential certificate-location="classpath:credentials/rp-certificate.crt"
 													private-key-location="classpath:credentials/rp-private.key"/>
 		</relying-party-registration>
 		
-		<asserting-party asserting-party-id="simple-saml"
-										 entity-id="https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/metadata.php"
-										 single-sign-on-service-location="https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/SSOService.php"
-										 single-sign-on-service-binding="REDIRECT"
-										 signing-algorithms="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
-										 single-logout-service-location="https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/SingleLogoutService.php"
-										 single-logout-service-binding="POST"
-										 single-logout-service-response-location="https://simplesaml-for-spring-saml.apps.pcfone.io/saml2/idp/SingleLogoutService.php"
-										 want-authn-requests-signed="false">
-			<verification-credential private-key-location="classpath:credentials/rp-private.key"
-					certificate-location="classpath:credentials/idp-certificate.crt"/>
-			<encryption-credential private-key-location="classpath:credentials/rp-private.key"
-					certificate-location="classpath:credentials/idp-certificate.crt"/>
-		</asserting-party>
 	</relying-party-registrations>
 
 </b:beans>
