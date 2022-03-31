@@ -81,15 +81,13 @@ public class SecurityConfiguration {
 	@Bean
 	RelyingPartyRegistrationRepository repository(
 			@Value("classpath:credentials/rp-private.key") RSAPrivateKey privateKey) {
+		Saml2X509Credential signing = Saml2X509Credential.signing(privateKey, relyingPartyCertificate());
 		RelyingPartyRegistration two = RelyingPartyRegistrations
 				.fromMetadataLocation("https://dev-05937739.okta.com/app/exk4842vmapcMkohr5d7/sso/saml/metadata")
 				.registrationId("two")
-				.signingX509Credentials(
-						(c) -> c.add(Saml2X509Credential.signing(privateKey, relyingPartyCertificate())))
-				.singleLogoutServiceLocation(
-						"https://dev-05937739.okta.com/app/dev-05937739_springsecuritysaml2idptwo_1/exk4842vmapcMkohr5d7/slo/saml")
-				.singleLogoutServiceResponseLocation("http://localhost:8080/logout/saml2/slo")
-				.singleLogoutServiceBinding(Saml2MessageBinding.POST).build();
+				.signingX509Credentials((c) -> c.add(signing))
+				.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo")
+				.build();
 		return new InMemoryRelyingPartyRegistrationRepository(two);
 	}
 
