@@ -43,7 +43,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
 
-	@Value("classpath:credentials/rp-private.key") RSAPrivateKey privateKey;
+	@Value("classpath:credentials/rp-private.key")
+	RSAPrivateKey privateKey;
 
 	@Bean
 	SecurityFilterChain app(HttpSecurity http) throws Exception {
@@ -86,8 +87,7 @@ public class SecurityConfiguration {
 
 	RelyingPartyRegistration.Builder addRelyingPartyDetails(RelyingPartyRegistration.Builder builder) {
 		Saml2X509Credential signing = Saml2X509Credential.signing(this.privateKey, relyingPartyCertificate());
-		return builder
-				.signingX509Credentials((c) -> c.add(signing))
+		return builder.signingX509Credentials((c) -> c.add(signing))
 				.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo");
 	}
 

@@ -35,7 +35,6 @@ import org.springframework.security.saml2.provider.service.registration.InMemory
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
-import org.springframework.security.saml2.provider.service.registration.Saml2MessageBinding;
 import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.Saml2AuthenticationTokenConverter;
@@ -84,10 +83,8 @@ public class SecurityConfiguration {
 		Saml2X509Credential signing = Saml2X509Credential.signing(privateKey, relyingPartyCertificate());
 		RelyingPartyRegistration two = RelyingPartyRegistrations
 				.fromMetadataLocation("https://dev-05937739.okta.com/app/exk4842vmapcMkohr5d7/sso/saml/metadata")
-				.registrationId("two")
-				.signingX509Credentials((c) -> c.add(signing))
-				.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo")
-				.build();
+				.registrationId("two").signingX509Credentials((c) -> c.add(signing))
+				.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo").build();
 		return new InMemoryRelyingPartyRegistrationRepository(two);
 	}
 
