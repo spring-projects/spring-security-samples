@@ -7,7 +7,7 @@ spring:
             signing.credentials:
               - private-key-location: classpath:credentials/rp-private.key
                 certificate-location: classpath:credentials/rp-certificate.crt
-            identityprovider:
+            asserting-party:
               metadata-uri: https://dev-05937739.okta.com/app/exk46xofd8NZvFCpS5d7/sso/saml/metadata
 
 logging.level:
