@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Role
 import org.springframework.core.annotation.Order
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.core.userdetails.User
@@ -61,20 +60,20 @@ class OAuth2AuthorizationServerSecurityConfiguration {
     @Order(1)
     fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        return http.formLogin(Customizer.withDefaults()).build()
+        return http.formLogin {}.build()
     }
 
     @Bean
     @Order(2)
     fun standardSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         // @formatter:off
-        http
+        return http
             .authorizeHttpRequests { authorize ->
                 authorize.anyRequest().authenticated()
             }
-            .formLogin(Customizer.withDefaults())
+            .formLogin {}
+            .build()
         // @formatter:on
-        return http.build()
     }
 
     @Bean
@@ -84,21 +83,31 @@ class OAuth2AuthorizationServerSecurityConfiguration {
             .clientId("login-client")
             .clientSecret("{noop}openid-connect")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/login-client")
-            .redirectUri("http://127.0.0.1:8080/authorized")
-            .scope(OidcScopes.OPENID)
-            .scope(OidcScopes.PROFILE)
+            .authorizationGrantTypes {
+                it.add(AuthorizationGrantType.AUTHORIZATION_CODE)
+                it.add(AuthorizationGrantType.REFRESH_TOKEN)
+            }
+            .redirectUris {
+                it.add("http://127.0.0.1:8080/login/oauth2/code/login-client")
+                it.add("http://127.0.0.1:8080/authorized")
+            }
+            .scopes {
+                it.add(OidcScopes.OPENID)
+                it.add(OidcScopes.PROFILE)
+            }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build()
         val registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("messaging-client")
             .clientSecret("{noop}secret")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .scope("message:read")
-            .scope("message:write")
+            .authorizationGrantTypes {
+                it.add(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            }
+            .scopes {
+                it.add("message:read")
+                it.add("message:write")
+            }
             .build()
         // @formatter:on
         return InMemoryRegisteredClientRepository(loginClient, registeredClient)
