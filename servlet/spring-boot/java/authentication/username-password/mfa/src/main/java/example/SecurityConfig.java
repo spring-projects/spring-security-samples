@@ -62,7 +62,8 @@ public class SecurityConfig {
 						return filter;
 					}
 				})
-			);
+			)
+			.securityContext((context) -> context.requireExplicitSave(false));
 		// @formatter:on
 		return http.build();
 	}
