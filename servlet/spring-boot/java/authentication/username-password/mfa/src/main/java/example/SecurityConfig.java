@@ -47,6 +47,7 @@ public class SecurityConfig {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authorize) -> authorize
+				.antMatchers("/favicon.ico").permitAll()
 				.mvcMatchers("/second-factor", "/third-factor").access(mfaAuthorizationManager)
 				.anyRequest().authenticated()
 			)
