@@ -1,0 +1,83 @@
+= SAML 2.0 Login & Logout Sample using SAML Extension URLs
+
+This guide provides instructions on setting up the new Spring Security SAML 2.0 support using the endpoint URLs from the EOLd Spring Security SAML Extension.
+
+See the https://github.com/spring-projects/spring-security/wiki/SAML-2.0-Migration-Guide[SAML 2.0 Migration Guide] for more details about the migration.
+
+== Key Changes
+
+=== URL Forwarding Filter
+
+Instead of customizing the default Spring Security configuration, a new `Filter` has been created named `SamlExtensionUrlForwardingFilter`.
+This new filter is responsible to forward from the SAML Extension URLs to the new https://docs.spring.io/spring-security/reference/servlet/saml2/login/overview.html[Spring Security SAML 2.0 support URLs].
+Below is a table with the URLs that the Filter listen to (column 1) and forwards to (column 2).
+
+
+|===
+|SAML Extension URLs |Spring Security SAML 2.0 Support URLs |Description
+
+|`/saml/SSO`
+|`/login/saml2/sso/one`
+|The URL that processes a `<saml2:Response>` from the IdP
+
+|`/saml/login`
+|`/saml2/authenticate/one`
+|The URL that triggers a SAML 2.0 Login
+
+|`/saml/logout`
+|`/logout/saml2/slo`
+|The URL that trigger an SP's initiated SAML 2.0 Logout
+
+|`/saml/SingleLogout`
+|`/logout/saml2/slo`
+|The URL that processes a `<saml2:LogoutRequest>` from the IdP
+
+|`/saml/metadata`
+|`/saml2/service-provider-metadata/one`
+|The URL that generates the SP metadata
+|===
+
+Note that the `SamlExtensionUrlForwardingFilter` has an order of `-101`, this makes it be invoked before the `FilterChainProxy`.
+
+[source,java]
+----
+@Component
+@Order(-101) // To run before FilterChainProxy
+public class SamlExtensionUrlForwardingFilter extends OncePerRequestFilter {
+	// ...
+}
+----
+
+=== application.yml
+
+[source%linenums,yml]
+----
+spring:
+  security:
+    filter:
+      dispatcher-types: async, error, request, forward <1>
+    saml2:
+      relyingparty:
+        registration:
+          one:
+            signing.credentials:
+              - private-key-location: classpath:credentials/rp-private.key
+                certificate-location: classpath:credentials/rp-certificate.crt
+            assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk598vc9bHhwoTXM5d7/sso/saml/metadata
+            singlelogout:
+              binding: POST
+              url: "{baseUrl}/saml/logout" <2>
+              responseUrl: "{baseUrl}/saml/SingleLogout" <3>
+            acs:
+              location: "{baseUrl}/saml/SSO" <4>
+----
+
+==== `FilterChainProxy` Dispatcher Types
+
+In Spring Boot, by default, the `FilterChainProxy` is registered for the `REQUEST`, `ASYNC` and `ERROR` dispatcher types.
+Since we are forwarding from one URL to another, we should also register it for the `FORWARD` dispatcher type (see <1> above).
+
+==== `RelyingPartyRegistration` properties
+
+The `RelyingPartyRegistration` properties should also be customized to match the values that were used by the SAML Extension (see <2>, <3> and <4> above).
+
