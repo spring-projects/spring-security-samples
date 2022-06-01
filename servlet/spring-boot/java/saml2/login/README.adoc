@@ -6,7 +6,7 @@ It uses https://simplesamlphp.org/[SimpleSAMLphp] as its asserting party.
 The sample application uses Spring Boot and the `spring-security-saml2-service-provider`
 module which is new in Spring Security 5.2.  
 
-Note: The `spring-security-saml2-service-provider` module requires Java 11 or higher because of a dependency on the OpenSaml library.
+Note: This sample is using OpenSAML4, therefore it requires Java 11 or higher.  If you want to use Java 8 just update the dependencies to use an OpenSAML3 release.
 
 The https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[SAML 2.0 Logout feature] is new in Spring Security 5.6.
 
