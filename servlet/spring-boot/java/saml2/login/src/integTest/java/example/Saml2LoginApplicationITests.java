@@ -55,8 +55,7 @@ public class Saml2LoginApplicationITests {
 	}
 
 	private void performLogin(String registrationId) throws Exception {
-		HtmlPage login = this.webClient.getPage("/");
-		login.getAnchorByHref("/saml2/authenticate/" + registrationId).click();
+		this.webClient.getPage("/");
 		this.webClient.waitForBackgroundJavaScript(10000);
 		HtmlPage okta = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
 		this.webClient.waitForBackgroundJavaScript(10000);
@@ -100,28 +99,6 @@ public class Saml2LoginApplicationITests {
 		@Test
 		void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
 			performLogin("one");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
-			HtmlPage loginPage = rpLogoutButton.click();
-			assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
-		}
-
-	}
-
-	@DisplayName("Tenant two tests")
-	@Nested
-	class TenantTwoTests {
-
-		@Test
-		void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
-			performLogin("two");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
-		}
-
-		@Test
-		void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
-			performLogin("two");
 			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
 			HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
 			HtmlPage loginPage = rpLogoutButton.click();
