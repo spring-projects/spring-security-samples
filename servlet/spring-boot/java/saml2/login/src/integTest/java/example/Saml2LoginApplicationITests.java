@@ -94,7 +94,7 @@ public class Saml2LoginApplicationITests {
 		void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 			performLogin("one");
 			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			assertThat(home.asText()).contains("You're email address is testuser@spring.security.saml");
+			assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
 		}
 
 		@Test
@@ -116,7 +116,7 @@ public class Saml2LoginApplicationITests {
 		void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 			performLogin("two");
 			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			assertThat(home.asText()).contains("You're email address is testuser@spring.security.saml");
+			assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
 		}
 
 		@Test
