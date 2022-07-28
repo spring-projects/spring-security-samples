@@ -38,7 +38,7 @@ This particular implementation uses a `@Scheduled` annotation to update its meta
 
 === Start up the Sample Boot Application
 ```
- ./gradlew :spring-security-samples-boot-saml2login:bootRun
+ ./gradlew :servlet:spring-boot:java:saml2:refreshable-metadata:bootRun
 ```
 
 === Open a Browser
