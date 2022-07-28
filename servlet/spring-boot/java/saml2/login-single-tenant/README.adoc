@@ -33,7 +33,8 @@ You can refer to the https://docs.spring.io/spring-security/reference/servlet/sa
 
 === Start up the Sample Boot Application
 ```
- ./gradlew :spring-security-samples-boot-saml2login:bootRun
+ ./gradlew :servlet:spring-boot:java:saml2:login-single-tenant:bootRun
+
 ```
 
 === Open a Browser
