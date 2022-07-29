@@ -12,5 +12,5 @@ spring:
                 certificate-location: classpath:credentials/rp-certificate.crt
             singlelogout:
               binding: POST
-              response-url: "{baseUrl}/logout/saml2/slo"
+              url: "{baseUrl}/logout/saml2/slo"
             assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk46xofd8NZvFCpS5d7/sso/saml/metadata
