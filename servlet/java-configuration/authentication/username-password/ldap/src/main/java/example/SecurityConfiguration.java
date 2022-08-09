@@ -16,6 +16,7 @@
 package example;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
@@ -24,6 +25,7 @@ import org.springframework.security.ldap.authentication.LdapAuthenticationProvid
 import org.springframework.security.ldap.authentication.LdapAuthenticator;
 import org.springframework.security.ldap.server.UnboundIdContainer;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
