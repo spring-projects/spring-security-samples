@@ -71,21 +71,11 @@
   <!--
 	- Provides web services endpoint. See remoting-servlet.xml.
 	-->
-	<servlet>
-		<servlet-name>remoting</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>contacts</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	 </servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>remoting</servlet-name>
-		<url-pattern>/remoting/*</url-pattern>
-	</servlet-mapping>
 
 	 <welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
