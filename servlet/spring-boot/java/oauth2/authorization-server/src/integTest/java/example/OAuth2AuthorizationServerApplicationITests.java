@@ -75,6 +75,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
+				.param("scope", "message:read message:write")
 				.with(basicAuth(CLIENT_ID, CLIENT_SECRET)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.access_token").isString())
