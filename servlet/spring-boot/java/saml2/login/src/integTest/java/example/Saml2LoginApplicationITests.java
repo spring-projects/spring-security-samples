@@ -16,8 +16,6 @@
 
 package example;
 
-import java.util.concurrent.TimeUnit;
-
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -27,8 +25,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +33,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,15 +49,29 @@ public class Saml2LoginApplicationITests {
 		this.webClient.getCookieManager().clearCookies();
 	}
 
-	private void performLogin(String registrationId) throws Exception {
-		this.webClient.getPage("/");
+	@Test
+	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
+		performLogin();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
+	}
+
+	@Test
+	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
+		performLogin();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
+		HtmlPage loginPage = rpLogoutButton.click();
+		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+	}
+
+	private void performLogin() throws Exception {
+		HtmlPage login = this.webClient.getPage("/");
 		this.webClient.waitForBackgroundJavaScript(10000);
-		HtmlPage okta = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		this.webClient.waitForBackgroundJavaScript(10000);
-		HtmlForm form = findForm(okta);
+		HtmlForm form = findForm(login);
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
-		HtmlSubmitInput submit = okta.getHtmlElementById("okta-signin-submit");
+		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
 		username.type("testuser@spring.security.saml");
 		password.type("12345678");
 		submit.click();
@@ -70,8 +79,6 @@ public class Saml2LoginApplicationITests {
 	}
 
 	private HtmlForm findForm(HtmlPage login) {
-		await().atMost(10, TimeUnit.SECONDS)
-				.until(() -> login.getForms().stream().map(HtmlForm::getId).anyMatch("form19"::equals));
 		for (HtmlForm form : login.getForms()) {
 			try {
 				if (form.getId().equals("form19")) {
@@ -83,28 +90,6 @@ public class Saml2LoginApplicationITests {
 			}
 		}
 		throw new IllegalStateException("Could not resolve login form");
-	}
-
-	@DisplayName("Tenant one tests")
-	@Nested
-	class TenantOneTests {
-
-		@Test
-		void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
-			performLogin("one");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
-		}
-
-		@Test
-		void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
-			performLogin("one");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
-			HtmlPage loginPage = rpLogoutButton.click();
-			assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
-		}
-
 	}
 
 }
