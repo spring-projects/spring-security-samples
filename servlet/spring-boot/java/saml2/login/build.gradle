@@ -27,7 +27,6 @@ dependencies {
 	testImplementation 'net.sourceforge.htmlunit:htmlunit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'org.awaitility:awaitility:4.2.0'
 }
 
 tasks.withType(Test).configureEach {
