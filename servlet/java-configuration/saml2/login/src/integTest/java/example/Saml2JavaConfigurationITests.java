@@ -72,7 +72,7 @@ public class Saml2JavaConfigurationITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asText()).contains("You're email address is testuser@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
 	}
 
 	@Test
