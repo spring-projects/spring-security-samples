@@ -14,6 +14,11 @@ pluginManagement {
     }
 }
 
+plugins {
+    id "com.gradle.enterprise" version "3.10.2"
+    id "io.spring.ge.conventions" version "0.0.7"
+}
+
 include ":reactive:rsocket:hello-security"
 include ":reactive:webflux-fn:hello"
 include ":reactive:webflux-fn:hello-security"
