@@ -21,3 +21,18 @@ allprojects {
 		}
 	}
 }
+
+repositories {
+	mavenCentral()
+}
+
+tasks.register('runAllTests') {
+	var allTasks = rootProject.getAllTasks(true)
+	var allTestsTasks = allTasks.values().collect { t ->
+		t.findAll { it.name == 'test' || it.name == 'integrationTest' }
+	}.flatten()
+	it.dependsOn {
+		allTestsTasks
+	}
+}
+
