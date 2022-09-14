@@ -11,6 +11,7 @@ repositories {
 	jcenter()
 	mavenCentral()
 	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
 	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
