@@ -79,6 +79,7 @@ public class Saml2XmlITests {
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
 		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
 		HtmlPage loginPage = rpLogoutButton.click();
+		this.webClient.waitForBackgroundJavaScript(10000);
 		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
 	}
 
