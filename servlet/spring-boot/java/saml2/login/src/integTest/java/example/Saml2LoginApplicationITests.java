@@ -25,8 +25,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,23 @@ public class Saml2LoginApplicationITests {
 		this.webClient.getCookieManager().clearCookies();
 	}
 
-	private void performLogin(String registrationId) throws Exception {
+	@Test
+	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
+		performLogin();
+		HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
+	}
+
+	@Test
+	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
+		performLogin();
+		HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
+		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
+		HtmlPage loginPage = rpLogoutButton.click();
+		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+	}
+
+	private void performLogin() throws Exception {
 		this.webClient.getPage("/");
 		this.webClient.waitForBackgroundJavaScript(10000);
 		HtmlPage okta = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
@@ -78,28 +92,6 @@ public class Saml2LoginApplicationITests {
 			}
 		}
 		throw new IllegalStateException("Could not resolve login form");
-	}
-
-	@DisplayName("Tenant one tests")
-	@Nested
-	class TenantOneTests {
-
-		@Test
-		void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
-			performLogin("one");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
-		}
-
-		@Test
-		void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
-			performLogin("one");
-			HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-			HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
-			HtmlPage loginPage = rpLogoutButton.click();
-			assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
-		}
-
 	}
 
 }
