@@ -16,6 +16,9 @@
 
 package example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
