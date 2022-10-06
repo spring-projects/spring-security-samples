@@ -17,7 +17,7 @@
 		<expression-handler ref="expressionHandler"/>
 	</global-method-security>
 
-	<http realm="Contacts Realm" use-expressions="false">
+	<http request-matcher="ant" realm="Contacts Realm" use-expressions="false">
 		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/hello.htm" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
