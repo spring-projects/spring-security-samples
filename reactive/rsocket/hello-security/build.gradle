@@ -11,6 +11,11 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
+ext["reactor.version"] = "3.5.0-SNAPSHOT"
+ext["reactor-netty.version"] = "1.1.0-SNAPSHOT"
+ext["spring.version"] = "6.0.0-SNAPSHOT"
+ext["micrometer.version"] = "1.10.0-SNAPSHOT"
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-rsocket'
