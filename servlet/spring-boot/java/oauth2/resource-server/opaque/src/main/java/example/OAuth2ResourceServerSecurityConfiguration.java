@@ -46,8 +46,8 @@ public class OAuth2ResourceServerSecurityConfiguration {
 		// @formatter:off
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.mvcMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
-						.mvcMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
+						.requestMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
+						.requestMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
 						.anyRequest().authenticated()
 				)
 				.oauth2ResourceServer((oauth2) -> oauth2

@@ -43,8 +43,8 @@ public class OAuth2ResourceServerSecurityConfiguration {
 		// @formatter:off
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.antMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
-						.antMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
+						.requestMatchers(HttpMethod.GET, "/message/**").hasAuthority("SCOPE_message:read")
+						.requestMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
 						.anyRequest().authenticated()
 				)
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

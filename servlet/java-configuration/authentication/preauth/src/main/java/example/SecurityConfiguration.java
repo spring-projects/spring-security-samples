@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 		// @formatter:off
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.antMatchers("/login", "/resources/**").permitAll()
+						.requestMatchers("/login", "/resources/**").permitAll()
 						.anyRequest().authenticated()
 				)
 				.jee((jee) -> jee.mappableRoles("USER", "ADMIN"));
