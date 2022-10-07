@@ -35,8 +35,8 @@ class SecurityConfig {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeRequests()
-            .antMatchers("/css/**").permitAll()
-            .antMatchers("/user/**").hasAuthority("ROLE_USER")
+            .requestMatchers("/css/**").permitAll()
+            .requestMatchers("/user/**").hasAuthority("ROLE_USER")
             .and()
             .formLogin().loginPage("/log-in")
         return http.build()
