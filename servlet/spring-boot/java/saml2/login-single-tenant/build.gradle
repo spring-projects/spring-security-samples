@@ -12,6 +12,8 @@ repositories {
 	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
+ext["micrometer.version"] = "1.10.0-SNAPSHOT"
+
 dependencies {
 	constraints {
 		implementation "org.opensaml:opensaml-core:4.1.1"

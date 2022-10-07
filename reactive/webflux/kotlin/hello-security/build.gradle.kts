@@ -17,6 +17,8 @@ repositories {
     }
 }
 
+ext["micrometer.version"] = "1.10.0-SNAPSHOT"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")

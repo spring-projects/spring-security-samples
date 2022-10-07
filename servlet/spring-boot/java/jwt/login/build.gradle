@@ -10,6 +10,8 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
+ext["micrometer.version"] = "1.10.0-SNAPSHOT"
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
