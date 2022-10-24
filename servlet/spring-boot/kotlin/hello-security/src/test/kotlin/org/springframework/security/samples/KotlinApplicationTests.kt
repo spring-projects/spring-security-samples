@@ -67,7 +67,7 @@ class KotlinApplicationTests {
                 .andExpect(status().is3xxRedirection)
     }
 
-//    @Test
+    @Test
     fun `logged in user can access protected page`() {
         val mvcResult = this.mockMvc.perform(formLogin("/log-in").user("user").password("password"))
                 .andExpect(authenticated()).andReturn()
