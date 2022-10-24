@@ -1,0 +1,121 @@
+= OAuth 2.0 Authorization Server Sample
+
+This sample demonstrates Authorization Server with the `authorization_code` and `client_credentials` grant types, as well as OpenID Connect 1.0. This authorization server is configured to generate JWT tokens signed with the `RS256` algorithm.
+
+* <<running-the-tests, Running the tests>>
+* <<running-the-app, Running the app>>
+* <<testing-with-a-resource-server, Testing with a resource server>>
+
+[[running-the-tests]]
+== Running the tests
+
+To run the tests, do:
+
+```bash
+./gradlew integrationTest
+```
+
+Or import the project into your IDE and run `OAuth2AuthorizationServerApplicationTests` from there.
+
+=== What is it doing?
+
+The tests are making requests to the token endpoint with the `client_credentials` grant type using the `client_secret_basic` authentication method, and subsequently verifying the access token from the response using the token introspection endpoint.
+
+The introspection endpoint response is used to verify the token (decode the JWT in this case), returning the payload including the requested scope.
+
+NOTE: Spring Security does not require the token introspection endpoint when configured to use the Bearer scheme with JWTs, this is simply used for demonstration purposes.
+
+[[running-the-app]]
+== Running the app
+
+To run as a stand-alone application, do:
+
+```bash
+./gradlew bootRun
+```
+
+Or import the project into your IDE and run `OAuth2AuthorizationServerApplication` from there.
+
+Once it is up and running, you can issue the following request:
+
+```bash
+curl -X POST messaging-client:secret@localhost:9000/oauth2/token -d "grant_type=client_credentials" -d "scope=message:read"
+```
+
+This returns something like the following:
+
+```json
+{
+    "access_token": "eyJraWQiOiI4YWY4Zjc2Zi0zMTdkLTQxZmYtYWY5Yi1hZjg5NDg4ODM5YzciLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJtZXNzYWdpbmctY2xpZW50IiwiYXVkIjoibWVzc2FnaW5nLWNsaWVudCIsIm5iZiI6MTYyNzMzNDQ1MCwic2NvcGUiOlsibWVzc2FnZTpyZWFkIl0sImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjI3MzM0NzUwLCJpYXQiOjE2MjczMzQ0NTAsImp0aSI6IjBiYjYwZjhkLWIzNjItNDk0MC05MGRmLWZhZDg4N2Q1Yzg1ZSJ9.O8dI67B_feRjOn6pJi5ctPJmUJCNpV77SC4OiWqmpa5UHvf4Ud6L6EFe9LKuPIRrEWi8rMdCdMBOPKQMXvxLoI3LMUPf7Yj973uvZN0E988MsKwhGwxyaa_Wam8wFlk8aQlN8SbW3cKdeH-nKloNMdwjfspovefX521mxouaMjmyXdIFrM5WZ15GZK69NIniACSatE-pc9TAjKYBDbC65jVt_zHEvDQbEkZulF2bjrGOZC8C3IbJWnlKgkcshrY44TtrGPyCp2gIS0TSUUsG00iSBBC8E8zPU-YdfaP8gB9_FwUwK9zfy_hU2Ykf2aU3eulpGDVLn2rCwFeK86Rw1w",
+    "expires_in": 299,
+    "scope": "message:read",
+    "token_type": "Bearer"
+}
+```
+
+In order to make the same token introspection request as the tests, export the access token from the response:
+
+```bash
+export TOKEN=...
+```
+
+Then issue the following request:
+
+```bash
+curl -X POST messaging-client:secret@localhost:9000/oauth2/introspect -d "token=$TOKEN"
+```
+
+Which will return something like the following:
+
+```json
+{
+    "active": true,
+    "aud": [
+        "messaging-client"
+    ],
+    "client_id": "messaging-client",
+    "exp": 1627334750,
+    "iat": 1627334450,
+    "iss": "http://localhost:9000",
+    "jti": "0bb60f8d-b362-4940-90df-fad887d5c85e",
+    "nbf": 1627334450,
+    "scope": "message:read",
+    "sub": "messaging-client",
+    "token_type": "Bearer"
+}
+```
+
+[[testing-with-a-resource-server]]
+== Testing with a resource server
+
+This sample can be used in conjunction with a resource server, such as the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/hello-security[resource-server sample] in this project which is pre-configured to work with this authorization server sample out of the box.
+
+You can run that app similarly to the authorization server:
+
+```bash
+./gradlew bootRun
+```
+
+Once it is up and running, you can issue the following request:
+
+```bash
+curl -X POST messaging-client:secret@localhost:9000/oauth2/token -d "grant_type=client_credentials" -d "scope=message:read"
+```
+
+Then, export the access token from the response:
+
+```bash
+export TOKEN=...
+```
+
+Then issue the following request:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" localhost:8080
+```
+
+Which will respond with the phrase:
+
+```
+Hello, messaging-client!
+```
