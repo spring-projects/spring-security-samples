@@ -48,8 +48,8 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryR
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ProviderSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -131,8 +131,8 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 	}
 
 	@Bean
-	public ProviderSettings providerSettings() {
-		return ProviderSettings.builder().issuer("http://localhost:9000").build();
+	public AuthorizationServerSettings providerSettings() {
+		return AuthorizationServerSettings.builder().issuer("http://localhost:9000").build();
 	}
 
 	@Bean
