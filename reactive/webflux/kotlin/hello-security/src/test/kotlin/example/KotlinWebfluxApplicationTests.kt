@@ -53,7 +53,7 @@ class KotlinWebfluxApplicationTests {
             .expectHeader().valueEquals("Location", "/log-in")
     }
 
-//    @Test
+    @Test
     @WithMockUser
     fun `protected page can be accessed when authenticated`() {
         this.rest.get()
