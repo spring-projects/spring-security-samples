@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="/static/css/main.css" th:href="@{/css/main.css}" />
     </head>
     <body>
-        <div th:substituteby="index::logout"></div>
+        <div th:replace="index::logout"></div>
         <h1>This is a secured page!</h1>
         <p><a href="/" th:href="@{/}">Back to home page</a></p>
     </body>
