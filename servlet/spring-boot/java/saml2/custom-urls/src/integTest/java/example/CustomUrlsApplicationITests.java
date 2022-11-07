@@ -16,6 +16,9 @@
 
 package example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -66,7 +69,10 @@ public class CustomUrlsApplicationITests {
 		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
 		HtmlPage loginPage = rpLogoutButton.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
-		assertThat(loginPage.getUrl().getFile()).isEqualTo("/login?logout");
+		List<String> urls = new ArrayList<>();
+		urls.add(loginPage.getUrl().getFile());
+		urls.add(((HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage()).getUrl().getFile());
+		assertThat(urls).contains("/login?logout");
 	}
 
 	@Test
