@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
@@ -34,11 +35,15 @@ class SecurityConfig {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.authorizeRequests()
-            .requestMatchers("/css/**").permitAll()
-            .requestMatchers("/user/**").hasAuthority("ROLE_USER")
-            .and()
-            .formLogin().loginPage("/log-in")
+        http {
+            authorizeRequests {
+                authorize("/css/**", permitAll)
+                authorize("/user/**", hasAuthority("ROLE_USER"))
+            }
+            formLogin {
+                loginPage = "/log-in"
+            }
+        }
         return http.build()
     }
 
