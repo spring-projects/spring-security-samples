@@ -69,4 +69,6 @@ include ":servlet:xml:java:preauth"
 include ":servlet:xml:java:contacts"
 include ":servlet:xml:java:dms"
 include ":servlet:xml:java:saml2:login-logout"
+include ":servlet:spring-boot:java:session-management:maximum-sessions"
+include ":servlet:spring-boot:java:session-management:maximum-sessions-prevent-login"
 
