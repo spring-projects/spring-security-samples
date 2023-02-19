@@ -1,0 +1,39 @@
+= CAS Login & Logout Sample
+
+This guide provides instructions on setting up an application that uses the CAS protocol for login.
+It uses https://casserver.herokuapp.com/cas/login as the server supporting the CAS protocol.
+
+The sample application uses Spring Boot and the `spring-security-cas`.
+
+== Goals
+
+=== CAS Login
+
+`cas/login` provides a very simple implementation of a CAS Service (application) that use a public test CAS server for
+ authentication.
+
+The following features are implemented in the MVP:
+
+1. Login
+2. Logout
+
+== Run the Sample
+
+=== Start up the Sample Application in Tomcat with Gretty
+```
+ ./gradlew :servlet:java-configuration:cas:login:appRun
+```
+
+=== Open a Browser
+
+https://localhost:8443/
+
+You will be redirect to a sample CAS server: https://casserver.herokuapp.com/cas
+
+=== Type in the credentials
+
+```
+User: casuser
+Password: Mellon
+```
+

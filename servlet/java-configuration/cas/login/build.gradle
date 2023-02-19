@@ -1,0 +1,65 @@
+/*
+ * Copyright 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+	id "java"
+	id "nebula.integtest" version "8.2.0"
+	id "org.gretty" version "4.0.3"
+	id "war"
+}
+
+apply from: "gradle/gretty.gradle"
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
+}
+
+dependencies {
+	implementation platform("org.springframework:spring-framework-bom:6.0.5")
+	implementation platform("org.springframework.security:spring-security-bom:6.1.0-SNAPSHOT")
+	implementation platform("org.junit:junit-bom:5.7.0")
+
+	implementation "org.springframework.security:spring-security-config"
+	implementation "org.springframework.security:spring-security-web"
+	implementation "org.springframework:spring-webmvc"
+	implementation "org.springframework.security:spring-security-cas"
+	implementation "org.thymeleaf:thymeleaf-spring6:3.1.0.M1"
+	implementation "org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.0.M1"
+
+	implementation 'ch.qos.logback:logback-classic:1.4.5'
+
+	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
+	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
+
+	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.springframework:spring-test"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
+	testImplementation "org.seleniumhq.selenium:htmlunit-driver:3.64.0"
+	testImplementation 'org.hamcrest:hamcrest:2.2'
+	testImplementation 'org.awaitility:awaitility:4.2.0'
+
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+	outputs.upToDateWhen { false }
+}
