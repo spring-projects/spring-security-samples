@@ -21,14 +21,13 @@ import org.apereo.cas.client.validation.Cas30ServiceTicketValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.userdetails.GrantedAuthorityFromAssertionAttributesUserDetailsService;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
@@ -44,14 +43,12 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfiguration {
 
 	static String CAS_BASE_URL = "https://casserver.herokuapp.com/cas";
-	@Bean
 	ServiceProperties serviceProperties() {
 		ServiceProperties serviceProperties = new ServiceProperties();
 		serviceProperties.setService("https://localhost:8443/login/cas");
 		return serviceProperties;
 	}
 
-	@Bean
 	Cas30ServiceTicketValidator casServiceTicketValidator() {
 		String casUrl = CAS_BASE_URL;
 		return new Cas30ServiceTicketValidator(casUrl);
@@ -63,37 +60,24 @@ public class SecurityConfiguration {
 				new String[] { "memberOf", "role", "group" });
 	}
 
-	@Bean
 	CasAuthenticationProvider casAuthenticationProvider(
-			ServiceProperties serviceProperties,
 			AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService) {
 		CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
 		casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService);
 		casAuthenticationProvider.setTicketValidator(casServiceTicketValidator());
 		casAuthenticationProvider.setKey("cas_auth_provider");
-		casAuthenticationProvider.setServiceProperties(serviceProperties);
+		casAuthenticationProvider.setServiceProperties(serviceProperties());
 		return casAuthenticationProvider;
 	}
 
-	@Bean
-	AuthenticationManager authenticationManager(HttpSecurity http,
-			CasAuthenticationProvider casAuthenticationProvider) throws Exception {
-		AuthenticationManagerBuilder authenticationManagerBuilder = http
-				.getSharedObject(AuthenticationManagerBuilder.class);
-		authenticationManagerBuilder.authenticationProvider(casAuthenticationProvider);
-		return authenticationManagerBuilder.build();
-	}
-
-	@Bean
-	CasAuthenticationEntryPoint casAuthenticationEntryPoint(ServiceProperties serviceProperties) {
+	CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
 		String loginUrl = CAS_BASE_URL + "/login";
 		CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
 		casAuthenticationEntryPoint.setLoginUrl(loginUrl);
-		casAuthenticationEntryPoint.setServiceProperties(serviceProperties);
+		casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
 		return casAuthenticationEntryPoint;
 	}
-	@Bean
-	CasAuthenticationFilter casAuthenticationFilter(AuthenticationManager authenticationManager) {
+	CasAuthenticationFilter casAuthenticationFilter(AuthenticationUserDetailsService<CasAssertionAuthenticationToken> userDetailsService) {
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		successHandler.setDefaultTargetUrl("/");
 		CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
@@ -101,7 +85,7 @@ public class SecurityConfiguration {
 		casAuthenticationFilter.setSecurityContextRepository(new DelegatingSecurityContextRepository(
 				new RequestAttributeSecurityContextRepository(), new HttpSessionSecurityContextRepository()));
 		casAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
-		casAuthenticationFilter.setAuthenticationManager(authenticationManager);
+		casAuthenticationFilter.setAuthenticationManager(new ProviderManager(casAuthenticationProvider(userDetailsService)));
 		return casAuthenticationFilter;
 	}
 
@@ -121,14 +105,12 @@ public class SecurityConfiguration {
 
 	@Bean
 	SecurityFilterChain app(HttpSecurity http,
-		CasAuthenticationProvider casAuthenticationProvider,
-		SingleSignOutFilter singleSignOutFilter,
-		CasAuthenticationFilter casAuthenticationFilter,
-		CasAuthenticationEntryPoint casAuthenticationEntryPoint) throws Exception {
+		AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService,
+		SingleSignOutFilter singleSignOutFilter) throws Exception {
 
-		http.addFilterAfter(casAuthenticationFilter, CorsFilter.class)
+		http.addFilterAfter(casAuthenticationFilter(authenticationUserDetailsService), CorsFilter.class)
 			.addFilterBefore(singleSignOutFilter, CasAuthenticationFilter.class)
-			.authenticationProvider(casAuthenticationProvider)
+			.authenticationProvider(casAuthenticationProvider(authenticationUserDetailsService))
 			.authorizeHttpRequests(
 					(authorize) -> authorize
 							.requestMatchers(HttpMethod.GET, "/loggedout").permitAll()
@@ -137,7 +119,7 @@ public class SecurityConfiguration {
 			.logout().logoutSuccessUrl("/loggedout")
 			.and()
 			.exceptionHandling()
-			.authenticationEntryPoint(casAuthenticationEntryPoint);
+			.authenticationEntryPoint(casAuthenticationEntryPoint());
 
 		return http.build();
 	}
