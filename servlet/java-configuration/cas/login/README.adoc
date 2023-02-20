@@ -20,9 +20,10 @@ The following features are implemented in the MVP:
 == Run the Sample
 
 === Start up the Sample Application in Tomcat with Gretty
-```
+[source,bash]
+----
  ./gradlew :servlet:java-configuration:cas:login:appRun
-```
+----
 
 === Open a Browser
 
@@ -32,8 +33,31 @@ You will be redirect to a sample CAS server: https://casserver.herokuapp.com/cas
 
 === Type in the credentials
 
-```
+[source,bash]
+----
 User: casuser
 Password: Mellon
-```
+----
 
+=== Run a local CAS server
+Run the following script to install and start a CAS server that responds at http://localhost:8090/cas/login
+
+[source,bash]
+----
+servlet/java-configuration/cas/install-cas/install.sh
+----
+
+Adjust the `servlet/java-configuration/cas/login/src/main/resources/security.properties` file to point at local CAS server:
+
+[source,bash]
+----
+cas.base.url=http://localhost:8090/cas
+cas.login.url=http://localhost:8090/cas/login
+----
+
+Then run the CAS login app in gretty and browse to https://localhost:8443.
+
+[source,bash]
+----
+ ./gradlew :servlet:java-configuration:cas:login:appRun
+----

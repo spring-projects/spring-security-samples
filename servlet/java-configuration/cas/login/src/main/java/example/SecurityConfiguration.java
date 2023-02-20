@@ -18,8 +18,10 @@ package example;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas30ServiceTicketValidator;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.cas.ServiceProperties;
@@ -40,18 +42,30 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
+@PropertySource(value = "classpath:/security.properties")
 public class SecurityConfiguration {
 
-	static String CAS_BASE_URL = "https://casserver.herokuapp.com/cas";
+
+	@Value("${cas.base.url}")
+	private String casBaseUrl;
+
+	@Value("${cas.login.url}")
+	private String casLoginUrl;
+
+	@Value("${service.base.url}")
+	private String serviceBaseUrl;
+
+	@Value("${service.target.uri:/login/cas}")
+	private String serviceTargetUri;
+
 	ServiceProperties serviceProperties() {
 		ServiceProperties serviceProperties = new ServiceProperties();
-		serviceProperties.setService("https://localhost:8443/login/cas");
+		serviceProperties.setService(this.serviceBaseUrl + this.serviceTargetUri);
 		return serviceProperties;
 	}
 
 	Cas30ServiceTicketValidator casServiceTicketValidator() {
-		String casUrl = CAS_BASE_URL;
-		return new Cas30ServiceTicketValidator(casUrl);
+		return new Cas30ServiceTicketValidator(this.casBaseUrl);
 	}
 
 	@Bean
@@ -71,9 +85,8 @@ public class SecurityConfiguration {
 	}
 
 	CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
-		String loginUrl = CAS_BASE_URL + "/login";
 		CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
-		casAuthenticationEntryPoint.setLoginUrl(loginUrl);
+		casAuthenticationEntryPoint.setLoginUrl(this.casLoginUrl);
 		casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
 		return casAuthenticationEntryPoint;
 	}
@@ -81,7 +94,7 @@ public class SecurityConfiguration {
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		successHandler.setDefaultTargetUrl("/");
 		CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
-		casAuthenticationFilter.setFilterProcessesUrl("/login/cas");
+		casAuthenticationFilter.setFilterProcessesUrl(this.serviceTargetUri);
 		casAuthenticationFilter.setSecurityContextRepository(new DelegatingSecurityContextRepository(
 				new RequestAttributeSecurityContextRepository(), new HttpSessionSecurityContextRepository()));
 		casAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);

@@ -17,6 +17,8 @@ package example;
 
 import org.apereo.cas.client.authentication.AttributePrincipal;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,11 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author Rob WInch
  */
 @Controller
+@PropertySource(value = "classpath:security.properties")
 public class IndexController {
+
+	@Value("${cas.base.url}")
+	private String casBaseUrl;
 
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal AttributePrincipal principal) {
@@ -42,7 +48,7 @@ public class IndexController {
 
 	@GetMapping("/loggedout")
 	public String loggedout(Model model) {
-		model.addAttribute("casLogout", SecurityConfiguration.CAS_BASE_URL + "/logout");
+		model.addAttribute("casLogout", this.casBaseUrl + "/logout");
 		return "loggedout";
 	}
 
