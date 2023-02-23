@@ -1,0 +1,35 @@
+plugins {
+	id 'org.springframework.boot' version '3.0.0-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "nebula.integtest" version "8.2.0"
+	id 'java'
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
+}
+
+dependencies {
+	constraints {
+		implementation "org.opensaml:opensaml-core:4.1.1"
+		implementation "org.opensaml:opensaml-saml-api:4.1.1"
+		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.security:spring-security-saml2-service-provider'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	testImplementation 'net.sourceforge.htmlunit:htmlunit'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+	outputs.upToDateWhen { false }
+}

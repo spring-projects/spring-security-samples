@@ -1,0 +1,19 @@
+logging.level:
+  org.springframework.security: TRACE
+
+spring:
+  security:
+    filter:
+      dispatcher-types: async, error, request, forward
+    saml2:
+      relyingparty:
+        registration:
+          one:
+            entity-id: "{baseUrl}/saml2/service-provider-metadata/one"
+            singlelogout:
+              binding: POST
+              url: "{baseUrl}/saml/logout"
+              responseUrl: "{baseUrl}/saml/SingleLogout"
+            acs:
+              location: "{baseUrl}/saml/SSO"
+            assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk598vc9bHhwoTXM5d7/sso/saml/metadata
