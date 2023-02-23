@@ -76,3 +76,23 @@ spring:
 
 The `RelyingPartyRegistration` properties should also be customized to match the values that were used by the SAML Extension (see <2>, <3> and <4> above).
 
+== Run the Sample
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:saml-extension-federation:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+Select the first IdP listed.
+You will be redirect to the Okta SAML 2.0 IDP
+
+=== Type in your credentials
+
+```
+User: testuser2@spring.security.saml
+Password: 12345678
+```
