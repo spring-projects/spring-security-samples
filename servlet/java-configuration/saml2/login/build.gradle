@@ -56,7 +56,7 @@ dependencies {
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
-	testImplementation "org.seleniumhq.selenium:htmlunit-driver:2.44.0"
+	testImplementation "org.seleniumhq.selenium:htmlunit-driver:4.8.0"
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")

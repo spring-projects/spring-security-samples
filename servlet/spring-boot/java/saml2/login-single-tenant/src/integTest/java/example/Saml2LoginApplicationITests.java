@@ -56,7 +56,7 @@ public class Saml2LoginApplicationITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asText()).contains("You're email address is testuser@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
 	}
 
 	@Test
@@ -82,13 +82,15 @@ public class Saml2LoginApplicationITests {
 	}
 
 	private void performLogin() throws Exception {
-		HtmlPage login = this.webClient.getPage("/");
+		this.webClient.getPage("/");
 		this.webClient.waitForBackgroundJavaScript(10000);
-		HtmlForm form = findForm(login);
+		HtmlPage okta = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		this.webClient.waitForBackgroundJavaScript(10000);
+		HtmlForm form = findForm(okta);
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
-		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
-		username.type("testuser@spring.security.saml");
+		HtmlSubmitInput submit = okta.getHtmlElementById("okta-signin-submit");
+		username.type("testuser2@spring.security.saml");
 		password.type("12345678");
 		submit.click();
 		this.webClient.waitForBackgroundJavaScript(10000);

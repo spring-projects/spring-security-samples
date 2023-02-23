@@ -55,14 +55,14 @@ public class Saml2LoginApplicationITests {
 	@Test
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
-		HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
 	}
 
 	@Test
 	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
 		performLogin();
-		HtmlPage home = (HtmlPage) Saml2LoginApplicationITests.this.webClient.getCurrentWindow().getEnclosedPage();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
 		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
 		HtmlPage loginPage = rpLogoutButton.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
@@ -90,7 +90,7 @@ public class Saml2LoginApplicationITests {
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
 		HtmlSubmitInput submit = okta.getHtmlElementById("okta-signin-submit");
-		username.type("testuser@spring.security.saml");
+		username.type("testuser2@spring.security.saml");
 		password.type("12345678");
 		submit.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
