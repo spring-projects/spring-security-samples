@@ -44,7 +44,12 @@ Run the following script to install and start a CAS server that responds at http
 
 [source,bash]
 ----
-servlet/java-configuration/cas/install-cas/install.sh
+servlet/java-configuration/cas/install-cas/install-cas.sh
+----
+or with Docker:
+[source,bash]
+----
+servlet/java-configuration/cas/install-cas/run-cas-docker.sh
 ----
 
 Adjust the `servlet/java-configuration/cas/login/src/main/resources/security.properties` file to point at local CAS server:
