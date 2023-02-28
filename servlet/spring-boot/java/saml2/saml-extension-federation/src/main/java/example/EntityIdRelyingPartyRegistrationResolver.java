@@ -29,7 +29,6 @@ import org.opensaml.saml.saml2.core.impl.ResponseUnmarshaller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.saml2.core.OpenSamlInitializationService;
 import org.springframework.security.saml2.core.Saml2Error;
 import org.springframework.security.saml2.core.Saml2ErrorCodes;
@@ -40,11 +39,13 @@ import org.springframework.security.saml2.provider.service.registration.RelyingP
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 
 public class EntityIdRelyingPartyRegistrationResolver implements RelyingPartyRegistrationResolver {
+
 	static {
 		OpenSamlInitializationService.initialize();
 	}
 
 	private final ResponseUnmarshaller responseUnmarshaller;
+
 	private final ParserPool parserPool;
 
 	private final InMemoryRelyingPartyRegistrationRepository registrations;
@@ -96,4 +97,5 @@ public class EntityIdRelyingPartyRegistrationResolver implements RelyingPartyReg
 			throw new Saml2AuthenticationException(error, ex.getMessage());
 		}
 	}
+
 }

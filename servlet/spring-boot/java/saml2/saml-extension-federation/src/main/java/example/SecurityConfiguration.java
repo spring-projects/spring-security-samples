@@ -65,7 +65,6 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 
-
 	@Bean
 	Saml2AuthenticationTokenConverter usingEntityId(InMemoryRelyingPartyRegistrationRepository repository) {
 		var registrations = new EntityIdRelyingPartyRegistrationResolver(repository);
@@ -82,28 +81,28 @@ public class SecurityConfiguration {
 
 	@Bean
 	InMemoryRelyingPartyRegistrationRepository repository(Saml2RelyingPartyProperties properties,
-			 @Value("classpath:credentials/rp-private.key") RSAPrivateKey key,
-			 @Value("classpath:credentials/rp-certificate.crt") File cert) {
+			@Value("classpath:credentials/rp-private.key") RSAPrivateKey key,
+			@Value("classpath:credentials/rp-certificate.crt") File cert) {
 		Saml2X509Credential signing = Saml2X509Credential.signing(key, x509Certificate(cert));
 		Registration registration = properties.getRegistration().values().iterator().next();
 		return new InMemoryRelyingPartyRegistrationRepository(RelyingPartyRegistrations
-				.collectionFromMetadataLocation(registration.getAssertingparty().getMetadataUri())
-				.stream().map((builder) -> builder
-						.registrationId(UUID.randomUUID().toString())
+				.collectionFromMetadataLocation(registration.getAssertingparty().getMetadataUri()).stream()
+				.map((builder) -> builder.registrationId(UUID.randomUUID().toString())
 						.entityId(registration.getEntityId())
 						.assertionConsumerServiceLocation(registration.getAcs().getLocation())
 						.singleLogoutServiceLocation(registration.getSinglelogout().getUrl())
 						.singleLogoutServiceResponseLocation(registration.getSinglelogout().getResponseUrl())
-						.signingX509Credentials(credentials -> credentials.add(signing))
-						.build()
-				).collect(Collectors.toList()));
+						.signingX509Credentials((credentials) -> credentials.add(signing)).build())
+				.collect(Collectors.toList()));
 	}
 
 	X509Certificate x509Certificate(File location) {
 		try (InputStream source = new FileInputStream(location)) {
 			return (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(source);
-		} catch (CertificateException | IOException ex) {
+		}
+		catch (CertificateException | IOException ex) {
 			throw new IllegalArgumentException(ex);
 		}
 	}
+
 }
