@@ -29,14 +29,14 @@ import org.opensaml.saml.saml2.core.impl.ResponseUnmarshaller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.saml2.core.OpenSamlInitializationService;
 import org.springframework.security.saml2.core.Saml2Error;
 import org.springframework.security.saml2.core.Saml2ErrorCodes;
 import org.springframework.security.saml2.core.Saml2ParameterNames;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticationException;
+import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
-import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 
 public class EntityIdRelyingPartyRegistrationResolver implements RelyingPartyRegistrationResolver {
@@ -47,25 +47,34 @@ public class EntityIdRelyingPartyRegistrationResolver implements RelyingPartyReg
 	private final ResponseUnmarshaller responseUnmarshaller;
 	private final ParserPool parserPool;
 
-	private final RelyingPartyRegistrationResolver delegate;
+	private final InMemoryRelyingPartyRegistrationRepository registrations;
 
-	public EntityIdRelyingPartyRegistrationResolver(RelyingPartyRegistrationRepository registrations) {
+	public EntityIdRelyingPartyRegistrationResolver(InMemoryRelyingPartyRegistrationRepository registrations) {
 		XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
 		this.responseUnmarshaller = (ResponseUnmarshaller) registry.getUnmarshallerFactory()
 				.getUnmarshaller(Response.DEFAULT_ELEMENT_NAME);
 		this.parserPool = registry.getParserPool();
-		this.delegate = new DefaultRelyingPartyRegistrationResolver(registrations);
+		this.registrations = registrations;
 	}
 
 	@Override
 	public RelyingPartyRegistration resolve(HttpServletRequest request, String relyingPartyRegistrationId) {
 		if (relyingPartyRegistrationId != null) {
-			return this.delegate.resolve(request, relyingPartyRegistrationId);
+			return this.registrations.findByRegistrationId(relyingPartyRegistrationId);
 		}
-		return this.delegate.resolve(request, resolveRegistrationId(request));
+		String entityId = resolveEntityId(request);
+		if (entityId == null) {
+			return null;
+		}
+		for (RelyingPartyRegistration registration : this.registrations) {
+			if (entityId.equals(registration.getAssertingPartyDetails().getEntityId())) {
+				return registration;
+			}
+		}
+		return null;
 	}
 
-	private String resolveRegistrationId(HttpServletRequest request) {
+	private String resolveEntityId(HttpServletRequest request) {
 		String saml2Response = request.getParameter(Saml2ParameterNames.SAML_RESPONSE);
 		if (saml2Response == null) {
 			return null;

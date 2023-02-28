@@ -16,13 +16,8 @@
 
 package example;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticatedPrincipal;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,29 +25,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-	private final Iterable<RelyingPartyRegistration> registrations;
-
-	@Autowired
-	public IndexController(Iterable<RelyingPartyRegistration> registrations) {
-		this.registrations = registrations;
-	}
-
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Saml2AuthenticatedPrincipal principal) {
 		String emailAddress = principal.getFirstAttribute("email");
 		model.addAttribute("emailAddress", emailAddress);
 		model.addAttribute("userAttributes", principal.getAttributes());
 		return "index";
-	}
-
-	@GetMapping("/login")
-	public String login(Model model) {
-		Collection<String> urls = new ArrayList<>();
-		for (RelyingPartyRegistration registration : this.registrations) {
-			urls.add("/saml/login?id=" + registration.getRegistrationId());
-		}
-		model.addAttribute("urls", urls);
-		return "login";
 	}
 
 }

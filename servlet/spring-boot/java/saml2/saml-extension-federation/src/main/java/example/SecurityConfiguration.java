@@ -20,11 +20,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -41,13 +41,10 @@ import org.springframework.security.saml2.core.Saml2X509Credential;
 import org.springframework.security.saml2.provider.service.metadata.OpenSamlMetadataResolver;
 import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
 import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.Saml2AuthenticationTokenConverter;
 import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilter;
-import org.springframework.security.saml2.provider.service.web.authentication.OpenSaml4AuthenticationRequestResolver;
-import org.springframework.security.saml2.provider.service.web.authentication.Saml2AuthenticationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -59,10 +56,10 @@ public class SecurityConfiguration {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/login", "/error").permitAll()
+				.requestMatchers("/error").permitAll()
 				.anyRequest().authenticated()
 			)
-			.saml2Login((saml2) -> saml2.loginPage("/login"))
+			.saml2Login(Customizer.withDefaults())
 			.saml2Logout(Customizer.withDefaults());
 		// @formatter:on
 		return http.build();
@@ -70,16 +67,9 @@ public class SecurityConfiguration {
 
 
 	@Bean
-	Saml2AuthenticationTokenConverter usingEntityId(RelyingPartyRegistrationRepository repository) {
+	Saml2AuthenticationTokenConverter usingEntityId(InMemoryRelyingPartyRegistrationRepository repository) {
 		var registrations = new EntityIdRelyingPartyRegistrationResolver(repository);
 		return new Saml2AuthenticationTokenConverter(registrations);
-	}
-
-	@Bean
-	Saml2AuthenticationRequestResolver usingQueryParameter(RelyingPartyRegistrationRepository repository) {
-		var registrations = new DefaultRelyingPartyRegistrationResolver(repository);
-		return new OpenSaml4AuthenticationRequestResolver((request, id) ->
-			registrations.resolve(request, request.getParameter("id")));
 	}
 
 	@Bean
@@ -95,10 +85,11 @@ public class SecurityConfiguration {
 			 @Value("classpath:credentials/rp-private.key") RSAPrivateKey key,
 			 @Value("classpath:credentials/rp-certificate.crt") File cert) {
 		Saml2X509Credential signing = Saml2X509Credential.signing(key, x509Certificate(cert));
-		Registration registration = properties.getRegistration().get("one");
+		Registration registration = properties.getRegistration().values().iterator().next();
 		return new InMemoryRelyingPartyRegistrationRepository(RelyingPartyRegistrations
 				.collectionFromMetadataLocation(registration.getAssertingparty().getMetadataUri())
 				.stream().map((builder) -> builder
+						.registrationId(UUID.randomUUID().toString())
 						.entityId(registration.getEntityId())
 						.assertionConsumerServiceLocation(registration.getAcs().getLocation())
 						.singleLogoutServiceLocation(registration.getSinglelogout().getUrl())
