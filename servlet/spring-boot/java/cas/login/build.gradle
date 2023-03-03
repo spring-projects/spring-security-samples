@@ -1,0 +1,38 @@
+plugins {
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "nebula.integtest" version "8.2.0"
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot" }
+}
+
+ext {
+    set('testcontainersVersion', '1.17.6')
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security:spring-security-cas'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    testImplementation 'net.sourceforge.htmlunit:htmlunit'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "org.testcontainers:junit-jupiter:$testcontainersVersion"
+    testImplementation 'com.codeborne:selenide:6.12.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver'
+    testImplementation 'org.seleniumhq.selenium:selenium-java'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+}

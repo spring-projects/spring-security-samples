@@ -1,0 +1,23 @@
+version: '3.8'
+
+networks:
+  samples:
+    driver: bridge
+
+services:
+  cas:
+    image: apereo/cas:6.6.6
+    container_name: cas
+    restart: always
+    ports:
+      - "8090:8080"
+    command: >
+      --cas.standalone.configuration-directory=/etc/cas/config
+      --server.ssl.enabled=false
+      --server.port=8080
+      --cas.service-registry.core.init-from-json=true
+      --cas.service-registry.json.location=file:/etc/cas/services
+    volumes:
+      - ./services/http-1.json:/etc/cas/services/http-1.json
+    networks:
+      - samples

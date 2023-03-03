@@ -1,0 +1,39 @@
+= CAS Login & Logout Sample
+
+This sample provides a very simple implementation of a CAS Service (application) that uses a local CAS server for authentication.
+
+== Run the Sample
+
+=== Requirements
+
+In order to run the sample locally, you must have https://www.docker.com/[Docker] installed or a running CAS server.
+
+=== Start Up the Local CAS Server
+
+Run the following command from the root of the project:
+[source,bash]
+----
+docker-compose -f docker/cas/docker-compose.yml up
+----
+
+=== Start up the Sample Application
+Run the `CasLoginApplication` class from your IDE or run the following command from the root of the project:
+[source,bash]
+----
+./gradlew :servlet:spring-boot:java:cas:login:bootRun
+----
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirected to the local CAS server: http://localhost:8090/cas
+
+=== Type in the credentials
+
+[source,bash]
+----
+User: casuser
+Password: Mellon
+----
+
