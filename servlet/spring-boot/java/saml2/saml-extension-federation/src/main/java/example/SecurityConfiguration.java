@@ -30,21 +30,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.Registration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.saml2.core.Saml2X509Credential;
-import org.springframework.security.saml2.provider.service.metadata.OpenSamlMetadataResolver;
 import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
-import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
-import org.springframework.security.saml2.provider.service.web.Saml2AuthenticationTokenConverter;
-import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -59,24 +51,12 @@ public class SecurityConfiguration {
 				.requestMatchers("/error").permitAll()
 				.anyRequest().authenticated()
 			)
-			.saml2Login(Customizer.withDefaults())
-			.saml2Logout(Customizer.withDefaults());
+			.saml2Login((saml2) -> saml2.loginProcessingUrl("/saml/SSO"))
+			.saml2Logout((saml2) -> saml2.logoutRequest((request) -> request.logoutUrl("/saml/logout")))
+			.saml2Logout((saml2) -> saml2.logoutResponse((response) -> response.logoutUrl("/saml/SingleLogout")))
+			.saml2Metadata((saml2) -> saml2.metadataUrl("/saml/metadata"));
 		// @formatter:on
 		return http.build();
-	}
-
-	@Bean
-	Saml2AuthenticationTokenConverter usingEntityId(InMemoryRelyingPartyRegistrationRepository repository) {
-		var registrations = new EntityIdRelyingPartyRegistrationResolver(repository);
-		return new Saml2AuthenticationTokenConverter(registrations);
-	}
-
-	@Bean
-	@Order(-101)
-	FilterRegistrationBean<Saml2MetadataFilter> metadata(Iterable<RelyingPartyRegistration> repository) {
-		var registrations = new DefaultRelyingPartyRegistrationResolver((id) -> repository.iterator().next());
-		var filter = new Saml2MetadataFilter(registrations, new OpenSamlMetadataResolver());
-		return new FilterRegistrationBean<>(filter);
 	}
 
 	@Bean
