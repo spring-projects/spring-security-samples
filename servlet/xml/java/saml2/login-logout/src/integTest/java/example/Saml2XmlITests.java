@@ -73,7 +73,7 @@ public class Saml2XmlITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asNormalizedText()).contains("You're email address is testuser@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class Saml2XmlITests {
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
 		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
-		username.type("testuser@spring.security.saml");
+		username.type("testuser2@spring.security.saml");
 		password.type("12345678");
 		submit.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
