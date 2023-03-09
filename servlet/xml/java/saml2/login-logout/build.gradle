@@ -38,7 +38,7 @@ dependencies {
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation "org.junit.jupiter:junit-jupiter-api"
-	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.64.0'
+	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.70.0'
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
 
