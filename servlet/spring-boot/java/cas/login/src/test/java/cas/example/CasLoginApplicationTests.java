@@ -20,7 +20,6 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.testcontainers.containers.BindMode;
@@ -39,14 +38,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-@Disabled
 class CasLoginApplicationTests {
 
 	@LocalServerPort
 	int port;
 
 	@Container
-	static final GenericContainer<?> casServer = new GenericContainer<>(DockerImageName.parse("apereo/cas:6.6.6"))
+	static GenericContainer<?> casServer = new GenericContainer<>(DockerImageName.parse("apereo/cas:6.6.6"))
 			.withCommand("--cas.standalone.configuration-directory=/etc/cas/config", "--server.ssl.enabled=false",
 					"--server.port=8080", "--cas.service-registry.core.init-from-json=true",
 					"--cas.service-registry.json.location=file:/etc/cas/services")
