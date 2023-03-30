@@ -1,4 +1,29 @@
 allprojects {
+	configurations.all {
+		resolutionStrategy {
+			force "org.springframework.security:spring-security-acl:$springSecurityVersion"
+			force "org.springframework.security:spring-security-aspects:$springSecurityVersion"
+			force "org.springframework.security:spring-security-bom:$springSecurityVersion"
+			force "org.springframework.security:spring-security-cas:$springSecurityVersion"
+			force "org.springframework.security:spring-security-config:$springSecurityVersion"
+			force "org.springframework.security:spring-security-core:$springSecurityVersion"
+			force "org.springframework.security:spring-security-crypto:$springSecurityVersion"
+			force "org.springframework.security:spring-security-data:$springSecurityVersion"
+			force "org.springframework.security:spring-security-ldap:$springSecurityVersion"
+			force "org.springframework.security:spring-security-messaging:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-client:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-core:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-jose:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-resource-server:$springSecurityVersion"
+			force "org.springframework.security:spring-security-openid:$springSecurityVersion"
+			force "org.springframework.security:spring-security-remoting:$springSecurityVersion"
+			force "org.springframework.security:spring-security-rsocket:$springSecurityVersion"
+			force "org.springframework.security:spring-security-saml2-service-provider:$springSecurityVersion"
+			force "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
+			force "org.springframework.security:spring-security-test:$springSecurityVersion"
+			force "org.springframework.security:spring-security-web:$springSecurityVersion"
+		}
+	}
 	repositories {
 		exclusiveContent {
 			forRepository {
