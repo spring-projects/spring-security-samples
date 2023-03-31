@@ -20,10 +20,17 @@ import java.security.KeyStore;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.HttpsSupport;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.ssl.SSLContexts;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -41,38 +48,51 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  *
  * @author Michael Simons
  */
-@Disabled
+// @Disabled
 public class X509Tests {
 
 	@Test
 	void notCertificateThenSslHandshakeException() {
 		RestTemplate rest = new RestTemplate();
-		assertThatCode(() -> rest.getForEntity("https://localhost:8443/", String.class))
+		assertThatCode(() -> rest.getForEntity(getServerUrl(), String.class))
 				.hasCauseInstanceOf(SSLHandshakeException.class);
 	}
 
 	@Test
+	@Disabled("Figure out how to make certs work")
 	void certificateThenStatusOk() throws Exception {
-		ClassPathResource serverKeystore = new ClassPathResource("/certs/server.p12");
+		ClassPathResource serverKeystore = new ClassPathResource("certs/server.p12");
 		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 		keyStore.load(serverKeystore.getInputStream(), "password".toCharArray());
 		// @formatter:off
 		SSLContext sslContext = SSLContexts.custom()
 				.loadKeyMaterial(keyStore, "password".toCharArray(), (aliases, socket) -> "client")
-				.loadTrustMaterial(keyStore, null)
+				.loadTrustMaterial(keyStore, new TrustAllStrategy())
 				.build();
 
 		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext,
-				new String[]{"TLSv1.2", "TLSv1.1"},
-				null,
-				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+				HttpsSupport.getDefaultHostnameVerifier());
+
+		final Registry<ConnectionSocketFactory> socketFactoryRegistry =
+				RegistryBuilder.<ConnectionSocketFactory> create()
+						.register("https", socketFactory)
+						.register("http", new PlainConnectionSocketFactory())
+						.build();
+
+		final BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(socketFactoryRegistry);
 		// @formatter:on
 
-		CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
-		ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-		RestTemplate rest = new RestTemplate(requestFactory);
-		ResponseEntity<String> responseEntity = rest.getForEntity("https://localhost:8443/me", String.class);
-		assertThat(responseEntity).extracting((result) -> result.getStatusCode().is2xxSuccessful()).isEqualTo(true);
+		try (CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build()) {
+			ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+			RestTemplate rest = new RestTemplate(requestFactory);
+			ResponseEntity<String> responseEntity = rest.getForEntity(getServerUrl() + "/me", String.class);
+			assertThat(responseEntity).extracting((result) -> result.getStatusCode().is2xxSuccessful()).isEqualTo(true);
+		}
+
+	}
+
+	private String getServerUrl() {
+		return "https://localhost:" + System.getProperty("app.httpsPort");
 	}
 
 }
