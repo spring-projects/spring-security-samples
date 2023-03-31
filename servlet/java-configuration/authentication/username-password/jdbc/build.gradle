@@ -1,7 +1,7 @@
 plugins {
 	id "java"
 	id "nebula.integtest" version "8.2.0"
-	id "org.gretty" version "3.0.6"
+	id "org.gretty" version "4.0.3"
 	id "war"
 }
 
@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.springframework:spring-framework-bom:5.3.0")
-	implementation platform("org.springframework.security:spring-security-bom:5.5.0-SNAPSHOT")
+	implementation platform("org.springframework:spring-framework-bom:6.0.7")
+	implementation platform("org.springframework.security:spring-security-bom:6.0.2")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.hsqldb:hsqldb:2.5.1"
@@ -23,7 +23,7 @@ dependencies {
 	implementation "org.springframework.security:spring-security-web"
 	implementation "org.springframework:spring-jdbc"
 	implementation "org.springframework:spring-webmvc"
-	implementation "org.thymeleaf:thymeleaf-spring5:3.0.11.RELEASE"
+	implementation "org.thymeleaf:thymeleaf-spring6:3.1.1.RELEASE"
 
 	testImplementation "org.assertj:assertj-core:3.18.0"
 	testImplementation "org.springframework:spring-test"
