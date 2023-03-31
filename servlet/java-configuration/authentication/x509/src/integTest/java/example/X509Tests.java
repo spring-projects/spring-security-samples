@@ -74,7 +74,7 @@ public class X509Tests {
 				HttpsSupport.getDefaultHostnameVerifier());
 
 		final Registry<ConnectionSocketFactory> socketFactoryRegistry =
-				RegistryBuilder.<ConnectionSocketFactory> create()
+				RegistryBuilder.<ConnectionSocketFactory>create()
 						.register("https", socketFactory)
 						.register("http", new PlainConnectionSocketFactory())
 						.build();

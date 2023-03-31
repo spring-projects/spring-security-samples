@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.springframework.security:spring-security-bom:5.6.0-SNAPSHOT")
+	implementation platform("org.springframework.security:spring-security-bom:6.0.2")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"
@@ -18,7 +18,8 @@ dependencies {
 	implementation 'org.slf4j:slf4j-api:1.7.30'
 	implementation 'org.slf4j:slf4j-simple:1.7.30'
 
-	providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
+	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
+	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
