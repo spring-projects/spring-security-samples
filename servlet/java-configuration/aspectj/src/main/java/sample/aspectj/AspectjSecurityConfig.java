@@ -20,6 +20,7 @@ import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,7 +32,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @author Rob Winch
  */
 @Configuration
-@EnableGlobalMethodSecurity(mode = AdviceMode.ASPECTJ, securedEnabled = true)
+@EnableMethodSecurity(mode = AdviceMode.ASPECTJ, securedEnabled = true, prePostEnabled = false)
 public class AspectjSecurityConfig {
 
 	@Bean

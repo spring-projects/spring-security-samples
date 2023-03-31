@@ -1,5 +1,5 @@
 plugins {
-	id "io.freefair.aspectj.post-compile-weaving" version "5.2.1"
+	id "io.freefair.aspectj.post-compile-weaving" version "8.0.1"
 	id "java"
 }
 
@@ -10,22 +10,22 @@ repositories {
 }
 
 compileJava {
-	sourceCompatibility "1.8"
-	targetCompatibility "1.8"
+	sourceCompatibility "17"
+	targetCompatibility "17"
 }
 
 compileTestJava {
-	sourceCompatibility "1.8"
-	targetCompatibility "1.8"
+	sourceCompatibility "17"
+	targetCompatibility "17"
 }
 
 dependencies {
-	aspect platform("org.springframework:spring-framework-bom:5.3.0")
-	aspect platform("org.springframework.security:spring-security-bom:5.4.0-SNAPSHOT")
+	aspect platform("org.springframework:spring-framework-bom:6.0.7")
+	aspect platform("org.springframework.security:spring-security-bom:6.0.2")
 	aspect "org.springframework.security:spring-security-aspects"
 
-	implementation platform("org.springframework:spring-framework-bom:5.3.0")
-	implementation platform("org.springframework.security:spring-security-bom:5.5.0-SNAPSHOT")
+	implementation platform("org.springframework:spring-framework-bom:6.0.7")
+	implementation platform("org.springframework.security:spring-security-bom:6.0.2")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"
