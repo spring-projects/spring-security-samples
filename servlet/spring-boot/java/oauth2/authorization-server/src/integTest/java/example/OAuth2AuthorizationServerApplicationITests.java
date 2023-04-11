@@ -16,22 +16,19 @@
 
 package example;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
+import java.util.Map;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +58,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
 				.param("scope", "message:read")
-				.with(basicAuth(CLIENT_ID, CLIENT_SECRET)))
+				.with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.access_token").isString())
 				.andExpect(jsonPath("$.expires_in").isNumber())
@@ -76,7 +73,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
 				.param("scope", "message:read message:write")
-				.with(basicAuth(CLIENT_ID, CLIENT_SECRET)))
+				.with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.access_token").isString())
 				.andExpect(jsonPath("$.expires_in").isNumber())
@@ -91,7 +88,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
 				.param("scope", "message:read")
-				.with(basicAuth("bad", "password")))
+				.with(httpBasic("bad", "password")))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.error").value("invalid_client"));
 		// @formatter:on
@@ -101,7 +98,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 	void performTokenRequestWhenMissingGrantTypeThenUnauthorized() throws Exception {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/token")
-				.with(basicAuth("bad", "password")))
+				.with(httpBasic("bad", "password")))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.error").value("invalid_client"));
 		// @formatter:on
@@ -112,7 +109,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
-				.with(basicAuth("login-client", "openid-connect")))
+				.with(httpBasic("login-client", "openid-connect")))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.error").value("unauthorized_client"));
 		// @formatter:on
@@ -123,7 +120,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/introspect")
 				.param("token", getAccessToken())
-				.with(basicAuth(CLIENT_ID, CLIENT_SECRET)))
+				.with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.active").value("true"))
 				.andExpect(jsonPath("$.aud[0]").value(CLIENT_ID))
@@ -143,7 +140,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		// @formatter:off
 		this.mockMvc.perform(post("/oauth2/introspect")
 				.param("token", getAccessToken())
-				.with(basicAuth("bad", "password")))
+				.with(httpBasic("bad", "password")))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.error").value("invalid_client"));
 		// @formatter:on
@@ -154,7 +151,7 @@ public class OAuth2AuthorizationServerApplicationITests {
 		MvcResult mvcResult = this.mockMvc.perform(post("/oauth2/token")
 				.param("grant_type", "client_credentials")
 				.param("scope", "message:read")
-				.with(basicAuth(CLIENT_ID, CLIENT_SECRET)))
+				.with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.access_token").exists())
 				.andReturn();
@@ -167,29 +164,6 @@ public class OAuth2AuthorizationServerApplicationITests {
 		return tokenResponse.get("access_token").toString();
 	}
 
-	private static BasicAuthenticationRequestPostProcessor basicAuth(String username, String password) {
-		return new BasicAuthenticationRequestPostProcessor(username, password);
-	}
 
-	private static final class BasicAuthenticationRequestPostProcessor implements RequestPostProcessor {
-
-		private final String username;
-
-		private final String password;
-
-		private BasicAuthenticationRequestPostProcessor(String username, String password) {
-			this.username = username;
-			this.password = password;
-		}
-
-		@Override
-		public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setBasicAuth(this.username, this.password);
-			request.addHeader("Authorization", headers.getFirst("Authorization"));
-			return request;
-		}
-
-	}
 
 }
