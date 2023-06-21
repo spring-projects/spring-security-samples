@@ -16,6 +16,8 @@
 
 package example.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,7 +36,7 @@ public class LoginPage {
 	private WebDriver driver;
 
 	@FindBy(css = "div[role=alert]")
-	private WebElement alert;
+	private List<WebElement> alert;
 
 	private LoginForm loginForm;
 
@@ -53,12 +55,12 @@ public class LoginPage {
 	}
 
 	public LoginPage assertError() {
-		assertThat(this.alert.getText()).isEqualTo("Invalid username and password.");
+		assertThat(this.alert).extracting(WebElement::getText).contains("Invalid username and password.");
 		return this;
 	}
 
 	public LoginPage assertLogout() {
-		assertThat(this.alert.getText()).isEqualTo("You have been logged out.");
+		assertThat(this.alert).extracting(WebElement::getText).contains("You have been logged out.");
 		return this;
 	}
 
