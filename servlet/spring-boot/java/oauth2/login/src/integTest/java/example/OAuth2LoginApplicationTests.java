@@ -225,7 +225,7 @@ public class OAuth2LoginApplicationTests {
 
 		HtmlElement errorElement = page.getBody().getFirstByXPath("div");
 		assertThat(errorElement).isNotNull();
-		assertThat(errorElement.asText()).contains("authorization_request_not_found");
+		assertThat(errorElement.asNormalizedText()).contains("authorization_request_not_found");
 	}
 
 	@Test
@@ -253,7 +253,7 @@ public class OAuth2LoginApplicationTests {
 
 		HtmlElement errorElement = page.getBody().getFirstByXPath("div");
 		assertThat(errorElement).isNotNull();
-		assertThat(errorElement.asText()).contains("authorization_request_not_found");
+		assertThat(errorElement.asNormalizedText()).contains("authorization_request_not_found");
 	}
 
 	@Test
@@ -291,7 +291,7 @@ public class OAuth2LoginApplicationTests {
 			assertThat(clientAnchorElements.get(i).getAttribute("href")).isIn(googleClientAuthorizeUri,
 					githubClientAuthorizeUri, facebookClientAuthorizeUri, oktaClientAuthorizeUri,
 					springClientAuthorizeUri);
-			assertThat(clientAnchorElements.get(i).asText()).isIn(googleClientRegistration.getClientName(),
+			assertThat(clientAnchorElements.get(i).asNormalizedText()).isIn(googleClientRegistration.getClientName(),
 					githubClientRegistration.getClientName(), facebookClientRegistration.getClientName(),
 					oktaClientRegistration.getClientName(), springClientRegistration.getClientName());
 		}
@@ -301,13 +301,14 @@ public class OAuth2LoginApplicationTests {
 		assertThat(page.getTitleText()).isEqualTo("Spring Security - OAuth 2.0 Login");
 
 		DomNodeList<HtmlElement> divElements = page.getBody().getElementsByTagName("div");
-		assertThat(divElements.get(1).asText()).contains("User: joeg@springsecurity.io");
-		assertThat(divElements.get(4).asText()).contains("You are successfully logged in joeg@springsecurity.io");
+		assertThat(divElements.get(1).asNormalizedText()).contains("User: joeg@springsecurity.io");
+		assertThat(divElements.get(4).asNormalizedText())
+				.contains("You are successfully logged in joeg@springsecurity.io");
 	}
 
 	private HtmlAnchor getClientAnchorElement(HtmlPage page, ClientRegistration clientRegistration) {
 		Optional<HtmlAnchor> clientAnchorElement = page.getAnchors().stream()
-				.filter((e) -> e.asText().equals(clientRegistration.getClientName())).findFirst();
+				.filter((e) -> e.asNormalizedText().equals(clientRegistration.getClientName())).findFirst();
 
 		return (clientAnchorElement.orElse(null));
 	}
