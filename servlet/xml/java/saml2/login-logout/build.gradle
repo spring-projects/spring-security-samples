@@ -21,15 +21,15 @@ dependencies {
 		implementation "org.opensaml:opensaml-saml-api:4.1.1"
 		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
 	}
-	implementation platform("org.springframework:spring-framework-bom:6.0.0-SNAPSHOT")
-	implementation platform("org.springframework.security:spring-security-bom:6.0.0-SNAPSHOT")
+	implementation platform("org.springframework:spring-framework-bom:6.0.7")
+	implementation platform("org.springframework.security:spring-security-bom:6.0.4")
 	implementation platform("org.junit:junit-bom:5.7.0")
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
 	implementation "org.springframework.security:spring-security-saml2-service-provider"
 	implementation "org.springframework:spring-webmvc"
-	implementation "org.thymeleaf:thymeleaf-spring6:3.1.0.M1"
+	implementation "org.thymeleaf:thymeleaf-spring6:3.1.0.RELEASE"
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.0.M1'
 
 	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"

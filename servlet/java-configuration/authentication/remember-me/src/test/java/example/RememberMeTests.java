@@ -16,8 +16,7 @@
 
 package example;
 
-import javax.servlet.http.Cookie;
-
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
