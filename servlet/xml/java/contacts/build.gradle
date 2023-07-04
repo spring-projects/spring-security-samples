@@ -2,7 +2,7 @@ plugins {
 	id "java"
 	id "war"
 	id "nebula.integtest" version "8.2.0"
-	id "org.gretty" version "4.0.0"
+	id "org.gretty" version "4.0.3"
 }
 
 apply from: "gradle/gretty.gradle"
