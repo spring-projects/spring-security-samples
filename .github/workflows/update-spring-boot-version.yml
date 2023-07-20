@@ -12,6 +12,8 @@ jobs:
         - uses: actions/checkout@v3
         - name: Update Spring Boot Version
           run: ./update-spring-boot-version.sh
+        - name: Extract Version
+          run: echo "MINOR_VERSION=$(cat versions.properties | grep springBootVersion | cut -d'=' -f2)" >> $GITHUB_ENV
         - uses: stefanzweifel/git-auto-commit-action@v4
           with:
-            commit_message: "Update Spring Boot Version"
+            commit_message: "Update Spring Boot Version to ${{ env.MINOR_VERSION }}"
