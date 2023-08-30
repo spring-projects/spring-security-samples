@@ -29,7 +29,7 @@ dependencies {
     testImplementation 'com.codeborne:selenide:6.12.4'
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver'
     testImplementation 'org.seleniumhq.selenium:selenium-java'
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.5.2'
 }
 
 tasks.withType(Test).configureEach {
