@@ -34,21 +34,23 @@ class SecurityConfig {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.authorizeRequests()
-            .requestMatchers("/css/**").permitAll()
-            .requestMatchers("/user/**").hasAuthority("ROLE_USER")
-            .and()
-            .formLogin().loginPage("/log-in")
+        http
+            .authorizeHttpRequests { authorize ->
+                authorize.requestMatchers("/","/css/**").permitAll()
+                authorize.requestMatchers("/user/**").hasAuthority("ROLE_USER")
+            }
+            .formLogin { form ->
+                form.loginPage("/log-in").permitAll()
+            }
         return http.build()
     }
 
     @Bean
     fun userDetailsService(): UserDetailsService {
-        val userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build()
-        return InMemoryUserDetailsManager(userDetails)
+        return InMemoryUserDetailsManager(User.builder()
+            .username("user")
+            .password("{noop}password")
+            .roles("USER")
+            .build())
     }
 }
