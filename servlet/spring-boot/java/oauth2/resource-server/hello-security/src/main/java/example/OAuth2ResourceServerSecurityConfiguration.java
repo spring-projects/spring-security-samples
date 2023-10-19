@@ -47,7 +47,7 @@ public class OAuth2ResourceServerSecurityConfiguration {
 						.requestMatchers(HttpMethod.POST, "/message/**").hasAuthority("SCOPE_message:write")
 						.anyRequest().authenticated()
 				)
-				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
 		// @formatter:on
 		return http.build();
 	}
