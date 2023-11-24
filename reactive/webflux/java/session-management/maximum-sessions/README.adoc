@@ -1,0 +1,6 @@
+== WebFlux Max Sessions Sample
+
+This sample demonstrates how to configure the maximum number of concurrent sessions for a WebFlux application.
+
+Check the `SecurityConfig.class` to see how the maximum number of sessions is configured.
+This sample also contains tests that demonstrate how the maximum number of sessions is enforced.
