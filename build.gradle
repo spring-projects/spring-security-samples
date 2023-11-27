@@ -9,7 +9,7 @@ allprojects {
 	apply plugin: 'io.spring.javaformat'
 
 	dependencies {
-		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.25"
+		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.40"
 	}
 
 	// Ensure every test task has at least a single test
