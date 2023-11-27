@@ -20,7 +20,7 @@ dependencies {
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
 	implementation 'org.slf4j:slf4j-api:1.7.30'
-	implementation 'org.slf4j:slf4j-simple:1.7.30'
+	implementation 'org.slf4j:slf4j-simple:1.7.36'
 
 	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
