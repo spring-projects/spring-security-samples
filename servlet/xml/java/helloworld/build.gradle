@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-	implementation platform("org.springframework.security:spring-security-bom:6.0.0-SNAPSHOT")
+	implementation platform(libs.org.springframework.security.spring.security.bom)
 	implementation platform("org.junit:junit-bom:5.10.0")
 
 	implementation "org.springframework.security:spring-security-config"

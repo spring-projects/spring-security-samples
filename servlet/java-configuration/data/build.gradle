@@ -1,6 +1,8 @@
 plugins {
 	id "java"
 	id "nebula.integtest" version "8.2.0"
+	alias(libs.plugins.io.spring.dependency.management)
+	alias(libs.plugins.org.springframework.boot) apply(false)
 }
 
 repositories {
@@ -9,20 +11,28 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
+dependencyManagement {
+	imports {
+		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+	}
+}
+
 dependencies {
-	implementation platform("org.springframework:spring-framework-bom:6.0.0-SNAPSHOT")
-	implementation platform("org.springframework.security:spring-security-bom:6.0.0-SNAPSHOT")
+	implementation platform(libs.org.springframework.spring.framework.bom)
+	implementation platform(libs.org.springframework.security.spring.security.bom)
+	implementation platform(libs.org.springframework.data.spring.data.bom)
+	implementation "org.springframework.boot:spring-boot-starter-validation"
 	implementation platform("org.junit:junit-bom:5.10.0")
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-data"
 	implementation "org.springframework.security:spring-security-web"
-	implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 	implementation 'jakarta.persistence:jakarta.persistence-api:3.0.0'
 	implementation 'org.hibernate.orm:hibernate-core:6.1.1.Final'
-	implementation 'org.hibernate.validator:hibernate-validator:7.0.1.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 	implementation 'org.hsqldb:hsqldb:2.5.1'
-	implementation 'org.springframework.data:spring-data-jpa:3.0.0-SNAPSHOT'
+	implementation 'org.springframework.data:spring-data-jpa'
 
 	testImplementation "org.assertj:assertj-core:3.18.0"
 	testImplementation "org.springframework:spring-test"

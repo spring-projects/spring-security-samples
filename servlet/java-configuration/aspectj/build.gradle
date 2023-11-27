@@ -20,12 +20,12 @@ compileTestJava {
 }
 
 dependencies {
-	aspect platform("org.springframework:spring-framework-bom:6.0.7")
-	aspect platform("org.springframework.security:spring-security-bom:6.0.2")
+	aspect platform(libs.org.springframework.spring.framework.bom)
+	aspect platform(libs.org.springframework.security.spring.security.bom)
 	aspect "org.springframework.security:spring-security-aspects"
 
-	implementation platform("org.springframework:spring-framework-bom:6.0.7")
-	implementation platform("org.springframework.security:spring-security-bom:6.0.2")
+	implementation platform(libs.org.springframework.spring.framework.bom)
+	implementation platform(libs.org.springframework.security.spring.security.bom)
 	implementation platform("org.junit:junit-bom:5.10.0")
 
 	implementation "org.springframework.security:spring-security-config"
