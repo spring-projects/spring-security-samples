@@ -22,7 +22,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.testcontainers:junit-jupiter"
-    testImplementation 'com.codeborne:selenide:7.0.2'
+    testImplementation 'com.codeborne:selenide:6.12.4'
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver'
     testImplementation 'org.seleniumhq.selenium:selenium-java'
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.5.2'
