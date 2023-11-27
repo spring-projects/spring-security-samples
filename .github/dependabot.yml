@@ -4,7 +4,7 @@ updates:
 
   - package-ecosystem: "gradle"
     target-branch: "main"
-    directory: "/gradle"
+    directory: "/"
     schedule:
       interval: "weekly"
       time: "03:00"
@@ -20,7 +20,7 @@ updates:
 
   - package-ecosystem: "gradle"
     target-branch: "6.1.x"
-    directory: "/gradle"
+    directory: "/"
     schedule:
       interval: "weekly"
       time: "03:00"
