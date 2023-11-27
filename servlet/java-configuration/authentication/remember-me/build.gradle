@@ -23,7 +23,7 @@ dependencies {
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
 	implementation "org.springframework:spring-webmvc"
-	implementation "org.thymeleaf:thymeleaf-spring6:3.1.1.RELEASE"
+	implementation "org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE"
 
 	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
