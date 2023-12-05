@@ -5,6 +5,23 @@ gretty {
 	integrationTestTask = 'integrationTest'
 }
 
+// In Gretty version 3.x, it was possible to run the appRun task without the /src/main/webapp directory.
+// However, strangely, in version 4.x, this directory is required.
+task createWebAppDir {
+	doLast {
+		def webAppDir = new File(project.projectDir, '/src/main/webapp')
+		if (!webAppDir.exists()) {
+			webAppDir.mkdirs()
+		}
+	}
+}
+
+project.afterEvaluate {
+	tasks.named('appRun').configure {
+		dependsOn createWebAppDir
+	}
+}
+
 Task prepareAppServerForIntegrationTests = project.tasks.create('prepareAppServerForIntegrationTests') {
 	group = 'Verification'
 	description = 'Prepares the app server for integration tests'
