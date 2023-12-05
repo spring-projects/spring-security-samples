@@ -16,9 +16,6 @@
 
 package example;
 
-import jakarta.servlet.Filter;
-
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -37,10 +34,4 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
 	}
-
-	@Override
-	protected Filter[] getServletFilters() {
-		return new Filter[] { new HiddenHttpMethodFilter() };
-	}
-
 }
