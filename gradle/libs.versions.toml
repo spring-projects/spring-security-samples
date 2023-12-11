@@ -3,7 +3,7 @@ org-springframework-boot = "3.2.0"
 
 [libraries]
 org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:6.1.1"
-org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:6.2.0"
+org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:6.3.0-SNAPSHOT"
 org-springframework-data-spring-data-bom = "org.springframework.data:spring-data-bom:2023.1.0"
 org-springframework-security-spring-security-oauth2-authorization-server = "org.springframework.security:spring-security-oauth2-authorization-server:1.2.0"
 
