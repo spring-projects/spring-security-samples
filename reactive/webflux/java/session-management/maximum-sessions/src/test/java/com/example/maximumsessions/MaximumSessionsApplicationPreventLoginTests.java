@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.example.maximumsessions;
 
 import org.junit.jupiter.api.Test;
