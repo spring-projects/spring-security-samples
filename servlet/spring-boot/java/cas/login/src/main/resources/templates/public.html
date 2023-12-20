@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<title>Spring Security - CAS Login & Logout</title>
+	<meta charset="utf-8" />
+	<style>
+        span, dt {
+            font-weight: bold;
+        }
+	</style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+	<main role="main" class="container-fluid">
+		<h1 class="mt-5">This is a public page that performs a CAS Gateway Authentication</h1>
+		<p class="lead">You are successfully logged in as <span sec:authentication="name"></span></p>
+
+		<h6>Visit the <a href="https://github.com/apereo/cas" target="_blank">Apereo CAS</a> documentation for more details.</h6>
+	</main>
+</div>
+</body>
+</html>

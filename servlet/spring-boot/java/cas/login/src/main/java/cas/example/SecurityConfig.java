@@ -31,6 +31,8 @@ import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
+import org.springframework.security.cas.web.CasGatewayAuthenticationRedirectFilter;
+import org.springframework.security.cas.web.CasGatewayResolverRequestMatcher;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +40,9 @@ import org.springframework.security.core.userdetails.UserDetailsByNameServiceWra
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 public class SecurityConfig {
@@ -52,14 +57,30 @@ public class SecurityConfig {
 	private ServletWebServerApplicationContext context;
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
-		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.GET, "/loggedout").permitAll()
-				.anyRequest().authenticated())
+	public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailsService,
+			MvcRequestMatcher.Builder builder) throws Exception {
+		// @formatter:off
+		CasGatewayAuthenticationRedirectFilter casGatewayAuthenticationRedirectFilter = new CasGatewayAuthenticationRedirectFilter(this.casLoginUrl, serviceProperties());
+		casGatewayAuthenticationRedirectFilter.setRequestMatcher(new AndRequestMatcher(
+				builder.pattern("/public"), new CasGatewayResolverRequestMatcher(serviceProperties())));
+		http
+				.authorizeHttpRequests((authorize) -> authorize
+						.requestMatchers(HttpMethod.GET, "/loggedout").permitAll()
+						.requestMatchers("/public").permitAll()
+						.anyRequest().authenticated()
+				)
 				.exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(casAuthenticationEntryPoint()))
 				.logout((logout) -> logout.logoutSuccessUrl("/loggedout"))
 				.addFilter(casAuthenticationFilter(userDetailsService))
-				.addFilterBefore(new SingleSignOutFilter(), CasAuthenticationFilter.class);
+				.addFilterBefore(new SingleSignOutFilter(), CasAuthenticationFilter.class)
+				.addFilterAfter(casGatewayAuthenticationRedirectFilter, CasAuthenticationFilter.class);
 		return http.build();
+		// @formatter:on
+	}
+
+	@Bean
+	MvcRequestMatcher.Builder mvcRequestMatcherBuilder(HandlerMappingIntrospector introspector) {
+		return new MvcRequestMatcher.Builder(introspector);
 	}
 
 	public CasAuthenticationProvider casAuthenticationProvider(UserDetailsService userDetailsService) {

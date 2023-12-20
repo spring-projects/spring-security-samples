@@ -17,6 +17,8 @@ services:
       --server.port=8080
       --cas.service-registry.core.init-from-json=true
       --cas.service-registry.json.location=file:/etc/cas/services
+      --cas.tgc.secure=false
+      --cas.tgc.sameSitePolicy=Lax
     volumes:
       - ./services/http-1.json:/etc/cas/services/http-1.json
     networks:

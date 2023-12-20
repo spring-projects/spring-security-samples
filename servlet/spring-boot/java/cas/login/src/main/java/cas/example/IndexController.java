@@ -38,4 +38,9 @@ public class IndexController {
 		return "loggedout";
 	}
 
+	@GetMapping("/public")
+	String publicPage() {
+		return "public";
+	}
+
 }

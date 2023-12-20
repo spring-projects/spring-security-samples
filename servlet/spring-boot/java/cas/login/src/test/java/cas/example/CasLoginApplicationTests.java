@@ -29,8 +29,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -43,11 +45,15 @@ class CasLoginApplicationTests {
 	@LocalServerPort
 	int port;
 
+	@Autowired
+	Environment environment;
+
 	@Container
 	static GenericContainer<?> casServer = new GenericContainer<>(DockerImageName.parse("apereo/cas:6.6.6"))
 			.withCommand("--cas.standalone.configuration-directory=/etc/cas/config", "--server.ssl.enabled=false",
 					"--server.port=8080", "--cas.service-registry.core.init-from-json=true",
-					"--cas.service-registry.json.location=file:/etc/cas/services")
+					"--cas.service-registry.json.location=file:/etc/cas/services", "--cas.tgc.secure=false",
+					"--cas.tgc.sameSitePolicy=Lax")
 			.withExposedPorts(8080).withClasspathResourceMapping("cas/services/https-1.json",
 					"/etc/cas/services/https-1.json", BindMode.READ_WRITE)
 			.waitingFor(Wait.forLogMessage(".*Ready to process requests.*", 1));
@@ -90,6 +96,21 @@ class CasLoginApplicationTests {
 		Selenide.$(By.id("rp_logout_button")).click();
 		String logoutMsg = Selenide.$(By.id("logout-msg")).text();
 		assertThat(logoutMsg).isEqualTo("You are successfully logged out of the app, but not CAS");
+	}
+
+	@Test
+	void publicPageWhenCasGatewayAuthenticationThenAuthenticated() {
+		doCasLogin();
+		Selenide.open("http://localhost:" + this.port + "/public");
+		String lead = Selenide.$(By.className("lead")).text();
+		assertThat(lead).isEqualTo("You are successfully logged in as casuser");
+	}
+
+	private void doCasLogin() {
+		Selenide.open(this.environment.getProperty("cas.login.url"));
+		Selenide.$(By.name("username")).setValue("casuser");
+		Selenide.$(By.name("password")).setValue("Mellon");
+		Selenide.$(By.name("submitBtn")).click();
 	}
 
 }
