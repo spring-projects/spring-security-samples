@@ -114,7 +114,8 @@ public class MockWebServerPropertySource extends PropertySource<MockWebServer> i
 
 	private static MockResponse response(String body, int status) {
 		return new MockResponse().setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.setResponseCode(status).setBody(body);
+			.setResponseCode(status)
+			.setBody(body);
 	}
 
 }

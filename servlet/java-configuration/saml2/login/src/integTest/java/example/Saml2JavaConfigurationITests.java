@@ -64,9 +64,11 @@ public class Saml2JavaConfigurationITests {
 	@BeforeEach
 	void setup() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext)
-				.apply(SecurityMockMvcConfigurers.springSecurity()).build();
+			.apply(SecurityMockMvcConfigurers.springSecurity())
+			.build();
 		this.webClient = MockMvcWebClientBuilder.mockMvcSetup(this.mvc)
-				.withDelegate(new LocalHostWebClient(this.environment)).build();
+			.withDelegate(new LocalHostWebClient(this.environment))
+			.build();
 		this.webClient.getCookieManager().clearCookies();
 	}
 
@@ -114,7 +116,7 @@ public class Saml2JavaConfigurationITests {
 
 	private HtmlForm findForm(HtmlPage login) {
 		await().atMost(10, TimeUnit.SECONDS)
-				.until(() -> login.getForms().stream().map(HtmlForm::getId).anyMatch("form19"::equals));
+			.until(() -> login.getForms().stream().map(HtmlForm::getId).anyMatch("form19"::equals));
 		for (HtmlForm form : login.getForms()) {
 			try {
 				if (form.getId().equals("form19")) {

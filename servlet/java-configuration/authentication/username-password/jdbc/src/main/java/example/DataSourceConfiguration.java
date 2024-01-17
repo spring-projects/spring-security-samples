@@ -35,7 +35,8 @@ public class DataSourceConfiguration {
 	public DataSource dataSource() {
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		return builder.setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:org/springframework/security/core/userdetails/jdbc/users.ddl").build();
+			.addScript("classpath:org/springframework/security/core/userdetails/jdbc/users.ddl")
+			.build();
 	}
 
 }

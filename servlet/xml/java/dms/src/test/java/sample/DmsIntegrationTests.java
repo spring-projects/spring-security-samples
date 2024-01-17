@@ -100,7 +100,7 @@ public class DmsIntegrationTests {
 
 	protected void process(String username, String password, boolean shouldBeFiltered) {
 		SecurityContextHolder.getContext()
-				.setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
+			.setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
 		System.out.println("------ Test for username: " + username + " ------");
 		AbstractElement[] rootElements = this.documentDao.findElements(Directory.ROOT_DIRECTORY);
 		assertThat(rootElements).hasSize(3);
@@ -140,7 +140,7 @@ public class DmsIntegrationTests {
 
 		if (shouldBeFiltered) {
 			assertThat(nonHomeConfidentialDir).withFailMessage("Found confidential directory when we should not have")
-					.isNull();
+				.isNull();
 		}
 		else {
 			System.out.println("Inaccessible dir....: " + nonHomeConfidentialDir.getFullName());

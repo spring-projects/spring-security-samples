@@ -76,9 +76,12 @@ public class ContactsPage {
 	}
 
 	public DeleteContactLink andHasContact(final String name, final String email) {
-		return this.contacts.stream().filter(byEmail(email).and(byName(name)))
-				.map((e) -> e.findElement(By.cssSelector("td:nth-child(4) > a"))).findFirst()
-				.map((e) -> new DeleteContactLink(this.webDriver, e)).get();
+		return this.contacts.stream()
+			.filter(byEmail(email).and(byName(name)))
+			.map((e) -> e.findElement(By.cssSelector("td:nth-child(4) > a")))
+			.findFirst()
+			.map((e) -> new DeleteContactLink(this.webDriver, e))
+			.get();
 	}
 
 	public ContactsPage andContactHasBeenRemoved(final String name, final String email) {

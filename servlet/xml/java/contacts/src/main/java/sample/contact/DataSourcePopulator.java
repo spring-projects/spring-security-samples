@@ -229,7 +229,7 @@ public class DataSourcePopulator implements InitializingBean {
 
 	private void changeOwner(int contactNumber, String newOwnerUsername) {
 		AclImpl acl = (AclImpl) this.mutableAclService
-				.readAclById(new ObjectIdentityImpl(Contact.class, (long) contactNumber));
+			.readAclById(new ObjectIdentityImpl(Contact.class, (long) contactNumber));
 		acl.setOwner(new PrincipalSid(newOwnerUsername));
 		updateAclInTransaction(acl);
 	}
@@ -240,7 +240,7 @@ public class DataSourcePopulator implements InitializingBean {
 
 	private void grantPermissions(int contactNumber, String recipientUsername, Permission permission) {
 		AclImpl acl = (AclImpl) this.mutableAclService
-				.readAclById(new ObjectIdentityImpl(Contact.class, (long) contactNumber));
+			.readAclById(new ObjectIdentityImpl(Contact.class, (long) contactNumber));
 		acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipientUsername), true);
 		updateAclInTransaction(acl);
 	}
