@@ -82,9 +82,11 @@ public class SecurityConfiguration {
 			@Value("classpath:credentials/rp-private.key") RSAPrivateKey privateKey) {
 		Saml2X509Credential signing = Saml2X509Credential.signing(privateKey, relyingPartyCertificate());
 		RelyingPartyRegistration two = RelyingPartyRegistrations
-				.fromMetadataLocation("https://dev-05937739.okta.com/app/exk4842vmapcMkohr5d7/sso/saml/metadata")
-				.registrationId("two").signingX509Credentials((c) -> c.add(signing))
-				.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo").build();
+			.fromMetadataLocation("https://dev-05937739.okta.com/app/exk4842vmapcMkohr5d7/sso/saml/metadata")
+			.registrationId("two")
+			.signingX509Credentials((c) -> c.add(signing))
+			.singleLogoutServiceLocation("http://localhost:8080/logout/saml2/slo")
+			.build();
 		return new InMemoryRelyingPartyRegistrationRepository(two);
 	}
 

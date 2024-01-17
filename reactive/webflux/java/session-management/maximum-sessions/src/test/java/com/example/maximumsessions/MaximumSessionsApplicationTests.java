@@ -94,13 +94,20 @@ class MaximumSessionsApplicationTests {
 	}
 
 	private ResponseCookie loginReturningCookie(MultiValueMap<String, String> data) {
-		return login(data).expectCookie().exists("SESSION").returnResult(Void.class).getResponseCookies()
-				.getFirst("SESSION");
+		return login(data).expectCookie()
+			.exists("SESSION")
+			.returnResult(Void.class)
+			.getResponseCookies()
+			.getFirst("SESSION");
 	}
 
 	private WebTestClient.ResponseSpec login(MultiValueMap<String, String> data) {
-		return this.client.mutateWith(csrf()).post().uri("/login").contentType(MediaType.MULTIPART_FORM_DATA)
-				.body(BodyInserters.fromFormData(data)).exchange();
+		return this.client.mutateWith(csrf())
+			.post()
+			.uri("/login")
+			.contentType(MediaType.MULTIPART_FORM_DATA)
+			.body(BodyInserters.fromFormData(data))
+			.exchange();
 	}
 
 }

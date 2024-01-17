@@ -61,17 +61,22 @@ public class RefreshableRelyingPartyRegistrationRepository
 	@Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
 	public void refreshMetadata() {
 		for (Map.Entry<String, Saml2RelyingPartyProperties.Registration> byRegistrationId : this.relyingPartyProperties
-				.getRegistration().entrySet()) {
+			.getRegistration()
+			.entrySet()) {
 			fetchMetadata(byRegistrationId.getKey(), byRegistrationId.getValue());
 		}
 	}
 
 	private void fetchMetadata(String registrationId, Saml2RelyingPartyProperties.Registration registration) {
 		RelyingPartyRegistration relyingPartyRegistration = RelyingPartyRegistrations
-				.fromMetadataLocation(registration.getAssertingparty().getMetadataUri())
-				.signingX509Credentials((credentials) -> registration.getSigning().getCredentials().stream()
-						.map(this::asSigningCredential).forEach(credentials::add))
-				.registrationId(registrationId).build();
+			.fromMetadataLocation(registration.getAssertingparty().getMetadataUri())
+			.signingX509Credentials((credentials) -> registration.getSigning()
+				.getCredentials()
+				.stream()
+				.map(this::asSigningCredential)
+				.forEach(credentials::add))
+			.registrationId(registrationId)
+			.build();
 		this.relyingPartyRegistrations.put(relyingPartyRegistration.getRegistrationId(), relyingPartyRegistration);
 	}
 

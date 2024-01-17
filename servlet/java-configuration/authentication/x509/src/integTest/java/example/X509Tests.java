@@ -55,7 +55,7 @@ public class X509Tests {
 	void notCertificateThenSslHandshakeException() {
 		RestTemplate rest = new RestTemplate();
 		assertThatCode(() -> rest.getForEntity(getServerUrl(), String.class))
-				.hasCauseInstanceOf(SSLHandshakeException.class);
+			.hasCauseInstanceOf(SSLHandshakeException.class);
 	}
 
 	@Test

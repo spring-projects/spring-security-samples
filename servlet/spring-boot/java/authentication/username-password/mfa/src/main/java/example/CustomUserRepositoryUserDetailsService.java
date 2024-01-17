@@ -48,7 +48,7 @@ public class CustomUserRepositoryUserDetailsService implements UserDetailsServic
 	static final class CustomUserDetails extends CustomUser implements UserDetails {
 
 		private static final List<GrantedAuthority> ROLE_USER = Collections
-				.unmodifiableList(AuthorityUtils.createAuthorityList("ROLE_USER"));
+			.unmodifiableList(AuthorityUtils.createAuthorityList("ROLE_USER"));
 
 		CustomUserDetails(CustomUser customUser) {
 			super(customUser);

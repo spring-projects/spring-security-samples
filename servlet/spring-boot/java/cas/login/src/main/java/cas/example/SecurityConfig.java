@@ -98,8 +98,11 @@ public class SecurityConfig {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("casuser").password("Mellon").roles("USER")
-				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+			.username("casuser")
+			.password("Mellon")
+			.roles("USER")
+			.build();
 		return new InMemoryUserDetailsManager(user);
 	}
 

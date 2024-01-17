@@ -63,12 +63,21 @@ public class SecurityConfig {
 
 	@Bean
 	ReactiveUserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
-				.build();
-		UserDetails admin = User.withDefaultPasswordEncoder().username("admin").password("password").roles("ADMIN")
-				.build();
-		UserDetails unlimitedSessions = User.withDefaultPasswordEncoder().username("unlimited").password("password")
-				.roles("UNLIMITED_SESSIONS").build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+			.username("user")
+			.password("password")
+			.roles("USER")
+			.build();
+		UserDetails admin = User.withDefaultPasswordEncoder()
+			.username("admin")
+			.password("password")
+			.roles("ADMIN")
+			.build();
+		UserDetails unlimitedSessions = User.withDefaultPasswordEncoder()
+			.username("unlimited")
+			.password("password")
+			.roles("UNLIMITED_SESSIONS")
+			.build();
 		return new MapReactiveUserDetailsService(user, admin, unlimitedSessions);
 	}
 

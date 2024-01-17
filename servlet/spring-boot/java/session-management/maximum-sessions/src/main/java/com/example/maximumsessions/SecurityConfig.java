@@ -35,15 +35,18 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests.anyRequest().authenticated())
-				.formLogin(withDefaults())
-				.sessionManagement((sessionManagement) -> sessionManagement.maximumSessions(1));
+			.formLogin(withDefaults())
+			.sessionManagement((sessionManagement) -> sessionManagement.maximumSessions(1));
 		return http.build();
 	}
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
-				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+			.username("user")
+			.password("password")
+			.roles("USER")
+			.build();
 		return new InMemoryUserDetailsManager(user);
 	}
 

@@ -36,8 +36,8 @@ public class HelloSecurityExplicitITests {
 
 	@Test
 	void login() {
-		CustomUser result = this.rest.withBasicAuth("user@example.com", "password").getForObject("/user",
-				CustomUser.class);
+		CustomUser result = this.rest.withBasicAuth("user@example.com", "password")
+			.getForObject("/user", CustomUser.class);
 		assertThat(result.getEmail()).isEqualTo("user@example.com");
 	}
 

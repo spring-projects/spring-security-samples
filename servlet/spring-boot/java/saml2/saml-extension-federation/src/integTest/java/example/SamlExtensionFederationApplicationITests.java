@@ -79,8 +79,9 @@ public class SamlExtensionFederationApplicationITests {
 
 	@Test
 	void metadataWhenGetThenForwardToUrl() throws Exception {
-		this.mvc.perform(get("/saml/metadata")).andExpect(status().isOk())
-				.andExpect(forwardedUrl("/saml2/service-provider-metadata/one"));
+		this.mvc.perform(get("/saml/metadata"))
+			.andExpect(status().isOk())
+			.andExpect(forwardedUrl("/saml2/service-provider-metadata/one"));
 	}
 
 	private void performLogin() throws Exception {

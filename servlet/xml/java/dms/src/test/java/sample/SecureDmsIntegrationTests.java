@@ -46,7 +46,7 @@ public class SecureDmsIntegrationTests extends DmsIntegrationTests {
 		// and
 		// File
 		assertThat(this.jdbcTemplate.queryForObject("select count(id) from ACL_OBJECT_IDENTITY", Integer.class))
-				.isEqualTo(100);
+			.isEqualTo(100);
 		assertThat(this.jdbcTemplate.queryForObject("select count(id) from ACL_ENTRY", Integer.class)).isEqualTo(115);
 	}
 

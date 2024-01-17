@@ -45,7 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		AuthenticationPrincipalArgumentResolver principalArgumentResolver = new AuthenticationPrincipalArgumentResolver();
 		principalArgumentResolver
-				.setBeanResolver(new BeanFactoryResolver(this.context.getAutowireCapableBeanFactory()));
+			.setBeanResolver(new BeanFactoryResolver(this.context.getAutowireCapableBeanFactory()));
 		resolvers.add(principalArgumentResolver);
 	}
 

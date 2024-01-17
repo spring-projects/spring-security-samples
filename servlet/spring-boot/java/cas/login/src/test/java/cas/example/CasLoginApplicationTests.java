@@ -50,13 +50,14 @@ class CasLoginApplicationTests {
 
 	@Container
 	static GenericContainer<?> casServer = new GenericContainer<>(DockerImageName.parse("apereo/cas:6.6.6"))
-			.withCommand("--cas.standalone.configuration-directory=/etc/cas/config", "--server.ssl.enabled=false",
-					"--server.port=8080", "--cas.service-registry.core.init-from-json=true",
-					"--cas.service-registry.json.location=file:/etc/cas/services", "--cas.tgc.secure=false",
-					"--cas.tgc.sameSitePolicy=Lax")
-			.withExposedPorts(8080).withClasspathResourceMapping("cas/services/https-1.json",
-					"/etc/cas/services/https-1.json", BindMode.READ_WRITE)
-			.waitingFor(Wait.forLogMessage(".*Ready to process requests.*", 1));
+		.withCommand("--cas.standalone.configuration-directory=/etc/cas/config", "--server.ssl.enabled=false",
+				"--server.port=8080", "--cas.service-registry.core.init-from-json=true",
+				"--cas.service-registry.json.location=file:/etc/cas/services", "--cas.tgc.secure=false",
+				"--cas.tgc.sameSitePolicy=Lax")
+		.withExposedPorts(8080)
+		.withClasspathResourceMapping("cas/services/https-1.json", "/etc/cas/services/https-1.json",
+				BindMode.READ_WRITE)
+		.waitingFor(Wait.forLogMessage(".*Ready to process requests.*", 1));
 
 	@DynamicPropertySource
 	static void casProperties(DynamicPropertyRegistry registry) {
