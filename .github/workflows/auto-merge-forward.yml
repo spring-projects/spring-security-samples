@@ -46,5 +46,5 @@ jobs:
         uses: marcusdacoregio/auto-merge-forward@9eac812bc73673e1a358766ac2ce319bd31ce0f8
         with:
           branches: '6.1.x, 6.2.x, main'
-          dry-run: true
+          dry-run: false
           from-author: dependabot[bot]
