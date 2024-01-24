@@ -1,0 +1,21 @@
+name: Trigger Auto Merge Forward
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  trigger-worflow:
+    name: Trigger Workflow
+    runs-on: ubuntu-latest
+    if: github.event.commits[0].author.username == 'dependabot[bot]'
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+      - id: trigger
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_REPO_TOKEN }}
+        run: gh workflow run auto-merge-forward.yml -r main
