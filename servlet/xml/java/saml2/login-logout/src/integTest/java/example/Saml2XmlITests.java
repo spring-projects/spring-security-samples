@@ -63,9 +63,11 @@ public class Saml2XmlITests {
 	@BeforeEach
 	void setup() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext)
-				.apply(SecurityMockMvcConfigurers.springSecurity()).build();
+			.apply(SecurityMockMvcConfigurers.springSecurity())
+			.build();
 		this.webClient = MockMvcWebClientBuilder.mockMvcSetup(this.mvc)
-				.withDelegate(new LocalHostWebClient(this.environment)).build();
+			.withDelegate(new LocalHostWebClient(this.environment))
+			.build();
 		this.webClient.getCookieManager().clearCookies();
 	}
 

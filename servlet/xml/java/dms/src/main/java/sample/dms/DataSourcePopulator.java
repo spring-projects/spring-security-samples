@@ -101,8 +101,9 @@ public class DataSourcePopulator implements InitializingBean {
 		this.template.execute("INSERT INTO AUTHORITIES VALUES('jane','ROLE_USER');");
 
 		// Now create an ACL entry for the root directory
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("rod", "ignored",
-				AuthorityUtils.createAuthorityList(("ROLE_IGNORED"))));
+		SecurityContextHolder.getContext()
+			.setAuthentication(new UsernamePasswordAuthenticationToken("rod", "ignored",
+					AuthorityUtils.createAuthorityList(("ROLE_IGNORED"))));
 
 		addPermission(this.documentDao, Directory.ROOT_DIRECTORY, "ROLE_USER", LEVEL_GRANT_WRITE);
 

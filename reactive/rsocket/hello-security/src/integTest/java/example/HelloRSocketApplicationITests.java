@@ -69,7 +69,7 @@ public class HelloRSocketApplicationITests {
 		RSocketRequester requester = this.requester.connectTcp("localhost", this.port).block();
 
 		assertThatThrownBy(() -> requester.route("message").data(Mono.empty()).retrieveMono(String.class).block())
-				.isNotNull();
+			.isNotNull();
 	}
 
 }

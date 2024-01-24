@@ -31,11 +31,16 @@ public class SecurityConfiguration {
 
 	@Bean
 	UserDetailsManager users(DataSource dataSource) {
-		UserDetails user = User.builder().username("user")
-				.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.").roles("USER").build();
-		UserDetails admin = User.builder().username("admin")
-				.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.").roles("USER", "ADMIN")
-				.build();
+		UserDetails user = User.builder()
+			.username("user")
+			.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.")
+			.roles("USER")
+			.build();
+		UserDetails admin = User.builder()
+			.username("admin")
+			.password("{bcrypt}$2a$10$AiyMWI4UBLozgXq6itzyVuxrtofjcPzn/WS3fOrcqgzdax9jB7Io.")
+			.roles("USER", "ADMIN")
+			.build();
 		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
 		users.createUser(user);
 		users.createUser(admin);

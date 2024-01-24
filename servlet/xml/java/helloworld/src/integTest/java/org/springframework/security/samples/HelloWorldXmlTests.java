@@ -55,15 +55,22 @@ public class HelloWorldXmlTests {
 
 	@Test
 	void authenticatedUserIsSentToOriginalPage() {
-		final HomePage homePage = HomePage.to(this.driver, this.port).loginForm().username("user").password("password")
-				.submit();
+		final HomePage homePage = HomePage.to(this.driver, this.port)
+			.loginForm()
+			.username("user")
+			.password("password")
+			.submit();
 		homePage.assertAt().andTheUserNameIsDisplayed();
 	}
 
 	@Test
 	void authenticatedUserLogsOut() {
-		LoginPage loginPage = HomePage.to(this.driver, this.port).loginForm().username("user").password("password")
-				.submit().logout();
+		LoginPage loginPage = HomePage.to(this.driver, this.port)
+			.loginForm()
+			.username("user")
+			.password("password")
+			.submit()
+			.logout();
 		loginPage.assertAt();
 
 		loginPage = HomePage.to(this.driver, this.port);

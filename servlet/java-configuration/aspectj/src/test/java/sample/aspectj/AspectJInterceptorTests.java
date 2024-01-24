@@ -51,7 +51,7 @@ class AspectJInterceptorTests {
 	@Test
 	void securedMethodNotAuthenticated() {
 		assertThatExceptionOfType(AuthenticationCredentialsNotFoundException.class)
-				.isThrownBy(() -> this.service.secureMethod());
+			.isThrownBy(() -> this.service.secureMethod());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ class AspectJInterceptorTests {
 	@Test
 	void securedClassNotAuthenticated() {
 		assertThatExceptionOfType(AuthenticationCredentialsNotFoundException.class)
-				.isThrownBy(() -> this.securedService.secureMethod());
+			.isThrownBy(() -> this.securedService.secureMethod());
 	}
 
 	@Test

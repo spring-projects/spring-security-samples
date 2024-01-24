@@ -66,14 +66,16 @@ public class SecurityConfiguration {
 		Saml2X509Credential signing = Saml2X509Credential.signing(key, x509Certificate(cert));
 		Registration registration = properties.getRegistration().values().iterator().next();
 		return new InMemoryRelyingPartyRegistrationRepository(RelyingPartyRegistrations
-				.collectionFromMetadataLocation(registration.getAssertingparty().getMetadataUri()).stream()
-				.map((builder) -> builder.registrationId(UUID.randomUUID().toString())
-						.entityId(registration.getEntityId())
-						.assertionConsumerServiceLocation(registration.getAcs().getLocation())
-						.singleLogoutServiceLocation(registration.getSinglelogout().getUrl())
-						.singleLogoutServiceResponseLocation(registration.getSinglelogout().getResponseUrl())
-						.signingX509Credentials((credentials) -> credentials.add(signing)).build())
-				.collect(Collectors.toList()));
+			.collectionFromMetadataLocation(registration.getAssertingparty().getMetadataUri())
+			.stream()
+			.map((builder) -> builder.registrationId(UUID.randomUUID().toString())
+				.entityId(registration.getEntityId())
+				.assertionConsumerServiceLocation(registration.getAcs().getLocation())
+				.singleLogoutServiceLocation(registration.getSinglelogout().getUrl())
+				.singleLogoutServiceResponseLocation(registration.getSinglelogout().getResponseUrl())
+				.signingX509Credentials((credentials) -> credentials.add(signing))
+				.build())
+			.collect(Collectors.toList()));
 	}
 
 	X509Certificate x509Certificate(File location) {
