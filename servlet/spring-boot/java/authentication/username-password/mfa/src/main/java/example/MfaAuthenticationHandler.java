@@ -26,10 +26,13 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 /**
  * An authentication handler that saves an authentication either way.
@@ -42,6 +45,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 public class MfaAuthenticationHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
 	private final AuthenticationSuccessHandler successHandler;
+
+	private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
 	public MfaAuthenticationHandler(String url) {
 		SimpleUrlAuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler(url);
@@ -65,7 +70,9 @@ public class MfaAuthenticationHandler implements AuthenticationSuccessHandler, A
 
 	private void saveMfaAuthentication(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		SecurityContextHolder.getContext().setAuthentication(new MfaAuthentication(authentication));
+		SecurityContext context = SecurityContextHolder.getContext();
+		context.setAuthentication(new MfaAuthentication(authentication));
+		this.securityContextRepository.saveContext(context, request, response);
 		this.successHandler.onAuthenticationSuccess(request, response, authentication);
 	}
 
