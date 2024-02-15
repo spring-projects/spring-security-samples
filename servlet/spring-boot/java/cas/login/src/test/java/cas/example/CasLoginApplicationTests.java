@@ -18,6 +18,7 @@ package cas.example;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -69,6 +70,12 @@ class CasLoginApplicationTests {
 
 	@BeforeAll
 	static void setUp() {
+		WebDriverManager.chromedriver()
+			.clearDriverCache()
+			.clearResolutionCache()
+			.browserInDocker()
+			.browserVersion("114")
+			.setup();
 		Configuration.headless = true;
 	}
 
