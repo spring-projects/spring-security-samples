@@ -6,13 +6,10 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url "https://repo.spring.io/milestone" }
     maven { url "https://repo.spring.io/snapshot" }
 }
-
-ext["spring-security.version"] = "6.1.8-SNAPSHOT"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
