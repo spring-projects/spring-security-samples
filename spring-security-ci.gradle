@@ -55,5 +55,29 @@ allprojects {
 				includeVersion "org.springframework.security", "spring-security-web", "$springSecurityVersion"
 			}
 		}
+		def hasArtifactoryUsername = project.hasProperty('artifactoryUsername')
+		maven {
+			name = 'artifactory-snapshot'
+			if (hasArtifactoryUsername) {
+				credentials {
+					username project.artifactoryUsername
+					password project.artifactoryPassword
+				}
+			}
+			url = 'https://repo.spring.vmware.com/artifactory/spring-commercial-snapshot-local/'
+		}
+		maven {
+			name = 'artifactory-release'
+			if (hasArtifactoryUsername) {
+				credentials {
+					username project.artifactoryUsername
+					password project.artifactoryPassword
+				}
+			}
+			content {
+				excludeGroup('net.minidev')
+			}
+			url = 'https://repo.spring.vmware.com/artifactory/spring-commercial-release-local/'
+		}
 	}
 }
