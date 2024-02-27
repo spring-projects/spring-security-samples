@@ -16,7 +16,6 @@
 
 package com.example.maximumsessions;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,6 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 @TestPropertySource(properties = "prevent-login=true")
-@Disabled
 class MaximumSessionsApplicationPreventLoginTests {
 
 	@Autowired

@@ -90,7 +90,7 @@ public class SecurityConfig {
 	private SessionLimit maxSessions() {
 		return (authentication) -> {
 			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_UNLIMITED_SESSIONS"))) {
-				return Mono.just(-1);
+				return Mono.empty();
 			}
 			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 				return Mono.just(2);
