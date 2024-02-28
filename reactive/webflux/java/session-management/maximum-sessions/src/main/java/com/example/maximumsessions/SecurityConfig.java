@@ -18,6 +18,7 @@ package com.example.maximumsessions;
 
 import reactor.core.publisher.Mono;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.session.InMemoryReactiveSessionRegistry;
 import org.springframework.security.core.session.ReactiveSessionRegistry;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -35,7 +37,7 @@ import org.springframework.security.web.server.authentication.InvalidateLeastUse
 import org.springframework.security.web.server.authentication.PreventLoginServerMaximumSessionsExceededHandler;
 import org.springframework.security.web.server.authentication.ServerMaximumSessionsExceededHandler;
 import org.springframework.security.web.server.authentication.SessionLimit;
-import org.springframework.security.web.session.WebSessionStoreReactiveSessionRegistry;
+import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 import org.springframework.web.server.session.DefaultWebSessionManager;
 import org.springframework.web.server.session.WebSessionManager;
 
@@ -47,7 +49,8 @@ public class SecurityConfig {
 	private boolean preventLogin;
 
 	@Bean
-	SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+	SecurityWebFilterChain filterChain(ServerHttpSecurity http,
+			ServerMaximumSessionsExceededHandler maximumSessionsExceededHandler) {
 		// @formatter:off
 		http
 				.authorizeExchange((exchanges) -> exchanges.anyExchange().authenticated())
@@ -55,7 +58,7 @@ public class SecurityConfig {
 				.sessionManagement((sessions) -> sessions
 						.concurrentSessions((concurrency) -> concurrency
 							.maximumSessions(maxSessions())
-							.maximumSessionsExceededHandler(maximumSessionsExceededHandler()))
+							.maximumSessionsExceededHandler(maximumSessionsExceededHandler))
 				);
 		return http.build();
 		// @formatter:on
@@ -82,9 +85,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	ReactiveSessionRegistry reactiveSessionRegistry(WebSessionManager webSessionManager) {
-		return new WebSessionStoreReactiveSessionRegistry(
-				((DefaultWebSessionManager) webSessionManager).getSessionStore());
+	ReactiveSessionRegistry reactiveSessionRegistry() {
+		return new InMemoryReactiveSessionRegistry();
 	}
 
 	private SessionLimit maxSessions() {
@@ -99,11 +101,14 @@ public class SecurityConfig {
 		};
 	}
 
-	private ServerMaximumSessionsExceededHandler maximumSessionsExceededHandler() {
+	@Bean
+	ServerMaximumSessionsExceededHandler maximumSessionsExceededHandler(
+			@Qualifier(WebHttpHandlerBuilder.WEB_SESSION_MANAGER_BEAN_NAME) WebSessionManager webSessionManager) {
 		if (this.preventLogin) {
 			return new PreventLoginServerMaximumSessionsExceededHandler();
 		}
-		return new InvalidateLeastUsedServerMaximumSessionsExceededHandler();
+		return new InvalidateLeastUsedServerMaximumSessionsExceededHandler(
+				((DefaultWebSessionManager) webSessionManager).getSessionStore());
 	}
 
 }
