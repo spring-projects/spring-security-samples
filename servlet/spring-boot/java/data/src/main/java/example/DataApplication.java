@@ -16,11 +16,51 @@
 
 package example;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
+import org.springframework.security.authorization.method.AuthorizationAdvisorProxyFactory;
+import org.springframework.security.authorization.method.AuthorizationAdvisorProxyFactory.TargetVisitor;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
+@EnableMethodSecurity
 public class DataApplication {
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	static Customizer<AuthorizationAdvisorProxyFactory> skipValueTypes() {
+		return (f) -> f.setTargetVisitor(TargetVisitor.defaultsSkipValueTypes());
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	static PrePostTemplateDefaults templateDefaults() {
+		return new PrePostTemplateDefaults();
+	}
+
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new InMemoryUserDetailsManager(
+			User.withDefaultPasswordEncoder()
+				.username("rob")
+				.password("password")
+				.authorities("message:read", "user:read")
+				.build(),
+			User.withDefaultPasswordEncoder()
+				.username("luke")
+				.password("password")
+				.authorities("message:read")
+				.build()
+		);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(DataApplication.class, args);

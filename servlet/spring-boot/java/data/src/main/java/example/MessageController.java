@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,27 @@
 package example;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.authorization.method.AuthorizeReturnObject;
-import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * A repository for accessing {@link Message}s.
- *
- * @author Rob Winch
- */
-@Repository
-@AuthorizeReturnObject
-public interface MessageRepository extends CrudRepository<Message, Long> {
+@RestController
+public class MessageController {
+	private final MessageRepository messages;
 
-	@Query("select m from Message m where m.to.id = ?#{ authentication.name }")
-	List<Message> findAll();
+	public MessageController(MessageRepository messages) {
+		this.messages = messages;
+	}
+
+	@GetMapping
+	List<Message> getMessages() {
+		return this.messages.findAll();
+	}
+
+	@GetMapping("/{id}")
+	Optional<Message> getMessages(Long id) {
+		return this.messages.findById(id);
+	}
 
 }

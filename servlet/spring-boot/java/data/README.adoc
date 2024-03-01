@@ -1,0 +1,51 @@
+= Spring Data Sample
+
+After running this sample like so:
+
+.Java
+[source,java,role="primary"]
+----
+./gradlew :bootRun
+----
+
+Then you can query for messages using `luke/password` and `rob/password`.
+
+Because the domain objects are secured, you will see a subset of fields with `luke`.
+
+For example, querying `/` with `luke`, you'll see:
+
+```json
+  ...
+    {
+        "created": "2014-07-12T16:00:00Z",
+        "id": 112,
+        "summary": "Is this secure?",
+        "text": "This message is for Luke",
+        "to": {
+            "email": "luke@example.com",
+            "id": "luke",
+            "password": "password"
+        }
+    }
+  ...
+```
+
+However, with `rob`, you'll also see `firstName` and `lastName` like so:
+
+```json
+  ...
+    {
+        "created": "2014-07-12T04:00:00Z",
+        "id": 102,
+        "summary": "Is this secure?",
+        "text": "This message is for Rob",
+        "to": {
+            "email": "rob@example.com",
+            "firstName": "Rob",
+            "id": "rob",
+            "lastName": "Winch",
+            "password": "password"
+        }
+    }
+  ...
+```
