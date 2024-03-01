@@ -1,0 +1,33 @@
+plugins {
+	alias(libs.plugins.org.springframework.boot)
+	alias(libs.plugins.io.spring.dependency.management)
+	id "nebula.integtest" version "8.2.0"
+	id 'java'
+}
+
+ext['spring-security.version'] = '6.3.0-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+	implementation platform(libs.org.springframework.spring.framework.bom)
+	implementation platform(libs.org.springframework.security.spring.security.bom)
+	implementation platform(libs.org.springframework.data.spring.data.bom)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.security:spring-security-data'
+	implementation 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+	outputs.upToDateWhen { false }
+}
