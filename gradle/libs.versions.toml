@@ -1,5 +1,5 @@
 [versions]
-org-springframework-boot = "3.2.2"
+org-springframework-boot = "3.2.3"
 
 [libraries]
 org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:6.1.4"
