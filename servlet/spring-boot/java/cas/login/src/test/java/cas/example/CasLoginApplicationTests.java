@@ -16,13 +16,12 @@
 
 package cas.example;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
@@ -60,6 +59,10 @@ class CasLoginApplicationTests {
 				BindMode.READ_WRITE)
 		.waitingFor(Wait.forLogMessage(".*Ready to process requests.*", 1));
 
+	Playwright playwright;
+
+	Browser browser;
+
 	@DynamicPropertySource
 	static void casProperties(DynamicPropertyRegistry registry) {
 		String casUrl = String.format("http://%s:%s/cas", casServer.getHost(), casServer.getMappedPort(8080));
@@ -68,42 +71,42 @@ class CasLoginApplicationTests {
 		registry.add("cas.logout.url", () -> casUrl + "/logout");
 	}
 
-	@BeforeAll
-	static void setUp() {
-		WebDriverManager.chromedriver()
-			.clearDriverCache()
-			.clearResolutionCache()
-			.browserInDocker()
-			.browserVersion("114")
-			.setup();
-		Configuration.headless = true;
+	@BeforeEach
+	void setUp() {
+		this.playwright = Playwright.create();
+		this.browser = this.playwright.chromium().launch();
 	}
 
 	@AfterEach
 	void setup() {
-		Selenide.closeWindow();
+		this.browser.close();
+		this.playwright.close();
 	}
 
 	@Test
 	void login() {
-		doLogin();
-		String lead = Selenide.$(By.className("lead")).text();
-		assertThat(lead).isEqualTo("You are successfully logged in as casuser");
-	}
-
-	private void doLogin() {
-		Selenide.open("http://localhost:" + this.port);
-		Selenide.$(By.name("username")).setValue("casuser");
-		Selenide.$(By.name("password")).setValue("Mellon");
-		Selenide.$(By.name("submitBtn")).click();
+		try (Page page = doLogin()) {
+			String lead = page.locator(".lead").textContent();
+			assertThat(lead).isEqualTo("You are successfully logged in as casuser");
+		}
 	}
 
 	@Test
 	void loginAndLogout() {
-		doLogin();
-		Selenide.$(By.id("rp_logout_button")).click();
-		String logoutMsg = Selenide.$(By.id("logout-msg")).text();
-		assertThat(logoutMsg).isEqualTo("You are successfully logged out of the app, but not CAS");
+		try (Page page = doLogin()) {
+			page.click("#rp_logout_button");
+			String logoutMsg = page.locator("#logout-msg").textContent();
+			assertThat(logoutMsg).isEqualTo("You are successfully logged out of the app, but not CAS");
+		}
+	}
+
+	private Page doLogin() {
+		Page page = this.browser.newPage();
+		page.navigate("http://localhost:" + this.port);
+		page.fill("//input[@name='username']", "casuser");
+		page.fill("//input[@name='password']", "Mellon");
+		page.click("//button[@name='submitBtn']");
+		return page;
 	}
 
 	@Test

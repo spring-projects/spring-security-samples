@@ -20,14 +20,10 @@ dependencies {
     implementation 'org.springframework.security:spring-security-cas'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
-    testImplementation 'net.sourceforge.htmlunit:htmlunit'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.testcontainers:junit-jupiter"
-    testImplementation 'com.codeborne:selenide:7.0.2'
-    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver'
-    testImplementation 'org.seleniumhq.selenium:selenium-java'
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.4'
+    testImplementation 'com.microsoft.playwright:playwright:1.42.0'
 }
 
 tasks.withType(Test).configureEach {
