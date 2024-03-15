@@ -100,6 +100,15 @@ class CasLoginApplicationTests {
 		}
 	}
 
+	@Test
+	void publicPageWhenCasGatewayAuthenticationThenAuthenticated() {
+		try (Page page = doLogin()) {
+			page.navigate("http://localhost:" + this.port + "/public");
+			String lead = page.locator(".lead").textContent();
+			assertThat(lead).isEqualTo("You are successfully logged in as casuser");
+		}
+	}
+
 	private Page doLogin() {
 		Page page = this.browser.newPage();
 		page.navigate("http://localhost:" + this.port);
@@ -107,21 +116,6 @@ class CasLoginApplicationTests {
 		page.fill("//input[@name='password']", "Mellon");
 		page.click("//button[@name='submitBtn']");
 		return page;
-	}
-
-	@Test
-	void publicPageWhenCasGatewayAuthenticationThenAuthenticated() {
-		doCasLogin();
-		Selenide.open("http://localhost:" + this.port + "/public");
-		String lead = Selenide.$(By.className("lead")).text();
-		assertThat(lead).isEqualTo("You are successfully logged in as casuser");
-	}
-
-	private void doCasLogin() {
-		Selenide.open(this.environment.getProperty("cas.login.url"));
-		Selenide.$(By.name("username")).setValue("casuser");
-		Selenide.$(By.name("password")).setValue("Mellon");
-		Selenide.$(By.name("submitBtn")).click();
 	}
 
 }
