@@ -40,11 +40,13 @@ public class CustomUser {
 	private final String answer;
 
 	@JsonCreator
-    public CustomUser(@JsonProperty("id") long id, @JsonProperty("email") String email, @JsonProperty("password") String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
+	public CustomUser(long id, String email, String password, String secret, String answer) {
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.secret = secret;
+		this.answer = answer;
+	}
 
 	public CustomUser(CustomUser user) {
 		this(user.id, user.email, user.password, user.secret, user.answer);
