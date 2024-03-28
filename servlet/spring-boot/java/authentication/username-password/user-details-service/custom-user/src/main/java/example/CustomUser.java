@@ -18,6 +18,7 @@ package example;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A custom user representation.
@@ -34,7 +35,8 @@ public class CustomUser {
 	private final String password;
 
 	@JsonCreator
-	public CustomUser(long id, String email, String password) {
+	public CustomUser(@JsonProperty("id") long id, @JsonProperty("email") String email,
+			@JsonProperty("password") String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
