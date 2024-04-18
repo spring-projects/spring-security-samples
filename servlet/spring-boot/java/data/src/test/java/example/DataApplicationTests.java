@@ -22,12 +22,9 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNoException;
 
 /**
  * @author Rob Winch
@@ -44,43 +41,44 @@ public class DataApplicationTests {
 		List<Message> messages = this.repository.findAll();
 		assertThat(messages).hasSize(3);
 		for (Message message : messages) {
-			assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(message::getSummary);
-			assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(message::getText);
+			assertThat(message.getSummary()).isNull();
+			assertThat(message.getText()).isNull();
 		}
 	}
 
 	@Test
-	@WithMockUser(username="rob", authorities="message:read")
+	@WithMockUser(username = "rob", authorities = "message:read")
 	void findAllOnlyToCurrentUserCanReadMessage() {
 		List<Message> messages = this.repository.findAll();
 		assertThat(messages).hasSize(3);
 		for (Message message : messages) {
-			assertThatNoException().isThrownBy(message::getSummary);
-			assertThatNoException().isThrownBy(message::getText);
+			assertThat(message.getSummary()).isNotNull();
+			assertThat(message.getText()).isNotNull();
 		}
 	}
 
 	@Test
-	@WithMockUser(username="rob", authorities="message:read")
+	@WithMockUser(username = "rob", authorities = "message:read")
 	void findAllOnlyToCurrentUserCantReadUserDetails() {
 		List<Message> messages = this.repository.findAll();
 		assertThat(messages).hasSize(3);
 		for (Message message : messages) {
 			User user = message.getTo();
-			assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(user::getFirstName);
-			assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(user::getLastName);
+			assertThat(user.getFirstName()).isNull();
+			assertThat(user.getLastName()).isNull();
 		}
 	}
 
 	@Test
-	@WithMockUser(username="rob", authorities={ "message:read", "user:read" })
+	@WithMockUser(username = "rob", authorities = { "message:read", "user:read" })
 	void findAllOnlyToCurrentUserCanReadUserDetails() {
 		List<Message> messages = this.repository.findAll();
 		assertThat(messages).hasSize(3);
 		for (Message message : messages) {
 			User user = message.getTo();
-			assertThatNoException().isThrownBy(user::getFirstName);
-			assertThatNoException().isThrownBy(user::getLastName);
+			assertThat(user.getFirstName()).isNotNull();
+			assertThat(user.getLastName()).isNotNull();
 		}
 	}
+
 }

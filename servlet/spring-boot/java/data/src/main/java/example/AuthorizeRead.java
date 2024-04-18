@@ -26,8 +26,10 @@ import org.springframework.security.authorization.method.HandleAuthorizationDeni
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize(value = "hasAuthority('{value}:read')")
+@PreAuthorize("hasAuthority('{value}:read')")
 @HandleAuthorizationDenied(handlerClass = Null.class)
 public @interface AuthorizeRead {
+
 	String value();
+
 }

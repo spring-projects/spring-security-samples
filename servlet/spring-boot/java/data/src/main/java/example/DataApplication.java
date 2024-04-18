@@ -49,17 +49,16 @@ public class DataApplication {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new InMemoryUserDetailsManager(
-			User.withDefaultPasswordEncoder()
-				.username("rob")
-				.password("password")
-				.authorities("message:read", "user:read")
-				.build(),
-			User.withDefaultPasswordEncoder()
-				.username("luke")
-				.password("password")
-				.authorities("message:read")
-				.build()
-		);
+				User.withDefaultPasswordEncoder()
+					.username("rob")
+					.password("password")
+					.authorities("message:read", "user:read")
+					.build(),
+				User.withDefaultPasswordEncoder()
+					.username("luke")
+					.password("password")
+					.authorities("message:read")
+					.build());
 	}
 
 	public static void main(String[] args) {

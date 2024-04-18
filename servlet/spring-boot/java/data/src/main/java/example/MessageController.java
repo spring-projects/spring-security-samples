@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MessageController {
+
 	private final MessageRepository messages;
 
 	public MessageController(MessageRepository messages) {
