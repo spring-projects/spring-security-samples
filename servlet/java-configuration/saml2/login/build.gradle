@@ -54,7 +54,7 @@ dependencies {
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
-	testImplementation 'net.sourceforge.htmlunit:htmlunit:2.70.0'
+	testImplementation 'org.htmlunit:htmlunit:4.1.0'
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation 'org.awaitility:awaitility:4.2.0'
 
