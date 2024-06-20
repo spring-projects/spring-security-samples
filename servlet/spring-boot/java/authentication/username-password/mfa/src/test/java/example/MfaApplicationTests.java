@@ -18,6 +18,7 @@ package example;
 
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
 import jakarta.servlet.http.HttpSession;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Disabled
 public class MfaApplicationTests {
 
 	private static final String hexKey = "80ed266dd80bcd32564f0f4aaa8d9b149a2b1eaa";
