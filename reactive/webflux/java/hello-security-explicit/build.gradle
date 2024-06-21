@@ -21,7 +21,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver"
+	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:3.64.0"
 }
 
 tasks.withType(Test).configureEach {

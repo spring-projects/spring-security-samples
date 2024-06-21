@@ -28,13 +28,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.htmlunit.FailingHttpStatusCodeException;
+import org.htmlunit.WebClient;
+import org.htmlunit.WebResponse;
+import org.htmlunit.html.DomNodeList;
+import org.htmlunit.html.HtmlAnchor;
+import org.htmlunit.html.HtmlElement;
+import org.htmlunit.html.HtmlPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

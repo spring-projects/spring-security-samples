@@ -20,7 +20,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	integTestImplementation 'net.sourceforge.htmlunit:htmlunit'
+	integTestImplementation 'org.htmlunit:htmlunit'
 }
 
 tasks.withType(Test).configureEach {
