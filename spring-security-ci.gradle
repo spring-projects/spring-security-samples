@@ -64,7 +64,7 @@ allprojects {
 					password project.artifactoryPassword
 				}
 			}
-			url = 'https://repo.spring.vmware.com/artifactory/spring-commercial-snapshot-local/'
+			url = 'https://usw1.packages.broadcom.com/artifactory/spring-enterprise-maven-prod-local/'
 		}
 		maven {
 			name = 'artifactory-release'
@@ -77,7 +77,7 @@ allprojects {
 			content {
 				excludeGroup('net.minidev')
 			}
-			url = 'https://repo.spring.vmware.com/artifactory/spring-commercial-release-local/'
+			url = 'https://usw1.packages.broadcom.com/artifactory/spring-enterprise-maven-dev-local/'
 		}
 	}
 }
