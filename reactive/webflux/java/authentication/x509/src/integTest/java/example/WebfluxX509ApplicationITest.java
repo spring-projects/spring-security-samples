@@ -83,8 +83,7 @@ public class WebfluxX509ApplicationITest {
 			.keyManager(clientKey, clientCrt).build();
 		// @formatter:on
 
-		HttpClient httpClient = HttpClient.create()
-			.secure((sslContextSpec) -> sslContextSpec.sslContext(sslContext));
+		HttpClient httpClient = HttpClient.create().secure((sslContextSpec) -> sslContextSpec.sslContext(sslContext));
 		ClientHttpConnector httpConnector = new ReactorClientHttpConnector(httpClient);
 
 		// @formatter:off
