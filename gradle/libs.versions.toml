@@ -8,5 +8,5 @@ org-springframework-data-spring-data-bom = "org.springframework.data:spring-data
 org-springframework-security-spring-security-oauth2-authorization-server = "org.springframework.security:spring-security-oauth2-authorization-server:1.0.4"
 
 [plugins]
-io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.5" }
+io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.6" }
 org-springframework-boot = { id = "org.springframework.boot", version.ref = "org-springframework-boot" }
