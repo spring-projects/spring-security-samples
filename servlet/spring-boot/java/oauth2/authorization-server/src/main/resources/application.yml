@@ -1,2 +1,41 @@
 server:
   port: 9000
+
+spring:
+  security:
+    user:
+      name: "user"
+      password: "password"
+      roles:
+        - "USER"
+    oauth2:
+      authorizationserver:
+        issuer: http://localhost:9000
+        client:
+          login-client:
+            registration:
+              client-id: "login-client"
+              client-secret: "{noop}openid-connect"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://127.0.0.1:8080/login/oauth2/code/login-client"
+                - "http://127.0.0.1:8080/authorized"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true
+          messaging-client:
+            registration:
+              client-id: "messaging-client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "client_credentials"
+              scopes:
+                - "message:read"
+                - "message:write"

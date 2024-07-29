@@ -15,7 +15,7 @@ ext["micrometer.version"] = "1.10.0-SNAPSHOT"
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation libs.org.springframework.security.spring.security.oauth2.authorization.server
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -25,5 +25,4 @@ dependencies {
 
 tasks.withType(Test).configureEach {
 	useJUnitPlatform()
-	
 }
