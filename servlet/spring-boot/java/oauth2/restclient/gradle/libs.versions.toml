@@ -1,0 +1,11 @@
+[versions]
+org-springframework-boot = "3.4.0-SNAPSHOT"
+
+[libraries]
+org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:6.2.0-M6"
+org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:6.4.0-SNAPSHOT"
+org-springframework-data-spring-data-bom = "org.springframework.data:spring-data-bom:2024.0.2"
+
+[plugins]
+io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.6" }
+org-springframework-boot = { id = "org.springframework.boot", version.ref = "org-springframework-boot" }

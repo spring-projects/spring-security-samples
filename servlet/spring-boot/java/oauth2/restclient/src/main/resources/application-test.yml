@@ -1,0 +1,10 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          spring:
+            issuer-uri: ${mockwebserver.url}
+
+messages:
+  base-url: ${mockwebserver.url}

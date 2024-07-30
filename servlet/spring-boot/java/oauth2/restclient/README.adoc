@@ -1,0 +1,66 @@
+= OAuth 2.0 RestClient Sample
+
+This sample demonstrates making protected resources requests with `RestClient` via an interceptor that adds the `Authorization` header to each request.
+
+== 1. Running the tests
+
+To run the tests, do:
+
+[source,bash]
+----
+./gradlew integrationTest
+----
+
+Or import the project into your IDE and run `OAuth2RestClientApplicationITests` from there.
+
+== 2. Running the app with an Authorization Server and Resource Server
+
+Before running this application with the default configuration, you will need to start up an Authorization Server and Resource Server, which are provided as additional samples and pre-configured to work with this OAuth2 RestClient Sample out of the box.
+
+To run the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/authorization-server[Authorization Server] as a stand-alone application, navigate to `servlet/spring-boot/java/oauth2/authorization-server` and do:
+
+[source,bash]
+----
+./gradlew bootRun
+----
+
+Or import the project into your IDE and run `OAuth2AuthorizationServerApplication` from there.
+
+To run the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/restclient[Resource Server] as a stand-alone application, navigate to `servlet/spring-boot/java/oauth2/resource-server/restclient` and do:
+
+[source,bash]
+----
+./gradlew bootRun
+----
+
+Or import the project into your IDE and run `OAuth2ResourceServerApplication` from there.
+Next, you can run this sample.
+
+To run this sample as a stand-alone application, do:
+
+[source,bash]
+----
+./gradlew bootRun
+----
+
+Or import the project into your IDE and run `OAuth2RestClientApplication` from there.
+Once the application is running, visit http://127.0.0.1:8080[127.0.0.1:8080] in your browser to try out the sample.
+
+== 3. Alternate Configurations
+
+This sample demonstrates alternate strategies for resolving a `clientRegistrationId` (see https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/restclient/src/main/java/example/ClientRegistrationIdResolverConfiguration.java[ClientRegistrationIdResolverConfiguration] for more information).
+
+Activate one of the following profiles to try them out:
+
+1. `default` - Demonstrates the default setup with `RequestAttributeClientRegistrationIdResolver`. Uses `login-client` as the `clientRegistrationId` to log in and `messaging-client` for authorization.
+
+2. `current-user` - Demonstrates a custom `ClientRegistrationIdResolver` that simply resolves the `clientRegistrationId` from the current user. Uses `login-client-with-messaging` to log in.
+
+3. `composite` - Demonstrates a composite `ClientRegistrationIdResolver` that tries multiple ways of resolving a `clientRegistrationId`. Uses `login-client-with-messaging` to log in.
+
+4. `authentication-required` - Demonstrates a custom `ClientRegistrationIdResolver` that requires authentication using OAuth 2.0 or Open ID Connect 1.0. Uses `login-client-with-messaging` to log in.
+
+[TIP]
+====
+You can activate a profile with the `./gradlew bootRun` command by adding the argument `--args='--spring.profiles.active=xyz'`.
+====
