@@ -16,14 +16,11 @@
 
 package org.example.compromisedpasswordchecker;
 
-import org.springframework.security.authentication.password.CompromisedPasswordChecker;
-import org.springframework.security.authentication.password.CompromisedPasswordDecision;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -33,41 +30,20 @@ class ResetPasswordController {
 
 	private final PasswordEncoder passwordEncoder;
 
-	private final CompromisedPasswordChecker passwordChecker;
-
-	ResetPasswordController(InMemoryUserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder,
-			CompromisedPasswordChecker passwordChecker) {
+	ResetPasswordController(InMemoryUserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder) {
 		this.userDetailsManager = userDetailsManager;
 		this.passwordEncoder = passwordEncoder;
-		this.passwordChecker = passwordChecker;
-	}
-
-	@GetMapping("/reset-password")
-	String resetPasswordPage() {
-		return "reset-password";
 	}
 
 	@PostMapping("/reset-password")
-	String resetPassword(ResetPasswordRequest resetPasswordRequest) {
-		UserDetails user = this.userDetailsManager.loadUserByUsername(resetPasswordRequest.username());
-		if (user == null) {
-			throw new UsernameNotFoundException("User not found");
-		}
-		CompromisedPasswordDecision compromisedPassword = this.passwordChecker
-			.check(resetPasswordRequest.newPassword());
-		if (compromisedPassword.isCompromised()) {
-			return "redirect:/reset-password?error=compromised_password";
-		}
-		boolean oldPasswordMatches = this.passwordEncoder.matches(resetPasswordRequest.currentPassword(),
-				user.getPassword());
-		if (!oldPasswordMatches) {
-			return "redirect:/reset-password?error=invalid_password";
-		}
-		this.userDetailsManager.updatePassword(user, this.passwordEncoder.encode(resetPasswordRequest.newPassword()));
-		return "redirect:/login";
+	String resetPassword(ResetPasswordRequest resetPasswordRequest, HttpSession session) {
+		String newPassword = this.passwordEncoder.encode(resetPasswordRequest.newPassword());
+		this.userDetailsManager.changePassword(resetPasswordRequest.currentPassword(), newPassword);
+		session.removeAttribute("compromised_password");
+		return "redirect:/";
 	}
 
-	record ResetPasswordRequest(String username, String currentPassword, String newPassword) {
+	record ResetPasswordRequest(String currentPassword, String newPassword) {
 	}
 
 }

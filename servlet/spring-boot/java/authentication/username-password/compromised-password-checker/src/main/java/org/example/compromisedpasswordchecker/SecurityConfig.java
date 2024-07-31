@@ -21,26 +21,29 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
-import org.springframework.security.authentication.password.CompromisedPasswordException;
+import org.springframework.security.authentication.password.CompromisedPasswordDecision;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
 @Configuration(proxyBeanMethods = false)
+@EnableWebSecurity
 public class SecurityConfig {
 
 	@Bean
@@ -52,15 +55,17 @@ public class SecurityConfig {
 						.anyRequest().authenticated()
 				)
 				.formLogin((login) -> login
-						.failureHandler(new CompromisedPasswordAuthenticationFailureHandler())
+						.successHandler(new CompromisedPasswordAwareAuthenticationSuccessHandler())
 				);
 		// @formatter:on
 		return http.build();
 	}
 
-	@Bean
-	CompromisedPasswordChecker compromisedPasswordChecker() {
-		return new HaveIBeenPwnedRestApiPasswordChecker();
+	@Autowired
+	void configure(AuthenticationManagerBuilder builder) {
+		// @formatter:off
+		builder.eraseCredentials(false); // Do not clear credentials after authentication, so we have access to passwords on success handlers
+		// @formatter:on
 	}
 
 	@Bean
@@ -78,21 +83,22 @@ public class SecurityConfig {
 		return new InMemoryUserDetailsManager(user);
 	}
 
-	static class CompromisedPasswordAuthenticationFailureHandler implements AuthenticationFailureHandler {
+	static class CompromisedPasswordAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-		private final SimpleUrlAuthenticationFailureHandler defaultFailureHandler = new SimpleUrlAuthenticationFailureHandler(
-				"/login?error");
+		private final AuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler("/");
 
-		private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+		private final CompromisedPasswordChecker compromisedPasswordChecker = new HaveIBeenPwnedRestApiPasswordChecker();
 
 		@Override
-		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-				AuthenticationException exception) throws IOException, ServletException {
-			if (exception instanceof CompromisedPasswordException) {
-				this.redirectStrategy.sendRedirect(request, response, "/reset-password");
-				return;
+		public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+				Authentication authentication) throws IOException, ServletException {
+			CompromisedPasswordDecision decision = this.compromisedPasswordChecker
+				.check((String) authentication.getCredentials());
+			if (decision.isCompromised()) {
+				HttpSession session = request.getSession(false);
+				session.setAttribute("compromised_password", true);
 			}
-			this.defaultFailureHandler.onAuthenticationFailure(request, response, exception);
+			this.successHandler.onAuthenticationSuccess(request, response, authentication);
 		}
 
 	}
