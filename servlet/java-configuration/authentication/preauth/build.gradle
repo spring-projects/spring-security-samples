@@ -13,7 +13,6 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
-ext["micrometer.version"] = "1.10.0-SNAPSHOT"
 
 dependencies {
 	implementation platform(libs.org.springframework.spring.framework.bom)
