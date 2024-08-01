@@ -13,9 +13,9 @@
 <div class="container">
 	<form class="form-signin" method="post" th:action="@{/login}">
 		<h2 class="form-signin-heading">Please Log In</h2>
-		<div th:if="${param.error}" class="alert alert-danger" role="alert">Invalid
+		<div th:if="${param.keySet().contains('error')}" class="alert alert-danger" role="alert">Invalid
 			username and password.</div>
-		<div th:if="${param.logout}" class="alert alert-success" role="alert">You
+		<div th:if="${param.keySet().contains('logout')}" class="alert alert-success" role="alert">You
 			have been logged out.</div>
 		<p>
 			<label for="username" class="sr-only">Username</label>
