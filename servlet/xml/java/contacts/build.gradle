@@ -29,8 +29,8 @@ dependencies {
 	implementation 'org.springframework:spring-context'
 	implementation 'org.springframework:spring-jdbc'
 	implementation 'org.springframework:spring-tx'
-	implementation 'org.slf4j:slf4j-api:1.7.30'
-	implementation 'org.slf4j:slf4j-simple:1.7.30'
+	implementation 'org.slf4j:slf4j-api:2.0.13'
+	implementation 'org.slf4j:slf4j-simple:2.0.13'
 
 	providedCompile "jakarta.servlet:jakarta.servlet-api:6.1.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
