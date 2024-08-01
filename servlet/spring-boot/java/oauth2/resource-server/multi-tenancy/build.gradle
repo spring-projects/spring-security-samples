@@ -32,7 +32,7 @@ dependencies {
 	implementation 'com.squareup.okhttp3:mockwebserver'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.nimbusds:oauth2-oidc-sdk:9.29'
+	implementation 'com.nimbusds:oauth2-oidc-sdk:9.43.4'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
