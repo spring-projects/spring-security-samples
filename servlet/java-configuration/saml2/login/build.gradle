@@ -56,7 +56,7 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testImplementation 'org.htmlunit:htmlunit:4.3.0'
 	testImplementation 'org.hamcrest:hamcrest:2.2'
-	testImplementation 'org.awaitility:awaitility:4.2.0'
+	testImplementation 'org.awaitility:awaitility:4.2.1'
 
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
