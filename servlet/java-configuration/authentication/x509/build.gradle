@@ -23,7 +23,7 @@ dependencies {
 	implementation "org.springframework:spring-webmvc"
 	implementation "org.apache.httpcomponents.client5:httpclient5:5.2.1"
 
-	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
+	providedCompile "jakarta.servlet:jakarta.servlet-api:6.1.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
 	testImplementation "org.assertj:assertj-core:3.26.3"
