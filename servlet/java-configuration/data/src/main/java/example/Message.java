@@ -22,7 +22,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -40,7 +40,7 @@ public class Message {
 
 	private Calendar created = Calendar.getInstance();
 
-	@OneToOne
+	@ManyToOne
 	private User to;
 
 	public User getTo() {
