@@ -31,7 +31,7 @@ dependencies {
 	implementation 'jakarta.persistence:jakarta.persistence-api:3.0.0'
 	implementation 'org.hibernate.orm:hibernate-core:6.1.1.Final'
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-	implementation 'org.hsqldb:hsqldb:2.5.1'
+	implementation 'org.hsqldb:hsqldb:2.7.3'
 	implementation 'org.springframework.data:spring-data-jpa'
 
 	testImplementation "org.assertj:assertj-core:3.26.3"

@@ -27,7 +27,7 @@ dependencies {
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
 	runtimeOnly 'net.sf.ehcache:ehcache:2.10.5'
-	runtimeOnly 'org.hsqldb:hsqldb:2.5.0'
+	runtimeOnly 'org.hsqldb:hsqldb:2.7.3'
 	runtimeOnly 'org.springframework:spring-context-support'
 
 	testImplementation 'org.mockito:mockito-core:3.12.4'
