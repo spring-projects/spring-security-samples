@@ -32,7 +32,7 @@ dependencies {
 
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:3.64.0"
+	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:4.13.0"
 }
 
 tasks.withType(Test).configureEach {
