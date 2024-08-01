@@ -30,7 +30,7 @@ dependencies {
 	implementation "org.springframework.security:spring-security-saml2-service-provider"
 	implementation "org.springframework:spring-webmvc"
 	implementation "org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE"
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.0.M1'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
 	providedCompile "jakarta.servlet:jakarta.servlet-api:6.1.0"
 
