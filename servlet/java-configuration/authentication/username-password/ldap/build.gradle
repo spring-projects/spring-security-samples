@@ -26,7 +26,7 @@ dependencies {
 
 	runtimeOnly "com.unboundid:unboundid-ldapsdk:4.0.14"
 
-	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.assertj:assertj-core:3.26.3"
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")

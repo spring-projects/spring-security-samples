@@ -42,7 +42,7 @@ dependencies {
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
-	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.assertj:assertj-core:3.26.3"
 
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
