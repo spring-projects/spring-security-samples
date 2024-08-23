@@ -1,0 +1,29 @@
+= Spring Observability Sample
+
+This sample demonstrates https://docs.spring.io/spring-security/reference/servlet/integrations/observability.html#page-title[Spring Security's integration with Micrometer].
+
+== Prerequisites
+
+The sample is configured to export traces to Zipkin.
+In order to see these traces, you will need https://github.com/jonatan-ivanov/local-services/tree/main/zipkin[a Zipkin instance] running on `localhost`.
+
+== Using the Sample
+
+After running this sample like so:
+
+.Java
+[source,java,role="primary"]
+----
+./gradlew :bootRun
+----
+
+Then you can query `GET /message` using `user/password` and `admin/password`.
+Using HTTPie, that would look something like this to get a successful response:
+
+```bash
+http -a user:password :8080/message`
+```
+
+If you want to see a failed authentication, try `http -a user:wrong :8080/message`.
+
+If you want to see a failed authorization, try `http -a user:password :8080/secret`
