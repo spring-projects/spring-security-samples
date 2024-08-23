@@ -27,7 +27,7 @@ import jakarta.persistence.Id;
  * @author Rob Winch
  */
 @Entity(name = "users")
-@JsonSerialize(as = User.class, contentUsing = JsonSerializer.class)
+@JsonSerialize(as = User.class)
 public class User {
 
 	@Id
