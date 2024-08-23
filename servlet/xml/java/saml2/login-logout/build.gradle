@@ -16,9 +16,8 @@ repositories {
 
 dependencies {
 	constraints {
-		implementation "org.opensaml:opensaml-core:4.1.1"
-		implementation "org.opensaml:opensaml-saml-api:4.1.1"
-		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
+		implementation "org.opensaml:opensaml-saml-api:5.1.3"
+		implementation "org.opensaml:opensaml-saml-impl:5.1.3"
 	}
 	implementation platform(libs.org.springframework.spring.framework.bom)
 	implementation platform(libs.org.springframework.security.spring.security.bom)

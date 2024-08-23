@@ -6,6 +6,7 @@ plugins {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	maven { url "https://repo.spring.io/milestone" }
 	maven { url "https://repo.spring.io/snapshot" }
@@ -15,9 +16,8 @@ repositories {
 
 dependencies {
 	constraints {
-		implementation "org.opensaml:opensaml-core:4.1.1"
-		implementation "org.opensaml:opensaml-saml-api:4.1.1"
-		implementation "org.opensaml:opensaml-saml-impl:4.1.1"
+		implementation "org.opensaml:opensaml-saml-api:5.1.2"
+		implementation "org.opensaml:opensaml-saml-impl:5.1.2"
 	}
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
