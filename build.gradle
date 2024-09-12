@@ -25,6 +25,10 @@ allprojects {
 	tasks.withType(JavaCompile) {
 		options.compilerArgs.add("-parameters")
 	}
+
+	tasks.matching { it.name == 'checkFormatAot' }.all { task ->
+		task.enabled = false
+	}
 }
 
 if (hasProperty('buildScan')) {
