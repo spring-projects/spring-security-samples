@@ -47,14 +47,14 @@ public class MessageController {
 
 	@PutMapping("/{id}")
 	Optional<Message> updateMessage(@PathVariable("id") Long id, @RequestBody String text) {
-		return this.messages.findById(id)
-			.map((message) -> {
-				message.setText(text);
-				// unwrap authorization proxy so Spring Data can persist
-				if (message instanceof AuthorizationProxy proxy) {
-					message = (Message) proxy.toAuthorizedTarget();
-				}
-				return this.messages.save(message);
-			});
+		return this.messages.findById(id).map((message) -> {
+			message.setText(text);
+			// unwrap authorization proxy so Spring Data can persist
+			if (message instanceof AuthorizationProxy proxy) {
+				message = (Message) proxy.toAuthorizedTarget();
+			}
+			return this.messages.save(message);
+		});
 	}
+
 }

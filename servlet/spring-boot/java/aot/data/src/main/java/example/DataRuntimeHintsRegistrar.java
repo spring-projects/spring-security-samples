@@ -9,5 +9,5 @@ public class DataRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
 	public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
 		hints.resources().registerPattern("import.sql");
 	}
-	
+
 }
