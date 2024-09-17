@@ -37,3 +37,12 @@ tasks.withType(Test).configureEach {
 	useJUnitPlatform()
 	outputs.upToDateWhen { false }
 }
+
+compileJava {
+	dependsOn("formatMain")
+}
+
+compileTestJava {
+	dependsOn("formatTest")
+}
+
