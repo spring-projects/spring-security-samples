@@ -40,11 +40,17 @@ tasks.withType(Test).configureEach {
 	outputs.upToDateWhen { false }
 }
 
-compileJava {
-	dependsOn("formatMain")
+if (plugins.hasPlugin("io.spring.javaformat")) {
+	compileJava {
+		dependsOn("formatMain")
+	}
+	tasks.checkFormatMain {
+		dependsOn("formatMain")
+	}
+	compileTestJava {
+		dependsOn("formatTest")
+	}
+	tasks.checkFormatTest {
+		dependsOn("formatTest")
+	}
 }
-
-compileTestJava {
-	dependsOn("formatTest")
-}
-

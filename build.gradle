@@ -26,7 +26,27 @@ allprojects {
 		options.compilerArgs.add("-parameters")
 	}
 
+	tasks.matching { it.name == 'formatAot' }.all { task ->
+		task.enabled = false
+	}
+
+	tasks.matching { it.name == 'formatAotTest' }.all { task ->
+		task.enabled = false
+	}
+
 	tasks.matching { it.name == 'checkFormatAot' }.all { task ->
+		task.enabled = false
+	}
+
+	tasks.matching { it.name == 'checkFormatAotTest' }.all { task ->
+		task.enabled = false
+	}
+
+	tasks.matching { it.name == "checkstyleAot" }.all { task ->
+		task.enabled = false
+	}
+
+	tasks.matching { it.name == "checkstyleAotTest" }.all { task ->
 		task.enabled = false
 	}
 }
@@ -51,4 +71,3 @@ tasks.register('runAllTests') {
 		allTestsTasks
 	}
 }
-
