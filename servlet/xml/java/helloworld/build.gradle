@@ -15,24 +15,24 @@ repositories {
 
 dependencies {
 	implementation platform(libs.org.springframework.security.spring.security.bom)
-	implementation platform("org.junit:junit-bom:5.10.0")
+	implementation platform("org.junit:junit-bom:5.10.3")
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
-	implementation 'org.slf4j:slf4j-api:1.7.30'
-	implementation 'org.slf4j:slf4j-simple:1.7.30'
+	implementation 'org.slf4j:slf4j-api:2.0.13'
+	implementation 'org.slf4j:slf4j-simple:2.0.13'
 
-	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
+	providedCompile "jakarta.servlet:jakarta.servlet-api:6.1.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
-	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.assertj:assertj-core:3.26.3"
 
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:3.64.0"
+	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:4.13.0"
 }
 
 tasks.withType(Test).configureEach {

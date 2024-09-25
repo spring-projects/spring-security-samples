@@ -1,0 +1,78 @@
+allprojects {
+	configurations.all {
+		resolutionStrategy {
+			force "org.springframework.security:spring-security-acl:$springSecurityVersion"
+			force "org.springframework.security:spring-security-aspects:$springSecurityVersion"
+			force "org.springframework.security:spring-security-bom:$springSecurityVersion"
+			force "org.springframework.security:spring-security-cas:$springSecurityVersion"
+			force "org.springframework.security:spring-security-config:$springSecurityVersion"
+			force "org.springframework.security:spring-security-core:$springSecurityVersion"
+			force "org.springframework.security:spring-security-crypto:$springSecurityVersion"
+			force "org.springframework.security:spring-security-data:$springSecurityVersion"
+			force "org.springframework.security:spring-security-ldap:$springSecurityVersion"
+			force "org.springframework.security:spring-security-messaging:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-client:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-core:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-jose:$springSecurityVersion"
+			force "org.springframework.security:spring-security-oauth2-resource-server:$springSecurityVersion"
+			force "org.springframework.security:spring-security-openid:$springSecurityVersion"
+			force "org.springframework.security:spring-security-remoting:$springSecurityVersion"
+			force "org.springframework.security:spring-security-rsocket:$springSecurityVersion"
+			force "org.springframework.security:spring-security-saml2-service-provider:$springSecurityVersion"
+			force "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
+			force "org.springframework.security:spring-security-test:$springSecurityVersion"
+			force "org.springframework.security:spring-security-web:$springSecurityVersion"
+		}
+	}
+	repositories {
+		exclusiveContent {
+			forRepository {
+				maven {
+					url "file://$localRepositoryPath"
+				}
+			}
+			filter {
+				includeVersion "org.springframework.security", "spring-security-acl", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-aspects", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-bom", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-cas", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-config", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-core", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-crypto", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-data", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-ldap", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-messaging", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-client", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-core", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-jose", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-oauth2-resource-server", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-openid", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-remoting", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-rsocket", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-saml2-service-provider", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-taglibs", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-test", "$springSecurityVersion"
+				includeVersion "org.springframework.security", "spring-security-web", "$springSecurityVersion"
+			}
+		}
+		maven {
+			name = 'artifactory-snapshot'
+			credentials {
+				username project.artifactoryUsername
+				password project.artifactoryPassword
+			}
+			url = 'https://usw1.packages.broadcom.com/spring-enterprise-maven-dev-local'
+		}
+		maven {
+			name = 'artifactory-release'
+			credentials {
+				username project.artifactoryUsername
+				password project.artifactoryPassword
+			}
+			content {
+				excludeGroup('net.minidev')
+			}
+			url = 'https://usw1.packages.broadcom.com/spring-enterprise-maven-prod-local'
+		}
+	}
+}

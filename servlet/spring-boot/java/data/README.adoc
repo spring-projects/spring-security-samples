@@ -49,3 +49,5 @@ However, with `rob`, you'll also see `firstName` and `lastName` like so:
     }
   ...
 ```
+
+Read more about the https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#authorize-object[`@AuthorizeReturnObject`] and https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#fallback-values-authorization-denied[]`@DeniedHandler`] in the Spring Security Reference.

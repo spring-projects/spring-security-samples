@@ -26,6 +26,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import io.netty.handler.ssl.ClientAuth;
+import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import org.junit.jupiter.api.Test;
 import reactor.netty.http.client.HttpClient;
@@ -76,14 +77,13 @@ public class WebfluxX509ApplicationITest {
 		PrivateKey clientKey = ((KeyStore.PrivateKeyEntry) keyStoreEntry).getPrivateKey();
 
 		// @formatter:off
-		SslContextBuilder sslContextBuilder = SslContextBuilder
+		SslContext sslContext = SslContextBuilder
 			.forClient().clientAuth(ClientAuth.REQUIRE)
 			.trustManager(devCA)
-			.keyManager(clientKey, clientCrt);
+			.keyManager(clientKey, clientCrt).build();
 		// @formatter:on
 
-		HttpClient httpClient = HttpClient.create()
-			.secure((sslContextSpec) -> sslContextSpec.sslContext(sslContextBuilder));
+		HttpClient httpClient = HttpClient.create().secure((sslContextSpec) -> sslContextSpec.sslContext(sslContext));
 		ClientHttpConnector httpConnector = new ReactorClientHttpConnector(httpClient);
 
 		// @formatter:off

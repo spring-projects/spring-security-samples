@@ -1,0 +1,64 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: trace
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          login-client:
+            client-name: "Login Client"
+            client-id: "login-client"
+            client-secret: "openid-connect"
+            provider: "spring"
+            scope:
+              - "openid"
+              - "profile"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: "client_secret_basic"
+            authorization-grant-type: "authorization_code"
+          login-client-with-messaging:
+            client-name: "Login Client with Messaging"
+            client-id: "login-client-with-messaging"
+            client-secret: "with-messages"
+            provider: "spring"
+            scope:
+              - "openid"
+              - "profile"
+              - "message:read"
+              - "message:write"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: "client_secret_basic"
+            authorization-grant-type: "authorization_code"
+          messaging-client:
+            client-name: "Messaging Client"
+            client-id: "messaging-client"
+            client-secret: "secret"
+            provider: "spring"
+            scope:
+              - "message:read"
+              - "message:write"
+            redirect-uri: "{baseUrl}/authorized"
+            client-authentication-method: "client_secret_basic"
+            authorization-grant-type: "authorization_code"
+        provider:
+          spring:
+            issuer-uri: "http://localhost:9000"
+
+messages:
+  base-url: "http://localhost:8090"
+
+app:
+  login-page: /oauth2/authorization/login-client
+---
+spring:
+  config:
+    activate:
+      on-profile: current-user|composite|authentication-required
+
+app:
+  login-page: /oauth2/authorization/login-client-with-messaging

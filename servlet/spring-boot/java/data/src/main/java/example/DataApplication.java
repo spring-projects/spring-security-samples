@@ -21,11 +21,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
-import org.springframework.security.authorization.method.AuthorizationAdvisorProxyFactory;
-import org.springframework.security.authorization.method.AuthorizationAdvisorProxyFactory.TargetVisitor;
-import org.springframework.security.authorization.method.PrePostTemplateDefaults;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -36,14 +33,8 @@ public class DataApplication {
 
 	@Bean
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-	static Customizer<AuthorizationAdvisorProxyFactory> skipValueTypes() {
-		return (f) -> f.setTargetVisitor(TargetVisitor.defaultsSkipValueTypes());
-	}
-
-	@Bean
-	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-	static PrePostTemplateDefaults templateDefaults() {
-		return new PrePostTemplateDefaults();
+	static AnnotationTemplateExpressionDefaults templateDefaults() {
+		return new AnnotationTemplateExpressionDefaults();
 	}
 
 	@Bean

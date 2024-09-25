@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+	<title>Hello Spring Security</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+	<h1>Hello Spring Security</h1>
+	<p>This is a secured page</p>
+	<div th:if="${#ctx.session.compromised_password != null}">
+		<h3>Your password is compromised, please consider resetting it:</h3>
+		<form th:action="@{/reset-password}" method="post">
+			<label for="currentPassword">Current password</label>
+			<input type="password" id="currentPassword" name="currentPassword" > <br/>
+			<label for="newPassword">New password</label>
+			<input type="password" id="newPassword" name="newPassword"> <br/>
+			<input id="submit" type="submit" value="Submit"/>
+		</form>
+	</div>
+</body>
+</html>

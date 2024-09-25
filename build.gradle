@@ -1,6 +1,6 @@
 plugins {
 	id "checkstyle"
-	id "io.spring.javaformat" version "0.0.41"
+	id "io.spring.javaformat" version "0.0.42"
 	id 'io.spring.nohttp' version '0.0.11'
 }
 
@@ -9,7 +9,7 @@ allprojects {
 	apply plugin: 'io.spring.javaformat'
 
 	dependencies {
-		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.41"
+		checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:0.0.42"
 	}
 
 	// Ensure every test task has at least a single test
@@ -24,6 +24,10 @@ allprojects {
 	// Spring Framework 6.1 requires -parameters to be able to introspect method parameter names
 	tasks.withType(JavaCompile) {
 		options.compilerArgs.add("-parameters")
+	}
+
+	tasks.matching { it.name == 'checkFormatAot' }.all { task ->
+		task.enabled = false
 	}
 }
 

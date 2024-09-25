@@ -40,6 +40,8 @@ Samples for https://github.com/spring-projects/spring-security
 
 ** https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/resource-server/static[Static]
 
+* RestClient - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/restclient[Spring Boot]
+
 * WebClient - https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/webclient[Spring Boot] | https://github.com/spring-projects/spring-security-samples/tree/main/reactive/webflux/java/oauth2/webclient[WebFlux]
 
 === SAML 2.0

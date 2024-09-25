@@ -55,12 +55,12 @@ public class LoginPage {
 	}
 
 	public LoginPage assertError() {
-		assertThat(this.alert).extracting(WebElement::getText).contains("Invalid username and password.");
+		assertThat(this.alert).extracting(WebElement::getText).containsOnly("Invalid username and password.");
 		return this;
 	}
 
 	public LoginPage assertLogout() {
-		assertThat(this.alert).extracting(WebElement::getText).contains("You have been logged out.");
+		assertThat(this.alert).extracting(WebElement::getText).containsOnly("You have been logged out.");
 		return this;
 	}
 

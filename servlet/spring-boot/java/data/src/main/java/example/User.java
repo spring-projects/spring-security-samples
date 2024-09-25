@@ -16,7 +16,6 @@
 
 package example;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,7 +26,7 @@ import jakarta.persistence.Id;
  * @author Rob Winch
  */
 @Entity(name = "users")
-@JsonSerialize(as = User.class, contentUsing = JsonSerializer.class)
+@JsonSerialize(as = User.class)
 public class User {
 
 	@Id

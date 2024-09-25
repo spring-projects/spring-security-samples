@@ -16,17 +16,17 @@ repositories {
 dependencies {
 	implementation platform(libs.org.springframework.spring.framework.bom)
 	implementation platform(libs.org.springframework.security.spring.security.bom)
-	implementation platform("org.junit:junit-bom:5.10.0")
+	implementation platform("org.junit:junit-bom:5.10.3")
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
 	implementation "org.springframework:spring-webmvc"
 	implementation "org.apache.httpcomponents.client5:httpclient5:5.2.1"
 
-	providedCompile "jakarta.servlet:jakarta.servlet-api:6.0.0"
+	providedCompile "jakarta.servlet:jakarta.servlet-api:6.1.0"
 	providedCompile "org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0"
 
-	testImplementation "org.assertj:assertj-core:3.18.0"
+	testImplementation "org.assertj:assertj-core:3.26.3"
 	testImplementation "org.springframework:spring-test"
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation("org.junit.jupiter:junit-jupiter-api")

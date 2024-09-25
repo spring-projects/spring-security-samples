@@ -11,8 +11,6 @@ java {
 	sourceCompatibility = '17'
 }
 
-ext["spring-security.version"] = "6.3.0-SNAPSHOT"
-
 repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/milestone" }

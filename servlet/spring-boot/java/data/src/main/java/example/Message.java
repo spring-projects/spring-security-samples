@@ -29,7 +29,6 @@ import org.springframework.security.authorization.method.AuthorizeReturnObject;
 
 @Entity
 @JsonSerialize(as = Message.class)
-@AuthorizeReturnObject
 public class Message {
 
 	@Id
@@ -45,6 +44,7 @@ public class Message {
 	@ManyToOne
 	private User to;
 
+	@AuthorizeReturnObject
 	public User getTo() {
 		return this.to;
 	}
