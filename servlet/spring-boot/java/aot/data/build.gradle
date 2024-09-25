@@ -27,6 +27,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
+group = "org.example"
+
 hibernate {
   enhancement {
     enableAssociationManagement = true
