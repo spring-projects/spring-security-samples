@@ -22,6 +22,7 @@ plugins {
 include ":reactive:rsocket:hello-security"
 include ":reactive:webflux-fn:hello"
 include ":reactive:webflux-fn:hello-security"
+include ":reactive:webflux:java:authentication:one-time-token:magic-link"
 include ":reactive:webflux:java:authentication:username-password:form"
 include ":reactive:webflux:java:authentication:x509"
 include ":reactive:webflux:java:hello"
