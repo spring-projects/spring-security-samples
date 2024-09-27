@@ -48,7 +48,8 @@ public class RestClientConfiguration {
 			RestClient.Builder builder) {
 
 		OAuth2ClientHttpRequestInterceptor requestInterceptor = new OAuth2ClientHttpRequestInterceptor(
-				authorizedClientManager, clientRegistrationIdResolver);
+				authorizedClientManager);
+		requestInterceptor.setClientRegistrationIdResolver(clientRegistrationIdResolver);
 
 		OAuth2AuthorizationFailureHandler authorizationFailureHandler = OAuth2ClientHttpRequestInterceptor
 			.authorizationFailureHandler(authorizedClientRepository);
