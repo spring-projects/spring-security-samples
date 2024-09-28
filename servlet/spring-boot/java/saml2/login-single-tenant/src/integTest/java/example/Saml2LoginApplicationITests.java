@@ -56,7 +56,7 @@ public class Saml2LoginApplicationITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("Your email address is testuser2@spring.security.saml");
 	}
 
 	@Test
