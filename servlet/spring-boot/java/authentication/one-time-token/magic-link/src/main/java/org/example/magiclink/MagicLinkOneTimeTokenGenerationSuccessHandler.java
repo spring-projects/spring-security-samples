@@ -25,19 +25,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.authentication.ott.GeneratedOneTimeTokenHandler;
+import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class MagicLinkGeneratedOneTimeTokenHandler implements GeneratedOneTimeTokenHandler {
+public class MagicLinkOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
 
 	private final MailSender mailSender;
 
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-	public MagicLinkGeneratedOneTimeTokenHandler(MailSender mailSender) {
+	public MagicLinkOneTimeTokenGenerationSuccessHandler(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
 
