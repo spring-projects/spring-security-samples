@@ -48,13 +48,12 @@ public class MagicLinkOneTimeTokenGenerationSuccessHandler implements ServerOneT
 			.path("/login/ott")
 			.queryParam("token", oneTimeToken.getTokenValue());
 		String magicLink = builder.toUriString();
-		builder
-			.replacePath(null)
-			.replaceQuery(null)
-			.path("/ott/sent");
+		builder.replacePath(null).replaceQuery(null).path("/ott/sent");
 		String redirectLink = builder.toUriString();
-		return this.mailSender.send("johndoe@example.com", "Your Spring Security One Time Token",
-			"Use the following link to sign in into the application: " + magicLink)
+		return this.mailSender
+			.send("johndoe@example.com", "Your Spring Security One Time Token",
+					"Use the following link to sign in into the application: " + magicLink)
 			.then(this.redirectStrategy.sendRedirect(exchange, URI.create(redirectLink)));
 	}
+
 }

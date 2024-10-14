@@ -24,34 +24,37 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.csrf;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+@SpringBootTest
+@AutoConfigureWebTestClient(timeout = "30s")
 class MagicLinkApplicationTests {
 
 	@RegisterExtension
 	static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP);
 
 	@Autowired
-	MockMvc mockMvc;
+	WebTestClient web;
 
 	@Test
 	void ottLoginWhenUserExistsThenSendEmailAndAuthenticate() throws Exception {
-		this.mockMvc.perform(post("/ott/generate").param("username", "user").with(csrf()))
-			.andExpectAll(status().isFound(), redirectedUrl("/ott/sent"));
+		this.web.mutateWith(csrf())
+			.post()
+			.uri("/ott/generate")
+			.body(BodyInserters.fromFormData("username", "user"))
+			.exchange()
+			.expectStatus()
+			.isFound()
+			.expectHeader()
+			.location("/ott/sent");
 
 		greenMail.waitForIncomingEmail(1);
 		MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
@@ -62,19 +65,40 @@ class MagicLinkApplicationTests {
 
 		assertThat(token).isNotEmpty();
 
-		this.mockMvc.perform(post("/login/ott").param("token", token).with(csrf()))
-			.andExpectAll(status().isFound(), redirectedUrl("/"), authenticated());
+		this.web.mutateWith(csrf())
+			.post()
+			.uri("/login/ott")
+			.body(BodyInserters.fromFormData("token", token))
+			.exchange()
+			.expectStatus()
+			.isFound()
+			.expectHeader()
+			.location("/");
 	}
 
 	@Test
 	void ottLoginWhenInvalidTokenThenFails() throws Exception {
-		this.mockMvc.perform(post("/ott/generate").param("username", "user").with(csrf()))
-			.andExpectAll(status().isFound(), redirectedUrl("/ott/sent"));
+		this.web.mutateWith(csrf())
+			.post()
+			.uri("/ott/generate")
+			.body(BodyInserters.fromFormData("username", "user"))
+			.exchange()
+			.expectStatus()
+			.isFound()
+			.expectHeader()
+			.location("/ott/sent");
 
 		String token = "1234;";
 
-		this.mockMvc.perform(post("/login/ott").param("token", token).with(csrf()))
-			.andExpectAll(status().isFound(), redirectedUrl("/login?error"), unauthenticated());
+		this.web.mutateWith(csrf())
+			.post()
+			.uri("/login/ott")
+			.body(BodyInserters.fromFormData("token", token))
+			.exchange()
+			.expectStatus()
+			.isFound()
+			.expectHeader()
+			.location("/login?error");
 	}
 
 }
