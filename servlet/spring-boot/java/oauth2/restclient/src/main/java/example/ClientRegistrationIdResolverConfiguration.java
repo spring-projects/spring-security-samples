@@ -116,7 +116,7 @@ public class ClientRegistrationIdResolverConfiguration {
 
 	@Configuration
 	@Profile("current-user")
-	public static class CurrentUserConfiguration {
+	public static class CurrentUserClientRegistrationIdResolverConfiguration {
 
 		@Bean
 		public ClientRegistrationIdResolver clientRegistrationIdResolver() {
@@ -127,7 +127,7 @@ public class ClientRegistrationIdResolverConfiguration {
 
 	@Configuration
 	@Profile("composite")
-	public static class CompositeConfiguration {
+	public static class CompositeClientRegistrationIdResolverConfiguration {
 
 		@Bean
 		public ClientRegistrationIdResolver clientRegistrationIdResolver() {
@@ -138,7 +138,7 @@ public class ClientRegistrationIdResolverConfiguration {
 
 	@Configuration
 	@Profile("authentication-required")
-	public static class AuthenticationRequiredConfiguration {
+	public static class AuthenticationRequiredClientRegistrationIdResolverConfiguration {
 
 		@Bean
 		public ClientRegistrationIdResolver clientRegistrationIdResolver() {

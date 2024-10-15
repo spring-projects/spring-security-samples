@@ -60,6 +60,14 @@ Activate one of the following profiles to try them out:
 
 4. `authentication-required` - Demonstrates a custom `ClientRegistrationIdResolver` that requires authentication using OAuth 2.0 or Open ID Connect 1.0. Uses `login-client-with-messaging` to log in.
 
+This sample also demonstrates alternate strategies for resolving a `principal` (see https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/restclient/src/main/java/example/PrincipalResolverConfiguration.java[PrincipalResolverConfiguration] for more information).
+
+Activate one of the following profiles to try them out:
+
+1. `per-request` - Demonstrates an alternate setup with `RequestAttributePrincipalResolver` that resolves the principal using attributes.
+
+2. `anonymous-user` - Demonstrates a custom `PrincipalResolver` that statically resolves a `principal`. Requires specifying the `principal` via `RequestAttributePrincipalResolver.principal(Authentication)`.
+
 [TIP]
 ====
 You can activate a profile with the `./gradlew bootRun` command by adding the argument `--args='--spring.profiles.active=xyz'`.
