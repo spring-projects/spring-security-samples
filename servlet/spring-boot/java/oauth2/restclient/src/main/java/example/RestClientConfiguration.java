@@ -41,7 +41,7 @@ public class RestClientConfiguration {
 		this.baseUrl = baseUrl;
 	}
 
-//	@Bean
+	@Bean
 	public RestClient restClient(OAuth2AuthorizedClientManager authorizedClientManager,
 			OAuth2AuthorizedClientRepository authorizedClientRepository,
 			OAuth2ClientHttpRequestInterceptor.ClientRegistrationIdResolver clientRegistrationIdResolver,
