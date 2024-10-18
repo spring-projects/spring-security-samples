@@ -22,7 +22,7 @@ dependencies {
 	implementation platform(libs.org.springframework.security.spring.security.bom)
 	implementation platform(libs.org.springframework.data.spring.data.bom)
 	implementation "org.springframework.boot:spring-boot-starter-validation"
-	implementation platform("org.junit:junit-bom:5.10.3")
+	implementation platform("org.junit:junit-bom:5.10.5")
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-data"

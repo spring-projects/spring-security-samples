@@ -16,7 +16,7 @@ repositories {
 dependencies {
 	implementation platform(libs.org.springframework.spring.framework.bom)
 	implementation platform(libs.org.springframework.security.spring.security.bom)
-	implementation platform("org.junit:junit-bom:5.10.3")
+	implementation platform("org.junit:junit-bom:5.10.5")
 
 	implementation "org.hsqldb:hsqldb:2.7.3"
 	implementation "org.springframework.security:spring-security-config"

@@ -19,10 +19,25 @@ package example;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2ClientCredentialsGrantRequest;
+import org.springframework.security.oauth2.client.endpoint.RestClientClientCredentialsTokenResponseClient;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Security configuration for {@link OAuth2RestClientApplication}.
@@ -60,6 +75,57 @@ public class SecurityConfiguration {
 		// @formatter:on
 
 		return http.build();
+	}
+
+	@Bean
+	public OAuth2AccessTokenResponseClient<OAuth2ClientCredentialsGrantRequest> clientCredentialsAccessTokenResponseClient() {
+		RequestMatcher requestMatcher = (request) -> false;
+		Converter<OAuth2ClientCredentialsGrantRequest, MultiValueMap<String, String>> parametersConverter = (grantRequest) -> {
+			LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+			if (grantRequest.getClientRegistration().getRegistrationId().equals("okta")) {
+				parameters.set(OAuth2ParameterNames.CLIENT_ID, "my-client");
+			}
+			return parameters;
+		};
+
+		RestClientClientCredentialsTokenResponseClient accessTokenResponseClient =
+			new RestClientClientCredentialsTokenResponseClient();
+		accessTokenResponseClient.setParametersConverter(parametersConverter);
+
+		return accessTokenResponseClient;
+	}
+
+	private static Converter<OAuth2ClientCredentialsGrantRequest, MultiValueMap<String, String>> parametersConverter() {
+		RequestMatcher requestMatcher = (request) -> false;
+		return (grantRequest) -> {
+			ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+			LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+			if (requestMatcher.matches(requestAttributes.getRequest())) {
+				parameters.set(OAuth2ParameterNames.SCOPE, "scope-1 scope-2");
+			}
+			return parameters;
+		};
+	}
+
+	@Bean
+	public RestClient restClient() {
+		OAuth2AccessTokenResponseHttpMessageConverter messageConverter =
+			new OAuth2AccessTokenResponseHttpMessageConverter();
+		messageConverter.setAccessTokenResponseConverter((parameters) -> {
+			// ...
+			return OAuth2AccessTokenResponse.withToken("custom-token")
+				// ...
+				.build();
+		});
+
+		return RestClient.builder()
+			.messageConverters((messageConverters) -> {
+				messageConverters.clear();
+				messageConverters.add(new FormHttpMessageConverter());
+				messageConverters.add(messageConverter);
+			})
+			.defaultStatusHandler(new OAuth2ErrorResponseErrorHandler())
+			.build();
 	}
 
 }
