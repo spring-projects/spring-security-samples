@@ -9,3 +9,11 @@ pluginManagement {
 
 include ":servlet:spring-boot:java:saml2:identity-provider"
 project(":servlet:spring-boot:java:saml2:identity-provider").projectDir = file("../identity-provider")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("../../../../../gradle/libs.versions.toml"))
+        }
+    }
+}

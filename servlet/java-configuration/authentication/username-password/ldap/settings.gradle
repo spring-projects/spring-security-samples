@@ -6,3 +6,11 @@ pluginManagement {
         maven { url "https://repo.spring.io/snapshot" }
     }
 }
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("../../../../../gradle/libs.versions.toml"))
+        }
+    }
+}
