@@ -19,7 +19,7 @@ The following features are implemented in the MVP:
 1. Receive and validate a SAML 2.0 Response containing an assertion, and create a corresponding authentication in Spring Security
 2. Send a SAML 2.0 AuthNRequest to an Identity Provider
 3. Provide a framework for components used in SAML 2.0 authentication that can be swapped by configuration
-4. Work against the Okta SAML 2.0 IDP reference implementation
+4. Work against the SimpleSAMLPHP reference implementation
 
 === SAML 2.0 Single Logout
 
@@ -31,6 +31,11 @@ You can refer to the https://docs.spring.io/spring-security/reference/servlet/sa
 
 == Run the Sample
 
+=== Prerequisites
+
+This sample requires Docker in order to stand up the identity provider.
+If you don't have Docker, you can alternatively disable Docker in `application.yml` and stand up your own IdP.
+
 === Start up the Sample Boot Application
 ```
  ./gradlew :servlet:spring-boot:java:saml2:login:bootRun
@@ -40,12 +45,12 @@ You can refer to the https://docs.spring.io/spring-security/reference/servlet/sa
 
 http://localhost:8080/
 
-You will be redirect to the Okta SAML 2.0 IDP
+You will be redirected to a chooser page where you can pick between one of two identity providers.
 
 === Type in your credentials
 
 ```
-User: testuser2@spring.security.saml
-Password: 12345678
+User: user1
+Password: user1pass
 ```
 
