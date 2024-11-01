@@ -1,0 +1,23 @@
+plugins {
+	alias(libs.plugins.org.springframework.boot)
+	alias(libs.plugins.io.spring.dependency.management)
+	id "nebula.integtest" version "8.2.0"
+	id 'java'
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	runtimeOnly "org.springframework.boot:spring-boot-docker-compose"
+}
+
+tasks.withType(Test).configureEach {
+	useJUnitPlatform()
+	
+}

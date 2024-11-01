@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationContextInitializer=example.ComposeFilePropertyPlaceholderApplicationContextInitializer
+org.springframework.core.io.ProtocolResolver=example.DockerProtocolResolver

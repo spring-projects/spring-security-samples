@@ -1,0 +1,51 @@
+= SAML 2.0 Login & Logout Sample
+
+This guide provides instructions on setting up this SAML 2.0 Login & Logout sample application.
+It uses https://simplesamlphp.org/[SimpleSAMLphp] as its asserting party.
+
+The sample application uses Spring Boot and the `spring-security-saml2-service-provider`
+module which is new in Spring Security 5.2.
+
+The https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[SAML 2.0 Logout feature] is new in Spring Security 5.6.
+
+== Goals
+
+=== SAML 2.0 Login
+
+`saml2Login()` provides a very simple implementation of a Service Provider that can receive a SAML 2.0 Response via the HTTP-POST and HTTP-REDIRECT bindings against the https://developer.okta.com/docs/guides/build-sso-integration/saml2/main/[Okta SAML 2.0 IDP] reference implementation.
+
+The following features are implemented in the MVP:
+
+1. Receive and validate a SAML 2.0 Response containing an assertion, and create a corresponding authentication in Spring Security
+2. Send a SAML 2.0 AuthNRequest to an Identity Provider
+3. Provide a framework for components used in SAML 2.0 authentication that can be swapped by configuration
+4. Work against the Okta SAML 2.0 IDP reference implementation
+
+=== SAML 2.0 Single Logout
+
+`saml2Logout()` supports RP- and AP-initiated SAML 2.0 Single Logout via the HTTP-POST and HTTP-REDIRECT bindings against the https://developer.okta.com/docs/guides/build-sso-integration/saml2/main/[Okta SAML 2.0 IDP] reference implementation.
+
+On this sample, the SAML 2.0 Logout is using the HTTP-POST binding.
+
+You can refer to the https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[reference documentation] for more details about the RP- and AP-initiated SAML 2.0 Logout.
+
+== Run the Sample
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:login:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirect to the Okta SAML 2.0 IDP
+
+=== Type in your credentials
+
+```
+User: testuser2@spring.security.saml
+Password: 12345678
+```
+
