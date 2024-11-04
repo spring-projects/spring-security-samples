@@ -21,12 +21,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.saml2.provider.service.metadata.OpenSamlMetadataResolver;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
-import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
-import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
-import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilter;
-import org.springframework.security.saml2.provider.service.web.authentication.Saml2WebSsoAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -34,12 +28,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http,
-			RelyingPartyRegistrationRepository relyingPartyRegistrationRepository) throws Exception {
-		RelyingPartyRegistrationResolver relyingPartyRegistrationResolver = new DefaultRelyingPartyRegistrationResolver(
-				relyingPartyRegistrationRepository);
-		Saml2MetadataFilter metadataFilter = new Saml2MetadataFilter(relyingPartyRegistrationResolver,
-				new OpenSamlMetadataResolver());
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authorize) -> authorize
@@ -48,7 +37,7 @@ public class SecurityConfiguration {
 			)
 			.saml2Login(Customizer.withDefaults())
 			.saml2Logout(Customizer.withDefaults())
-			.addFilterBefore(metadataFilter, Saml2WebSsoAuthenticationFilter.class);
+			.saml2Metadata(Customizer.withDefaults());
 		// @formatter:on
 		return http.build();
 	}
