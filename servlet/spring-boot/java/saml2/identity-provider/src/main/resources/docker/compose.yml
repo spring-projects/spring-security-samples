@@ -5,7 +5,7 @@ services:
       - ./metadata/authsources.php:/var/www/simplesamlphp/config/authsources.php
       - ./metadata/one-relyingparties.php:/var/www/simplesamlphp/metadata/saml20-sp-remote.php
     environment:
-      - PORT=${SERVER_PORT:-8080}
+      - PORT=${SERVER_PORT:8080}
       
   idp-two.7f000001.nip.io:
     image: kristophjunge/test-saml-idp:1.15
@@ -13,7 +13,7 @@ services:
       - ./metadata/authsources.php:/var/www/simplesamlphp/config/authsources.php
       - ./metadata/two-relyingparties.php:/var/www/simplesamlphp/metadata/saml20-sp-remote.php
     environment:
-      - PORT=${SERVER_PORT:-8080}
+      - PORT=${SERVER_PORT:8080}
 
   nginx:
     image: nginx:stable
