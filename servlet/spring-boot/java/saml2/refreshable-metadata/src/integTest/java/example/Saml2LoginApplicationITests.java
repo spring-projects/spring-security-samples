@@ -16,29 +16,34 @@
 
 package example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.htmlunit.ElementNotFoundException;
 import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlButton;
+import org.htmlunit.html.HtmlElement;
 import org.htmlunit.html.HtmlForm;
 import org.htmlunit.html.HtmlInput;
 import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlPasswordInput;
-import org.htmlunit.html.HtmlSubmitInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 public class Saml2LoginApplicationITests {
 
-	@Autowired
-	MockMvc mvc;
+
+	@LocalServerPort
+	int port;
 
 	@Autowired
 	WebClient webClient;
@@ -52,18 +57,40 @@ public class Saml2LoginApplicationITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("You're email address is user1@example.org");
+	}
+
+	@Test
+	void logoutWhenRelyingPartyInitiatedLogoutThenLoginPageWithLogoutParam() throws Exception {
+		performLogin();
+		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
+		HtmlElement rpLogoutButton = home.getHtmlElementById("rp_logout_button");
+		HtmlPage loginPage = rpLogoutButton.click();
+		this.webClient.waitForBackgroundJavaScript(10000);
+		List<String> urls = new ArrayList<>();
+		urls.add(loginPage.getUrl().getFile());
+		urls.add(((HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage()).getUrl().getFile());
+		assertThat(urls).withFailMessage(() -> {
+			// @formatter:off
+			String builder = loginPage.asXml()
+				+ "\n\n\n"
+				+ "Enclosing Page"
+				+ "\n\n\n"
+				+ ((HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage()).asXml();
+			// @formatter:on
+			return builder;
+		}).contains("/login?logout");
 	}
 
 	private void performLogin() throws Exception {
-		HtmlPage login = this.webClient.getPage("/");
+		HtmlPage login = this.webClient.getPage("http://localhost:" + this.port + "/saml2/authenticate/one");
 		this.webClient.waitForBackgroundJavaScript(10000);
 		HtmlForm form = findForm(login);
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
-		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
-		username.type("testuser2@spring.security.saml");
-		password.type("12345678");
+		HtmlButton submit = (HtmlButton) form.getElementsByTagName("button").iterator().next();
+		username.type("user1");
+		password.type("user1pass");
 		submit.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
 	}
@@ -71,7 +98,7 @@ public class Saml2LoginApplicationITests {
 	private HtmlForm findForm(HtmlPage login) {
 		for (HtmlForm form : login.getForms()) {
 			try {
-				if (form.getId().equals("form19")) {
+				if (form.getNameAttribute().equals("f")) {
 					return form;
 				}
 			}

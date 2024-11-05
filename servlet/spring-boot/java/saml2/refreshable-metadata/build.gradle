@@ -13,6 +13,8 @@ repositories {
 	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
+sourceSets.main.java.srcDirs += "$projectDir/../identity-provider/src/main/java"
+sourceSets.main.resources.srcDirs += "$projectDir/../identity-provider/src/main/resources"
 
 dependencies {
 	constraints {
@@ -28,6 +30,7 @@ dependencies {
 	testImplementation 'org.htmlunit:htmlunit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly "org.springframework.boot:spring-boot-docker-compose"
 }
 
 tasks.withType(Test).configureEach {
