@@ -21,33 +21,28 @@ import java.util.List;
 
 import org.htmlunit.ElementNotFoundException;
 import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlButton;
 import org.htmlunit.html.HtmlElement;
 import org.htmlunit.html.HtmlForm;
 import org.htmlunit.html.HtmlInput;
 import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlPasswordInput;
-import org.htmlunit.html.HtmlSubmitInput;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 public class SamlExtensionFederationApplicationITests {
 
-	@Autowired
-	MockMvc mvc;
+	@LocalServerPort
+	int port;
 
 	@Autowired
 	WebClient webClient;
@@ -61,7 +56,7 @@ public class SamlExtensionFederationApplicationITests {
 	void authenticationAttemptWhenValidThenShowsUserEmailAddress() throws Exception {
 		performLogin();
 		HtmlPage home = (HtmlPage) this.webClient.getCurrentWindow().getEnclosedPage();
-		assertThat(home.asNormalizedText()).contains("You're email address is testuser2@spring.security.saml");
+		assertThat(home.asNormalizedText()).contains("You're email address is user1@example.org");
 	}
 
 	@Test
@@ -77,13 +72,6 @@ public class SamlExtensionFederationApplicationITests {
 		assertThat(urls).contains("/login?logout");
 	}
 
-	@Test
-	void metadataWhenGetThenForwardToUrl() throws Exception {
-		this.mvc.perform(get("/saml/metadata"))
-			.andExpect(status().isOk())
-			.andExpect(forwardedUrl("/saml2/service-provider-metadata/one"));
-	}
-
 	private void performLogin() throws Exception {
 		HtmlPage login = this.webClient.getPage("/");
 		login.getAnchors().get(0).click();
@@ -91,9 +79,9 @@ public class SamlExtensionFederationApplicationITests {
 		HtmlForm form = findForm(login);
 		HtmlInput username = form.getInputByName("username");
 		HtmlPasswordInput password = form.getInputByName("password");
-		HtmlSubmitInput submit = login.getHtmlElementById("okta-signin-submit");
-		username.type("testuser2@spring.security.saml");
-		password.type("12345678");
+		HtmlButton submit = (HtmlButton) form.getElementsByTagName("button").iterator().next();
+		username.type("user1");
+		password.type("user1pass");
 		submit.click();
 		this.webClient.waitForBackgroundJavaScript(10000);
 	}
@@ -101,7 +89,7 @@ public class SamlExtensionFederationApplicationITests {
 	private HtmlForm findForm(HtmlPage login) {
 		for (HtmlForm form : login.getForms()) {
 			try {
-				if (form.getId().equals("form19")) {
+				if (form.getNameAttribute().equals("f")) {
 					return form;
 				}
 			}

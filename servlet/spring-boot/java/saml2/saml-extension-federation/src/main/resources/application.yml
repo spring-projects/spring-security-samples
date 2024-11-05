@@ -2,6 +2,11 @@ logging.level:
   org.springframework.security: TRACE
 
 spring:
+  docker:
+    compose:
+      file: classpath:docker/compose.yml
+      readiness:
+        wait: never
   security:
     filter:
       dispatcher-types: async, error, request, forward
@@ -9,11 +14,11 @@ spring:
       relyingparty:
         registration:
           metadata:
-            entity-id: "{baseUrl}/saml2/service-provider-metadata/one"
+            entity-id: "{baseUrl}/saml/metadata"
             singlelogout:
-              binding: POST
+              binding: REDIRECT
               url: "{baseUrl}/saml/logout"
               responseUrl: "{baseUrl}/saml/SingleLogout"
             acs:
               location: "{baseUrl}/saml/SSO"
-            assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk598vc9bHhwoTXM5d7/sso/saml/metadata
+            assertingparty.metadata-uri:  http://idp-one.7f000001.nip.io/simplesaml/saml2/idp/metadata.php

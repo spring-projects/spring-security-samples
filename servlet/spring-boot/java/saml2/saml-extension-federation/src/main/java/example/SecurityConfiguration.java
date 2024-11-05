@@ -71,6 +71,7 @@ public class SecurityConfiguration {
 			.map((builder) -> builder.registrationId(UUID.randomUUID().toString())
 				.entityId(registration.getEntityId())
 				.assertionConsumerServiceLocation(registration.getAcs().getLocation())
+				.singleLogoutServiceBinding(registration.getSinglelogout().getBinding())
 				.singleLogoutServiceLocation(registration.getSinglelogout().getUrl())
 				.singleLogoutServiceResponseLocation(registration.getSinglelogout().getResponseUrl())
 				.signingX509Credentials((credentials) -> credentials.add(signing))
