@@ -15,12 +15,6 @@ repositories {
 sourceSets.main.java.srcDirs += "$projectDir/../identity-provider/src/main/java"
 sourceSets.main.resources.srcDirs += "$projectDir/../identity-provider/src/main/resources"
 
-if (plugins.hasPlugin("io.spring.javaformat")) {
-	tasks.formatMain {
-		dependsOn(":servlet:spring-boot:java:saml2:identity-provider:formatMain")
-	}
-}
-
 dependencies {
 	constraints {
 		implementation "org.opensaml:opensaml-saml-api:5.1.3"
