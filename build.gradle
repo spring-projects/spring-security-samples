@@ -1,3 +1,4 @@
+import io.spring.javaformat.gradle.tasks.CheckFormat
 import io.spring.javaformat.gradle.tasks.Format
 
 plugins {
@@ -28,6 +29,18 @@ allprojects {
 		options.compilerArgs.add("-parameters")
 	}
 
+	tasks.withType(Format).tap {
+		configureEach {
+			it.enabled = !it.identityPath.toString().contains("saml2")
+		}
+	}
+
+	tasks.withType(CheckFormat).tap {
+		configureEach {
+			it.enabled = !it.identityPath.toString().contains("saml2")
+		}
+	}
+
 	tasks.matching { it.name == 'formatAot' }.all { task ->
 		task.enabled = false
 	}
@@ -52,11 +65,6 @@ allprojects {
 		task.enabled = false
 	}
 
-	tasks.withType(Format).tap {
-		configureEach {
-			it.enabled = !it.identityPath.toString().contains("saml2")
-		}
-	}
 }
 
 if (hasProperty('buildScan')) {
