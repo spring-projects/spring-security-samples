@@ -30,7 +30,6 @@ dependencies {
 	testImplementation 'org.htmlunit:htmlunit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	runtimeOnly "org.springframework.boot:spring-boot-docker-compose"
 }
 
 tasks.withType(Test).configureEach {
