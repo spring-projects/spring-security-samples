@@ -6,3 +6,6 @@ pluginManagement {
         maven { url "https://repo.spring.io/snapshot" }
     }
 }
+
+include ":servlet:spring-boot:java:saml2:identity-provider"
+project(":servlet:spring-boot:java:saml2:identity-provider").projectDir = file("../identity-provider")

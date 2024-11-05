@@ -41,7 +41,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 public class Saml2LoginApplicationITests {
 
-
 	@LocalServerPort
 	int port;
 

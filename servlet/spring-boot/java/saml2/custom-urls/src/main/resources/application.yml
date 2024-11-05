@@ -4,11 +4,9 @@ logging.level:
 spring:
   docker:
     compose:
-      file: docker:docker/compose.yml
+      file: classpath:docker/compose.yml
       readiness:
         wait: never
-      skip:
-        in-tests: false
   security:
     filter:
       dispatcher-types: async, error, request, forward

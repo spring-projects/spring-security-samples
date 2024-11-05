@@ -13,8 +13,9 @@ repositories {
 
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	runtimeOnly "org.springframework.boot:spring-boot-docker-compose"
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation "org.testcontainers:testcontainers:1.20.3"
+	implementation "org.testcontainers:junit-jupiter:1.20.3"
 }
 
 tasks.withType(Test).configureEach {

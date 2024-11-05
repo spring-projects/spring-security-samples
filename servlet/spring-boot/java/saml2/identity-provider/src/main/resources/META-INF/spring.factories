@@ -1,2 +1,1 @@
-org.springframework.context.ApplicationContextInitializer=example.ComposeFilePropertyPlaceholderApplicationContextInitializer
-org.springframework.core.io.ProtocolResolver=example.DockerProtocolResolver
+org.springframework.test.context.TestExecutionListener=example.IdentityProviderTestExecutionListener

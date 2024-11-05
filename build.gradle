@@ -29,18 +29,6 @@ allprojects {
 		options.compilerArgs.add("-parameters")
 	}
 
-	tasks.withType(Format).tap {
-		configureEach {
-			it.enabled = !it.identityPath.toString().contains("saml2")
-		}
-	}
-
-	tasks.withType(CheckFormat).tap {
-		configureEach {
-			it.enabled = !it.identityPath.toString().contains("saml2")
-		}
-	}
-
 	tasks.matching { it.name == 'formatAot' }.all { task ->
 		task.enabled = false
 	}
