@@ -82,7 +82,7 @@ public class Saml2LoginApplicationITests {
 	}
 
 	private void performLogin() throws Exception {
-		HtmlPage login = this.webClient.getPage("http://localhost:" + this.port + "/saml2/authenticate/one");
+		HtmlPage login = this.webClient.getPage("http://localhost:" + this.port);
 		this.webClient.waitForBackgroundJavaScript(10000);
 		HtmlForm form = findForm(login);
 		HtmlInput username = form.getInputByName("username");

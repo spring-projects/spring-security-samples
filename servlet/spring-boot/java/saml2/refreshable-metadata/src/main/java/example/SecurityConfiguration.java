@@ -16,15 +16,23 @@
 
 package example;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.saml2.core.OpenSamlInitializationService;
+import org.springframework.security.saml2.provider.service.registration.AssertingPartyMetadataRepository;
+import org.springframework.security.saml2.provider.service.registration.OpenSaml5AssertingPartyMetadataRepository;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {
+
+	static {
+		OpenSamlInitializationService.initialize();
+	}
 
 	@Bean
 	SecurityFilterChain app(HttpSecurity http) throws Exception {
@@ -37,6 +45,11 @@ public class SecurityConfiguration {
 			.saml2Logout(withDefaults());
 		// @formatter:on
 		return http.build();
+	}
+
+	@Bean
+	AssertingPartyMetadataRepository assertingParties(@Value("${saml2.ap.metadata}") String location) {
+		return OpenSaml5AssertingPartyMetadataRepository.withTrustedMetadataLocation(location).build();
 	}
 
 }
