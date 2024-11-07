@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
-public class CustomUrlsApplicationITests {
+public class SamlExtensionUrlsApplicationITests {
 
 	@LocalServerPort
 	int port;
@@ -81,9 +81,7 @@ public class CustomUrlsApplicationITests {
 
 	@Test
 	void metadataWhenGetThenForwardToUrl() throws Exception {
-		this.mvc.perform(get("/saml/metadata"))
-			.andExpect(status().isOk())
-			.andExpect(forwardedUrl("/saml2/service-provider-metadata/one"));
+		this.mvc.perform(get("/saml/metadata")).andExpect(status().isOk()).andExpect(forwardedUrl("/saml2/metadata"));
 	}
 
 	private void performLogin() throws Exception {

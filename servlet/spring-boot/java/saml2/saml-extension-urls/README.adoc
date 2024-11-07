@@ -1,23 +1,66 @@
 = SAML 2.0 Login & Logout Sample using SAML Extension URLs
 
-This guide provides instructions on setting up the new Spring Security SAML 2.0 support using the endpoint URLs from the EOLd Spring Security SAML Extension.
+This guide provides instructions on setting up the new Spring Security SAML 2.0 support using the endpoint URLs from the EOL'd Spring Security SAML Extension.
 
-See the https://github.com/spring-projects/spring-security/wiki/SAML-2.0-Migration-Guide[SAML 2.0 Migration Guide] for more details about the migration.
+See the https://github.com/spring-projects/spring-security/wiki/SAML-2.0-Migration-Guide[SAML 2.0 Migration Guide] for more details about migrating.
+
+== Run the Sample
+
+=== Install Docker
+
+This sample requires Docker to run a local IdP.
+As an alternative, you can point the sample at your own IdP by changing the `application.yml` here:
+
+[source,java]
+----
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          one:
+            assertingparty.metadata-uri: {your-idp-metadata-endpoint}
+----
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:saml-extension-urls:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirected to the Okta SAML 2.0 IDP
+
+=== Type in your credentials
+
+```
+User: user1
+Password: user1pass
+```
 
 == Key Changes
 
+There are two important differences in the way this sample is configured in order to support the Extension URIs:
+
+* A custom URL forwarding filter
+* Changes to `application.yml`
+
 === URL Forwarding Filter
 
-Instead of customizing the default Spring Security configuration, a new `Filter` has been created named `SamlExtensionUrlForwardingFilter`.
-This new filter is responsible to forward from the SAML Extension URLs to the new https://docs.spring.io/spring-security/reference/servlet/saml2/login/overview.html[Spring Security SAML 2.0 support URLs].
-Below is a table with the URLs that the Filter listen to (column 1) and forwards to (column 2).
+In this sample, you will see a forwarding `Filter` that maps SAML Extension URLs to Spring Security URLs.
+This is a simple pattern you can follow to assist with migration so that as you transition from the Extension to Spring Security, you don't need to reconfigure the Identity Providers that you are connected to.
+
+The filter is called `SamlExtensionUrlForwardingFilter` and is an example of what you can create for yourself in your own project.
+It maps to Spring Security URLs in the following way:
 
 
 |===
 |SAML Extension URLs |Spring Security SAML 2.0 Support URLs |Description
 
 |`/saml/SSO`
-|`/login/saml2/sso/one`
+|`/login/saml2/sso`
 |The URL that processes a `<saml2:Response>` from the IdP
 
 |`/saml/login`
@@ -33,11 +76,11 @@ Below is a table with the URLs that the Filter listen to (column 1) and forwards
 |The URL that processes a `<saml2:LogoutRequest>` from the IdP
 
 |`/saml/metadata`
-|`/saml2/service-provider-metadata/one`
+|`/saml2/metadata`
 |The URL that generates the SP metadata
 |===
 
-Note that the `SamlExtensionUrlForwardingFilter` has an order of `-101`, this makes it be invoked before the `FilterChainProxy`.
+Note that the `SamlExtensionUrlForwardingFilter` has an order of `-101` so it's invoked before the `FilterChainProxy`:
 
 [source,java]
 ----
@@ -60,10 +103,7 @@ spring:
       relyingparty:
         registration:
           one:
-            signing.credentials:
-              - private-key-location: classpath:credentials/rp-private.key
-                certificate-location: classpath:credentials/rp-certificate.crt
-            assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk598vc9bHhwoTXM5d7/sso/saml/metadata
+// ...
             singlelogout:
               binding: POST
               url: "{baseUrl}/saml/logout" <2>
@@ -80,24 +120,3 @@ Since we are forwarding from one URL to another, we should also register it for 
 ==== `RelyingPartyRegistration` properties
 
 The `RelyingPartyRegistration` properties should also be customized to match the values that were used by the SAML Extension (see <2>, <3> and <4> above).
-
-== Run the Sample
-
-=== Start up the Sample Boot Application
-```
- ./gradlew :servlet:spring-boot:java:saml2:custom-urls:bootRun
-```
-
-=== Open a Browser
-
-http://localhost:8080/
-
-You will be redirected to the Okta SAML 2.0 IDP
-
-=== Type in your credentials
-
-```
-User: testuser2@spring.security.saml
-Password: 12345678
-```
-

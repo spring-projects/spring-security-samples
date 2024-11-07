@@ -40,11 +40,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class SamlExtensionUrlForwardingFilter extends OncePerRequestFilter {
 
 	// @formatter:off
-	private static final Map<String, String> urlMapping = Map.of("/saml/SSO", "/login/saml2/sso/one",
+	private static final Map<String, String> urlMapping = Map.of("/saml/SSO", "/login/saml2/sso",
 			"/saml/login", "/saml2/authenticate/one",
 			"/saml/logout", "/logout/saml2/slo",
 			"/saml/SingleLogout", "/logout/saml2/slo",
-			"/saml/metadata", "/saml2/service-provider-metadata/one");
+			"/saml/metadata", "/saml2/metadata");
 	// @formatter:on
 
 	private final RequestMatcher matcher = createRequestMatcher();
