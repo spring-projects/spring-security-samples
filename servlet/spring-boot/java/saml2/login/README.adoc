@@ -8,6 +8,45 @@ module which is new in Spring Security 5.2.
 
 The https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[SAML 2.0 Logout feature] is new in Spring Security 5.6.
 
+== Run the Sample
+
+=== Install Docker
+
+This sample requires Docker to run a local IdP.
+As an alternative, you can point the sample at your own IdP by changing the `application.yml` here:
+
+[source,java]
+----
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          one:
+            assertingparty.metadata-uri: {your-idp-metadata-endpoint}
+// ...
+          two:
+            assertingparty.metadata-uri: {your-idp-metadata-endpoint}
+----
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:login:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirected to the SimpleSAMLPHP instance.
+
+=== Type in your credentials
+
+```
+User: user1
+Password: user1pass
+```
+
 == Goals
 
 === SAML 2.0 Login
@@ -28,29 +67,4 @@ The following features are implemented in the MVP:
 On this sample, the SAML 2.0 Logout is using the HTTP-POST binding.
 
 You can refer to the https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[reference documentation] for more details about the RP- and AP-initiated SAML 2.0 Logout.
-
-== Run the Sample
-
-=== Prerequisites
-
-This sample requires Docker in order to stand up the identity provider.
-If you don't have Docker, you can alternatively disable Docker in `application.yml` and stand up your own IdP.
-
-=== Start up the Sample Boot Application
-```
- ./gradlew :servlet:spring-boot:java:saml2:login:bootRun
-```
-
-=== Open a Browser
-
-http://localhost:8080/
-
-You will be redirected to a chooser page where you can pick between one of two identity providers.
-
-=== Type in your credentials
-
-```
-User: user1
-Password: user1pass
-```
 

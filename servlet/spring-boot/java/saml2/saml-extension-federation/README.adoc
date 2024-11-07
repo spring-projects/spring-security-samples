@@ -7,6 +7,45 @@ This code uses `RelyingPartyRegistrations#collectionFromMetadata` to demonstrate
 
 See the https://github.com/spring-projects/spring-security/wiki/SAML-2.0-Migration-Guide[SAML 2.0 Migration Guide] for more details about the migration.
 
+== Run the Sample
+
+=== Install Docker
+
+This sample requires Docker to run a local IdP.
+As an alternative, you can point the sample at your own IdP by changing the `application.yml` here:
+
+[source,java]
+----
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          one:
+            assertingparty.metadata-uri: {your-idp-metadata-endpoint}
+// ...
+          two:
+            assertingparty.metadata-uri: {your-idp-metadata-endpoint}
+----
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:saml-extension-federation:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirected to the SimpleSAMLPHP instance.
+
+=== Type in your credentials
+
+```
+User: user1
+Password: user1pass
+```
+
 == Key Changes
 
 === URL Forwarding Filter
@@ -51,48 +90,8 @@ public class SamlExtensionUrlForwardingFilter extends OncePerRequestFilter {
 }
 ----
 
-=== application.yml
+=== `RelyingPartyMetadata` configuration component
 
-[source%linenums,yml]
-----
-spring:
-  security:
-    filter:
-      dispatcher-types: async, error, request, forward <1>
-    saml2:
-      relyingparty:
-        registration:
-          one:
-            singlelogout:
-              binding: POST
-              url: "{baseUrl}/saml/logout" <2>
-              responseUrl: "{baseUrl}/saml/SingleLogout" <3>
-            acs:
-              location: "{baseUrl}/saml/SSO" <4>
-            assertingparty.metadata-uri: https://dev-05937739.okta.com/app/exk598vc9bHhwoTXM5d7/sso/saml/metadata
-----
+The `RelyingPartyRegistration` properties are customized to match the values that were used by the SAML Extension.
 
-==== `RelyingPartyRegistration` properties
-
-The `RelyingPartyRegistration` properties should also be customized to match the values that were used by the SAML Extension (see <2>, <3> and <4> above).
-
-== Run the Sample
-
-=== Start up the Sample Boot Application
-```
- ./gradlew :servlet:spring-boot:java:saml2:saml-extension-federation:bootRun
-```
-
-=== Open a Browser
-
-http://localhost:8080/
-
-Select the first IdP listed.
-You will be redirect to the Okta SAML 2.0 IDP
-
-=== Type in your credentials
-
-```
-User: testuser2@spring.security.saml
-Password: 12345678
-```
+These reside in `RelyingPartyMetadata`.

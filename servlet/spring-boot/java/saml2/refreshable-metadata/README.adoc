@@ -8,6 +8,37 @@ module which is new in Spring Security 5.2.
 
 The https://docs.spring.io/spring-security/reference/servlet/saml2/logout.html[SAML 2.0 Logout feature] is new in Spring Security 5.6.
 
+== Run the Sample
+
+=== Install Docker
+
+This sample requires Docker to run a local IdP.
+As an alternative, you can point the sample at your own IdP by changing the `application.yml` here:
+
+[source,java]
+----
+saml2:
+  ap.metadata: {your-idp-metadata-endpoint}
+----
+
+=== Start up the Sample Boot Application
+```
+ ./gradlew :servlet:spring-boot:java:saml2:refreshable-metadata:bootRun
+```
+
+=== Open a Browser
+
+http://localhost:8080/
+
+You will be redirected to the SimpleSAMLPHP instance.
+
+=== Type in your credentials
+
+```
+User: user1
+Password: user1pass
+```
+
 == Goals
 
 === SAML 2.0 Login
@@ -32,27 +63,7 @@ You can refer to the https://docs.spring.io/spring-security/reference/servlet/sa
 === Refreshable Asserting Party Metadata
 
 The application uses a custom implementation of `RelyingPartyRegistrationRepository` to achieve Asserting Party Metadata refresh feature.
-This particular implementation uses a `@Scheduled` annotation to update its metadata every 30 minutes.
-
-== Run the Sample
-
-=== Start up the Sample Boot Application
-```
- ./gradlew :servlet:spring-boot:java:saml2:refreshable-metadata:bootRun
-```
-
-=== Open a Browser
-
-http://localhost:8080/
-
-You will be redirect to the Okta SAML 2.0 IDP
-
-=== Type in your credentials
-
-```
-User: testuser2@spring.security.saml
-Password: 12345678
-```
+This particular implementation relies on an OpenSAML component that refreshes the metadata.
 
 
 
