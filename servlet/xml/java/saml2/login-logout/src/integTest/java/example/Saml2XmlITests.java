@@ -68,6 +68,7 @@ public class Saml2XmlITests {
 		this.webClient = MockMvcWebClientBuilder.mockMvcSetup(this.mvc)
 			.withDelegate(new LocalHostWebClient(this.environment))
 			.build();
+		this.webClient.getOptions().setThrowExceptionOnScriptError(false);
 		this.webClient.getCookieManager().clearCookies();
 	}
 
