@@ -52,6 +52,7 @@ public class CustomUrlsApplicationITests {
 
 	@BeforeEach
 	void setup() {
+		this.webClient.getOptions().setThrowExceptionOnScriptError(false);
 		this.webClient.getCookieManager().clearCookies();
 	}
 
