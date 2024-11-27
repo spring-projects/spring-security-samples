@@ -104,6 +104,7 @@ public class OAuth2LoginApplicationTests {
 	@BeforeEach
 	void setup() {
 		this.webClient.getCookieManager().clearCookies();
+		this.webClient.getOptions().setThrowExceptionOnScriptError(false);
 	}
 
 	@Test

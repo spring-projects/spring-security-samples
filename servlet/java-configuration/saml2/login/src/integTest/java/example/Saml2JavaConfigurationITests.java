@@ -66,6 +66,7 @@ public class Saml2JavaConfigurationITests {
 		this.webClient = MockMvcWebClientBuilder.mockMvcSetup(this.mvc)
 				.withDelegate(new LocalHostWebClient(this.environment)).build();
 		this.webClient.getCookieManager().clearCookies();
+		this.webClient.getOptions().setThrowExceptionOnScriptError(false);
 	}
 
 	@Test

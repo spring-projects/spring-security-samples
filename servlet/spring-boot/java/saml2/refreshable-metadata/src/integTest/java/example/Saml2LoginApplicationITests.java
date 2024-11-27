@@ -46,6 +46,7 @@ public class Saml2LoginApplicationITests {
 	@BeforeEach
 	void setup() {
 		this.webClient.getCookieManager().clearCookies();
+		this.webClient.getOptions().setThrowExceptionOnScriptError(false);
 	}
 
 	@Test
