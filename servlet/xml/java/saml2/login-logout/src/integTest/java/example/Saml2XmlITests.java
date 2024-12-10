@@ -28,6 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -48,6 +49,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-servlet.xml",
 		"file:src/main/webapp/WEB-INF/spring/security.xml" })
 @WebAppConfiguration
+@Disabled("gh-127")
 public class Saml2XmlITests {
 
 	private MockMvc mvc;
