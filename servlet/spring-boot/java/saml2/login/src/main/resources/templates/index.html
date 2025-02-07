@@ -41,7 +41,7 @@
     <main role="main" class="container">
         <h1 class="mt-5">SAML 2.0 Login & Single Logout with Spring Security</h1>
         <p class="lead">You are successfully logged in as <span sec:authentication="name"></span></p>
-        <p class="lead">You're email address is <span th:text="${emailAddress}"></span></p>
+        <p class="lead">Your email address is <span th:text="${emailAddress}"></span></p>
         <h2 class="mt-2">All Your Attributes</h2>
         <dl th:each="userAttribute : ${userAttributes}">
             <dt th:text="${userAttribute.key}"></dt>
