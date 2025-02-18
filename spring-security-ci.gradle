@@ -55,5 +55,24 @@ allprojects {
 				includeVersion "org.springframework.security", "spring-security-web", "$springSecurityVersion"
 			}
 		}
+		maven {
+			name = 'artifactory-snapshot'
+			credentials {
+				username project.artifactoryUsername
+				password project.artifactoryPassword
+			}
+			url = 'https://usw1.packages.broadcom.com/spring-enterprise-maven-dev-local'
+		}
+		maven {
+			name = 'artifactory-release'
+			credentials {
+				username project.artifactoryUsername
+				password project.artifactoryPassword
+			}
+			content {
+				excludeGroup('net.minidev')
+			}
+			url = 'https://usw1.packages.broadcom.com/spring-enterprise-maven-prod-local'
+		}
 	}
 }
