@@ -1,0 +1,74 @@
+= Spring Data AOT Sample
+
+To compile this project, you will need to use a special Java compiler.
+If you are using SDKMan!, then the version will be correctly selected for you.
+Or, you can do the following:
+
+```bash
+sdk use java 23.0.5.r17-nik
+```
+
+After that, you can compile like so:
+
+```bash
+./gradlew nativeCompile
+```
+
+Once compiled, you can run like so:
+
+```bash
+./build/native/nativeCompile/data
+```
+
+Then you can query for messages using `luke/password` and `rob/password`.
+
+Because the domain objects are secured, you will see a subset of fields with `luke`.
+
+For example, querying `/` with `luke`, you'll see:
+
+```json
+  ...
+    {
+        "created": "2014-07-12T16:00:00Z",
+        "id": 112,
+        "summary": "Is this secure?",
+        "text": "This message is for Luke",
+        "to": {
+            "email": "luke@example.com",
+            "id": "luke",
+            "password": "password"
+        }
+    }
+  ...
+```
+
+However, with `rob`, you'll also see `firstName` and `lastName` like so:
+
+```json
+  ...
+    {
+        "created": "2014-07-12T04:00:00Z",
+        "id": 102,
+        "summary": "Is this secure?",
+        "text": "This message is for Rob",
+        "to": {
+            "email": "rob@example.com",
+            "firstName": "Rob",
+            "id": "rob",
+            "lastName": "Winch",
+            "password": "password"
+        }
+    }
+  ...
+```
+
+You can also change the message text.
+To do this, copy and paste the `X-CSRF-TOKEN` and `Cookie: JSESSION` headers and include them in a `PUT :8080/102` request.
+
+An example of this request using HTTPie can be seen below:
+
+```bash
+echo -n "updated message" | http -a rob:password PUT :8080/102 "X-CSRF-TOKEN: {copied from GET request}" "Cookie: JSESSIONID={copied from GET request}"
+```
+
+Read more about the https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#authorize-object[`@AuthorizeReturnObject`] and https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#fallback-values-authorization-denied[]`@DeniedHandler`] in the Spring Security Reference.
