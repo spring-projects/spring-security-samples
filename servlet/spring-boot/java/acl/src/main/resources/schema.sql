@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS message (
+  id BIGINT IDENTITY PRIMARY KEY,
+  text VARCHAR(255),
+  summary VARCHAR(255),
+  created TIMESTAMP,
+  recipient VARCHAR(255)
+);
