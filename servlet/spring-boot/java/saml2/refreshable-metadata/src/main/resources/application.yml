@@ -11,4 +11,4 @@ logging.level:
 saml2:
   certificate: classpath:credentials/rp-certificate.crt
   key: classpath:credentials/rp-private.key
-  ap.metadata: http://idp-one.7f000001.nip.io/simplesaml/saml2/idp/metadata.php
+  ap.metadata: http://idp-one.127-0-0-1.nip.io/simplesaml/saml2/idp/metadata.php

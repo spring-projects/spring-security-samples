@@ -1,5 +1,5 @@
 services:
-  idp-one.7f000001.nip.io:
+  idp-one.127-0-0-1.nip.io:
     image: kristophjunge/test-saml-idp:1.15
     volumes:
       - ./metadata/authsources.php:/var/www/simplesamlphp/config/authsources.php
@@ -7,7 +7,7 @@ services:
     environment:
       - PORT=${SERVER_PORT:-8080}
       
-  idp-two.7f000001.nip.io:
+  idp-two.127-0-0-1.nip.io:
     image: kristophjunge/test-saml-idp:1.15
     volumes:
       - ./metadata/authsources.php:/var/www/simplesamlphp/config/authsources.php
@@ -18,8 +18,8 @@ services:
   nginx:
     image: nginx:stable
     links:
-      - idp-one.7f000001.nip.io
-      - idp-two.7f000001.nip.io
+      - idp-one.127-0-0-1.nip.io
+      - idp-two.127-0-0-1.nip.io
     volumes:
       - ./nginx:/etc/nginx:ro
     ports:
