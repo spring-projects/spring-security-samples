@@ -3,7 +3,7 @@ org-springframework-boot = "3.5.3"
 
 [libraries]
 org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:6.2.8"
-org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:6.4.0-SNAPSHOT"
+org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:6.5.0-SNAPSHOT"
 org-springframework-data-spring-data-bom = "org.springframework.data:spring-data-bom:2024.1.7"
 
 [plugins]
