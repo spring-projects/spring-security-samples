@@ -29,7 +29,6 @@ repositories {
 
 
 dependencies {
-	implementation 'com.squareup.okhttp3:mockwebserver'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
