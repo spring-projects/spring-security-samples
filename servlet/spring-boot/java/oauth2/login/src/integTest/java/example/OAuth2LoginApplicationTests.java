@@ -234,7 +234,7 @@ public class OAuth2LoginApplicationTests {
 
 		HtmlElement errorElement = page.getBody().getFirstByXPath("div");
 		assertThat(errorElement).isNotNull();
-		assertThat(errorElement.asNormalizedText()).contains("authorization_request_not_found");
+		assertThat(errorElement.asNormalizedText()).contains("Invalid credentials");
 	}
 
 	@Test
@@ -265,7 +265,7 @@ public class OAuth2LoginApplicationTests {
 
 		HtmlElement errorElement = page.getBody().getFirstByXPath("div");
 		assertThat(errorElement).isNotNull();
-		assertThat(errorElement.asNormalizedText()).contains("authorization_request_not_found");
+		assertThat(errorElement.asNormalizedText()).contains("Invalid credentials");
 	}
 
 	@Test
