@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/gradle,java,intellij,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=gradle,java,intellij,eclipse
 
+### IDEA ###
+.idea
+
 ### Eclipse ###
 .metadata
 bin/
