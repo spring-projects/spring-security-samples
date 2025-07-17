@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("saml2")
 public class RelyingPartyMetadata {
 
-	private final ResourceLoader resourceLoader = new ApplicationResourceLoader();
+	private final ResourceLoader resourceLoader = ApplicationResourceLoader.get();
 
 	private String entityId = "{baseUrl}/saml2/metadata";
 
