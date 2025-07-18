@@ -13,7 +13,7 @@ To run the tests, do:
 ./gradlew integrationTest
 ```
 
-Or import the project into your IDE and run `OAuth2ResourceServerApplicationITests` from there.
+Or import the project into your IDE and run `OAuth2StaticResourceServerApplicationITests` from there.
 
 === What is it doing?
 
@@ -38,7 +38,7 @@ To run as a stand-alone application, do:
 ./gradlew bootRun
 ```
 
-Or import the project into your IDE and run `OAuth2ResourceServerApplication` from there.
+Or import the project into your IDE and run `OAuth2StaticResourceServerApplication` from there.
 
 Once it is up, you can use the following token:
 
