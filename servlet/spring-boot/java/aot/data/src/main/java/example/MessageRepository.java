@@ -18,8 +18,8 @@ package example;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.authorization.method.AuthorizeReturnObject;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +32,10 @@ import org.springframework.stereotype.Repository;
 @AuthorizeReturnObject
 public interface MessageRepository extends CrudRepository<Message, Long> {
 
-	@Query("select m from Message m where m.to.id = ?#{ authentication.name }")
+	// FIXME: The resulting AOT file has a compilation error when generating the call to
+	// the evaluateExpression method
+	// @Query("select m from Message m where m.to.id = ?#{ authentication.name }")
+	@PostFilter("filterObject.to.id == authentication.name")
 	List<Message> findAll();
 
 }

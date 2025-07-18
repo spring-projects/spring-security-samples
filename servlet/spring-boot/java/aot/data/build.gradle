@@ -3,11 +3,12 @@ plugins {
 	alias(libs.plugins.io.spring.dependency.management)
 	id "nebula.integtest" version "8.2.0"
 	id 'java'
-	id 'org.hibernate.orm' version '6.5.2.Final'
+	id 'org.hibernate.orm' version '7.0.6.Final'
 	id "org.graalvm.buildtools.native" version "0.10.2"
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	maven { url "https://repo.spring.io/milestone" }
 	maven { url "https://repo.spring.io/snapshot" }

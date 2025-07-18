@@ -19,6 +19,7 @@ package example;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.authorization.method.AuthorizationProxy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
