@@ -19,13 +19,12 @@ dependencies {
 	implementation platform(libs.org.springframework.data.spring.data.bom)
 	implementation platform("org.junit:junit-bom:5.10.5")
 
+	implementation 'org.springframework.data:spring-data-jpa'
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-data"
 	implementation "org.springframework.security:spring-security-web"
-	implementation 'org.hibernate.orm:hibernate-core:6.6.21.Final'
-	implementation 'org.hibernate.validator:hibernate-validator:8.0.2.Final'
+	implementation 'org.hibernate.orm:hibernate-core:7.0.6.Final'
 	implementation 'org.hsqldb:hsqldb:2.7.3'
-	implementation 'org.springframework.data:spring-data-jpa'
 
 	testImplementation "org.assertj:assertj-core:3.26.3"
 	testImplementation "org.springframework:spring-test"
