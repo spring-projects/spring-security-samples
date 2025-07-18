@@ -61,7 +61,7 @@
    </bean>
 
    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-	  <property name="userDetailsService" ref="jdbcDaoImpl"/>
+	  <constructor-arg ref="jdbcDaoImpl"/>
 	  <property name="passwordEncoder">
 		<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	  </property>
