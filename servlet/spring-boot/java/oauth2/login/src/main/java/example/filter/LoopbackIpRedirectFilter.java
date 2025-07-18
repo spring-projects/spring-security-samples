@@ -57,7 +57,7 @@ public class LoopbackIpRedirectFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		if (request.getServerName().equals("localhost") && request.getHeader("host") != null) {
-			UriComponents uri = UriComponentsBuilder.fromHttpRequest(new ServletServerHttpRequest(request))
+			UriComponents uri = UriComponentsBuilder.fromUriString(request.getRequestURL().toString())
 				.host("127.0.0.1")
 				.build();
 			response.sendRedirect(uri.toUriString());

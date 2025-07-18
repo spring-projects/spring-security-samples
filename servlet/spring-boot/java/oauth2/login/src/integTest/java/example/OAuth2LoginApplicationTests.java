@@ -194,7 +194,7 @@ public class OAuth2LoginApplicationTests {
 		String state = URLDecoder.decode(params.get(OAuth2ParameterNames.STATE), "UTF-8");
 		String redirectUri = URLDecoder.decode(params.get(OAuth2ParameterNames.REDIRECT_URI), "UTF-8");
 
-		String authorizationResponseUri = UriComponentsBuilder.fromHttpUrl(redirectUri)
+		String authorizationResponseUri = UriComponentsBuilder.fromUriString(redirectUri)
 			.queryParam(OAuth2ParameterNames.CODE, code)
 			.queryParam(OAuth2ParameterNames.STATE, state)
 			.build()
@@ -218,7 +218,7 @@ public class OAuth2LoginApplicationTests {
 		String state = "state";
 		String redirectUri = AUTHORIZE_BASE_URL + "/" + clientRegistration.getRegistrationId();
 
-		String authorizationResponseUri = UriComponentsBuilder.fromHttpUrl(redirectUri)
+		String authorizationResponseUri = UriComponentsBuilder.fromUriString(redirectUri)
 			.queryParam(OAuth2ParameterNames.CODE, code)
 			.queryParam(OAuth2ParameterNames.STATE, state)
 			.build()
@@ -253,7 +253,7 @@ public class OAuth2LoginApplicationTests {
 		String state = "invalid-state";
 		String redirectUri = AUTHORIZE_BASE_URL + "/" + clientRegistration.getRegistrationId();
 
-		String authorizationResponseUri = UriComponentsBuilder.fromHttpUrl(redirectUri)
+		String authorizationResponseUri = UriComponentsBuilder.fromUriString(redirectUri)
 			.queryParam(OAuth2ParameterNames.CODE, code)
 			.queryParam(OAuth2ParameterNames.STATE, state)
 			.build()
