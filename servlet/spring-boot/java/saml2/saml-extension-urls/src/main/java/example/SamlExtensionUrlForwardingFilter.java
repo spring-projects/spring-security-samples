@@ -29,11 +29,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import static org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher.pathPattern;
 
 @Component
 @Order(-101) // To run before FilterChainProxy
@@ -52,7 +53,7 @@ public class SamlExtensionUrlForwardingFilter extends OncePerRequestFilter {
 	private RequestMatcher createRequestMatcher() {
 		Set<String> urls = urlMapping.keySet();
 		List<RequestMatcher> matchers = new LinkedList<>();
-		urls.forEach((url) -> matchers.add(new AntPathRequestMatcher(url)));
+		urls.forEach((url) -> matchers.add(pathPattern(url)));
 		return new OrRequestMatcher(matchers);
 	}
 
