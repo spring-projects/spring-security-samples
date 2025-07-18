@@ -24,11 +24,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,9 +46,6 @@ public class OAuth2WebClientControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	@MockBean
-	ClientRegistrationRepository clientRegistrationRepository;
 
 	@AfterAll
 	static void shutdown() throws Exception {
