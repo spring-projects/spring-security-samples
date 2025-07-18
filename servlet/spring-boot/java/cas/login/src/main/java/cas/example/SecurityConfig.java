@@ -22,7 +22,7 @@ import org.apereo.cas.client.validation.TicketValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -40,9 +40,8 @@ import org.springframework.security.core.userdetails.UserDetailsByNameServiceWra
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 public class SecurityConfig {
@@ -58,11 +57,11 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailsService,
-			MvcRequestMatcher.Builder builder) throws Exception {
+			PathPatternRequestMatcher.Builder builder) throws Exception {
 		// @formatter:off
 		CasGatewayAuthenticationRedirectFilter casGatewayAuthenticationRedirectFilter = new CasGatewayAuthenticationRedirectFilter(this.casLoginUrl, serviceProperties());
 		casGatewayAuthenticationRedirectFilter.setRequestMatcher(new AndRequestMatcher(
-				builder.pattern("/public"), new CasGatewayResolverRequestMatcher(serviceProperties())));
+				builder.matcher("/public"), new CasGatewayResolverRequestMatcher(serviceProperties())));
 		http
 				.authorizeHttpRequests((authorize) -> authorize
 						.requestMatchers(HttpMethod.GET, "/loggedout").permitAll()
@@ -76,11 +75,6 @@ public class SecurityConfig {
 				.addFilterAfter(casGatewayAuthenticationRedirectFilter, CasAuthenticationFilter.class);
 		return http.build();
 		// @formatter:on
-	}
-
-	@Bean
-	MvcRequestMatcher.Builder mvcRequestMatcherBuilder(HandlerMappingIntrospector introspector) {
-		return new MvcRequestMatcher.Builder(introspector);
 	}
 
 	public CasAuthenticationProvider casAuthenticationProvider(UserDetailsService userDetailsService) {
