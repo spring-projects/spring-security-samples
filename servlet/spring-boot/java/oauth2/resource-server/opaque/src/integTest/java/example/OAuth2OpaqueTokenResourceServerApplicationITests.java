@@ -34,14 +34,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Integration tests for {@link OAuth2ResourceServerApplication}.
+ * Integration tests for {@link OAuth2OpaqueTokenResourceServerApplication}.
  *
  * @author Josh Cummings
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class OAuth2ResourceServerApplicationITests {
+public class OAuth2OpaqueTokenResourceServerApplicationITests {
 
 	String noScopesToken = "00ed5855-1869-47a0-b0c9-0f3ce520aee7";
 
