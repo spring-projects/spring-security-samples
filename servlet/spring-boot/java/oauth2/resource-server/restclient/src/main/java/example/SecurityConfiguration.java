@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Security configuration for {@link OAuth2ResourceServerApplication}.
+ * Security configuration for {@link OAuth2RestClientResourceServerApplication}.
  *
  * @author Steve Riesenberg
  */
