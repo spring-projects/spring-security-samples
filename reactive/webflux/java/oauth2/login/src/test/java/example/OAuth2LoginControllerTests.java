@@ -18,7 +18,9 @@ package example;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -29,6 +31,7 @@ import org.springframework.security.oauth2.client.web.server.ServerOAuth2Authori
 import org.springframework.security.oauth2.client.web.server.WebSessionServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.web.reactive.result.method.annotation.AuthenticationPrincipalArgumentResolver;
 import org.springframework.security.web.server.context.SecurityContextServerWebExchangeWebFilter;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.result.view.ViewResolver;
 
@@ -40,6 +43,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
  * @author Josh Cummings
  */
 @WebFluxTest(OAuth2LoginController.class)
+@ExtendWith(MockitoExtension.class)
 public class OAuth2LoginControllerTests {
 
 	@Autowired
