@@ -36,7 +36,7 @@ class SecurityConfig {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
-            authorizeRequests {
+            authorizeHttpRequests {
                 authorize("/css/**", permitAll)
                 authorize("/user/**", hasAuthority("ROLE_USER"))
             }

@@ -34,11 +34,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class KotlinApplicationTests(@Autowired private val mockMvc: MockMvc) {
 
     @Test
-    fun `index page is not protected`() {
+    fun `index page is protected`() {
         this.mockMvc
                 .get("/")
                 .andExpect {
-                    status { isOk() }
+                    status { is3xxRedirection() }
                 }
     }
 
