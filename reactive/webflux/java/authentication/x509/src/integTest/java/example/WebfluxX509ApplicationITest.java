@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import reactor.netty.http.client.HttpClient;
 
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.test.LocalServerPort;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
