@@ -47,7 +47,7 @@ To run as a stand-alone application, do:
 ./gradlew bootRun
 ```
 
-Or import the project into your IDE and run `OAuth2ResourceServerApplication` from there.
+Or import the project into your IDE and run `OAuth2MultitenancyResourceServerApplication` from there.
 
 === Authorizing with tenantOne (JWT)
 

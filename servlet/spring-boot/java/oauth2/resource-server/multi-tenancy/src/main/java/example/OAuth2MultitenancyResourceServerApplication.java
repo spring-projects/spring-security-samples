@@ -25,10 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Josh Cummings
  */
 @SpringBootApplication
-public class OAuth2ResourceServerApplication {
+public class OAuth2MultitenancyResourceServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OAuth2ResourceServerApplication.class, args);
+		SpringApplication.run(OAuth2MultitenancyResourceServerApplication.class, args);
 	}
 
 }
