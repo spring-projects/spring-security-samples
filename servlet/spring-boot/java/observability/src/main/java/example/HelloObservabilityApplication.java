@@ -26,10 +26,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 5.0
  */
 @SpringBootApplication
-public class HelloMethodApplication {
+public class HelloObservabilityApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelloMethodApplication.class, args);
+		SpringApplication.run(HelloObservabilityApplication.class, args);
 	}
 
 }
