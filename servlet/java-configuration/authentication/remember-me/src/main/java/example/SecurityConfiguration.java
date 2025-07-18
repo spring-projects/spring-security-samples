@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, UserDetailsService users) throws Exception {
 		// @formatter:off
 		http
-				.authorizeRequests((authorize) -> authorize
+				.authorizeHttpRequests((authorize) -> authorize
 						.anyRequest().authenticated()
 				)
 				.formLogin((form) -> form
