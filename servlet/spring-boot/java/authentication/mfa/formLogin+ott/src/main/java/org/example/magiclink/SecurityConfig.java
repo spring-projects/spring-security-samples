@@ -24,28 +24,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 public class SecurityConfig {
-
-	@Controller
-	static class FormLoginController {
-		@GetMapping("/login")
-		String login() {
-			return "login";
-		}
-	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-			.formLogin((form) -> form.grants("ott:read"))
-			.oneTimeTokenLogin((ott) -> ott.needs("ott:read").authenticates());
+			.formLogin((form) -> form.order(1))
+			.oneTimeTokenLogin((ott) -> ott.order(2));
 		// @formatter:on
 		return http.build();
 	}

@@ -18,8 +18,6 @@ package example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Hello Security application.
@@ -33,9 +31,4 @@ public class MfaApplication {
 		SpringApplication.run(MfaApplication.class, args);
 	}
 
-	@Controller
-	static class LoginController {
-		@GetMapping("/login")
-		String login() { return "login"; }
-	}
 }
