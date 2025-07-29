@@ -16,7 +16,6 @@
 
 package example;
 
-import org.springframework.boot.security.autoconfigure.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,15 +31,9 @@ public class SecurityConfig {
 	SecurityFilterChain web(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-				.anyRequest().authenticated())
-			.x509((x509) -> x509.grants("form:read"))
-			.formLogin((form) -> form
-				.loginPage("/login")
-				.needs("form:read")
-				.authenticates()
-			);
+			.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+			.x509((x509) -> x509.order(1))
+			.formLogin((form) -> form.order(2));
 		// @formatter:on
 		return http.build();
 	}
