@@ -32,8 +32,8 @@ public class SecurityConfig {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-			.x509((x509) -> x509.order(1))
-			.formLogin((form) -> form.order(2));
+			.x509((x509) -> x509.factor(1))
+			.formLogin((form) -> form.factor(2));
 		// @formatter:on
 		return http.build();
 	}

@@ -34,8 +34,8 @@ public class SecurityConfig {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-			.formLogin((form) -> form.order(1))
-			.oneTimeTokenLogin((ott) -> ott.order(2));
+			.formLogin((form) -> form.factor(1))
+			.oneTimeTokenLogin((ott) -> ott.factor(2));
 		// @formatter:on
 		return http.build();
 	}
