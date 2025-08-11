@@ -18,6 +18,7 @@ package org.example.magiclink;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -34,8 +35,8 @@ public class SecurityConfig {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-			.formLogin((form) -> form.factor(1))
-			.oneTimeTokenLogin((ott) -> ott.factor(2));
+			.formLogin((form) -> form.factor(Customizer.withDefaults()))
+			.oneTimeTokenLogin((ott) -> ott.factor(Customizer.withDefaults()));
 		// @formatter:on
 		return http.build();
 	}
