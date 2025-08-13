@@ -1,0 +1,64 @@
+= X.509 + Form Login MFA Sample
+
+This sample demonstrates configuring Spring Security to require both an X.509 Certificate and a Username/Password Login in order to enter the site with full permissions.
+
+== Preparing to Use X.509
+
+This sample is intended to be used in a browser.
+As such, you should:
+
+1. Configure your browser to trust the `ca.crt` that accompanies this project
+2. Configure your browser with the `josh-keystore.p12` client certificate
+
+Both `api-keystore.p12` and `josh-keystore.p12` use keys signed by `ca.crt`.
+This means that after the above steps are performed, you can also use this application without getting a security warning in your browser.
+
+== Using the Sample
+
+To run, please use:
+
+.Java
+[source,java,role="primary"]
+----
+./gradlew :bootRun
+----
+
+This will start an application on 8443, meaning you will need to reach it using HTTPS.
+
+You can register a passkey at https://api.127.0.0.1.nip.io:8443/webauthn/register.
+
+With the client certificate (`josh-keystore.p12`) correctly installed in the browser, it will ask you which client certificate you want to you.
+Select `josh`.
+
+You will then be redirected to the PassKeys registration page where you can install a passkey.
+
+After that, navigate to https://api.127.0.0.1.nip.io:8443 and you will be redirected to page where you can provide a passkey.
+
+== Exploring the Sample
+
+The key configuration is found in the `HttpSecurity` DSL:
+
+.Java
+[source,java,role="primary"]
+----
+http
+    .x509(Customizer.withDefaults())
+    .webAuthn((webauthn) -> webauthn
+        // ...
+		.factor((f) -> f.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/webauthn")))
+	);
+----
+
+This reads, "This app requires both X.509 and WebAuthn to fully authorize; redirect to /webauthn to get the WebAuthn authority".
+
+You can instead try another arrangement like the following:
+
+.Java
+[source,java,role="primary"]
+----
+http
+    .x509(Customizer.withDefaults())
+    .oneTimeTokenLogin(Customizer.withDefaults())
+----
+
+Once `oneTimeTokenLogin` is correctly configured and once a client certificate is accepted, the application will generate a token and send it to the configured destination to continue with the login process.
