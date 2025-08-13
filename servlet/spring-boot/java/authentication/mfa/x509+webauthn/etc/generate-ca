@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+CA_KEY="ca.key"
+CA_CERT="ca.pem"
+
+if [[ -f "$CA_KEY" && -f "$CA_CERT" ]]; then
+  echo "✅ CA already exists: $CA_KEY, $CA_CERT"
+  exit 0
+fi
+
+echo "🔧 Generating root CA..."
+
+openssl genrsa -out "$CA_KEY" 4096
+
+openssl req -x509 -new -nodes -key "$CA_KEY" \
+  -sha256 -days 3650 \
+  -out "$CA_CERT" \
+  -subj "/CN=Local Dev CA"
+
+echo "✅ Root CA created: $CA_CERT"

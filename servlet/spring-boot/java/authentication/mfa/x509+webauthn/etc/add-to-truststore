@@ -1,0 +1,38 @@
+#!/bin/bash
+set -euo pipefail
+
+TRUSTSTORE="${1:-}"
+if [[ -z "$TRUSTSTORE" ]]; then
+  echo "Usage: $0 <truststore.p12>" >&2
+  exit 1
+fi
+
+PASSWORD="password"
+
+# Temp workspace
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" EXIT
+
+# Extract from tar input
+tar -C "$WORKDIR" -xf -
+
+ALIAS=$(cat "$WORKDIR/alias")
+CA_CERT="$WORKDIR/ca.pem"
+DER_CERT="$WORKDIR/ca.der"
+
+# Convert to DER format for keytool
+openssl x509 -in "$CA_CERT" -outform DER -out "$DER_CERT"
+
+# If alias exists, delete
+if [[ -f "$TRUSTSTORE" ]]; then
+  keytool -delete -alias "$ALIAS" -keystore "$TRUSTSTORE" \
+    -storepass "$PASSWORD" -storetype PKCS12 || true
+fi
+
+# Import into truststore
+keytool -importcert -noprompt \
+  -alias "$ALIAS" \
+  -file "$DER_CERT" \
+  -keystore "$TRUSTSTORE" \
+  -storetype PKCS12 \
+  -storepass "$PASSWORD"
