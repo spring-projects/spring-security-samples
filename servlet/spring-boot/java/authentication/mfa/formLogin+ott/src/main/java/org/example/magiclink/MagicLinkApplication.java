@@ -18,6 +18,12 @@ package org.example.magiclink;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
 public class MagicLinkApplication {
@@ -26,4 +32,21 @@ public class MagicLinkApplication {
 		SpringApplication.run(MagicLinkApplication.class, args);
 	}
 
+	@Controller
+	static class AppController {
+		@GetMapping("/profile")
+		String profile() {
+			return "profile";
+		}
+	}
+
+	@Bean
+	InMemoryUserDetailsManager userDetailsService() {
+		UserDetails user = User.withDefaultPasswordEncoder()
+			.username("user")
+			.password("password")
+			.roles("USER")
+			.build();
+		return new InMemoryUserDetailsManager(user);
+	}
 }
