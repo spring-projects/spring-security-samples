@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="/default-ui.css" rel="stylesheet" />
+</head>
+<body>
+<div class="content">
+    <form class="login-form" method="post" th:action="@{/login/ott}">
+        <h2>Please supply a token</h2>
+
+        <p>
+            <label for="token" class="screenreader">Token</label>
+            <input type="text" id="token" name="token" placeholder="Token" required autofocus>
+        </p>
+
+        <button type="submit" class="primary">Use this Token</button>
+    </form>
+</div>
+</body>
+</html>
