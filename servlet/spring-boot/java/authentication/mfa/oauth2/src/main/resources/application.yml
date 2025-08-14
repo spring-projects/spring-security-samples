@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: formLogin+oauth2
+
+logging.level.org.springframework.security: TRACE
