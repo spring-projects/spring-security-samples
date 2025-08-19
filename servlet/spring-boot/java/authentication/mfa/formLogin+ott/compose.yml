@@ -1,0 +1,6 @@
+services:
+  maildev:
+    image: maildev/maildev:2.1.0
+    ports:
+      - "1080:1080"
+      - "1025:1025"

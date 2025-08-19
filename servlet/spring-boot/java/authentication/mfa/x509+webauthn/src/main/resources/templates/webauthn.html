@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="/default-ui.css" rel="stylesheet" />
+    <script type="text/javascript" src="/login/webauthn.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener("DOMContentLoaded",
+            () => setupLogin({"X-CSRF-TOKEN" : [[${_csrf.token}]]},
+                "", document.getElementById('passkey-signin')));
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="content">
+    <div class="login-form">
+        <h2>Login with Passkeys</h2>
+        <form action="/webauthn/register" method="get">
+            <button id="passkey-register" type="submit" class="primary">Register a passkey</button>
+        </form>
+        <p>
+            <button id="passkey-signin" type="submit" class="primary">Sign in with a passkey</button>
+        </p>
+    </div>
+</div>
+</body>
+</html>

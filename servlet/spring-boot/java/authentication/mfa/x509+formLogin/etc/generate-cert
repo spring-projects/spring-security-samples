@@ -1,0 +1,52 @@
+#!/bin/bash
+set -euo pipefail
+
+CN="${1:-}"
+HOST="${2:-}"
+
+if [[ -z "$CN" || -z "$HOST" ]]; then
+  echo "Usage: $0 <CN> <HOST>" >&2
+  exit 1
+fi
+
+# Set up working temp dir
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" EXIT
+
+CA_KEY="ca.key"
+CA_CERT="ca.pem"
+
+# === Ensure CA exists ===
+if [[ ! -f $CA_KEY || ! -f $CA_CERT ]]; then
+  echo "🔧 Generating CA..."
+  openssl genrsa -out $CA_KEY 4096
+  openssl req -x509 -new -nodes -key $CA_KEY -sha256 -days 3650 -out $CA_CERT \
+    -subj "/CN=Local Dev CA"
+fi
+
+# === Generate key and CSR ===
+openssl genrsa -out "$WORKDIR/key.pem" 2048
+openssl req -new -key "$WORKDIR/key.pem" -out "$WORKDIR/cert.csr" \
+  -subj "/CN=$CN"
+
+cat > "$WORKDIR/cert.ext" <<EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = DNS:$HOST
+EOF
+
+# === Sign cert ===
+openssl x509 -req \
+  -in "$WORKDIR/cert.csr" \
+  -CA "$CA_CERT" -CAkey "$CA_KEY" -CAcreateserial \
+  -out "$WORKDIR/cert.pem" -days 825 -sha256 -extfile "$WORKDIR/cert.ext"
+
+# === Build full chain and mark alias ===
+cat "$WORKDIR/cert.pem" "$CA_CERT" > "$WORKDIR/chain.pem"
+cp "$CA_CERT" "$WORKDIR/ca.pem"
+echo "$CN" > "$WORKDIR/alias"
+
+# === Emit tarball to stdout ===
+tar -C "$WORKDIR" -cf - cert.pem key.pem chain.pem ca.pem alias
