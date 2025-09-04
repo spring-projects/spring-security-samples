@@ -28,15 +28,23 @@ import org.springframework.security.web.SecurityFilterChain;
 class DefaultSecurityConfig {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthorizationManagerFactory authz) throws Exception {
 		// @formatter:off
 		http
-			.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-			.formLogin((form) -> form.factor(Customizer.withDefaults()))
-			.oneTimeTokenLogin((ott) -> ott.factor(Customizer.withDefaults()));
+			.authorizeHttpRequests((authorize) -> authorize
+				.anyRequest().access(authz.authenticated())
+			)
+			.formLogin(Customizer.withDefaults())
+			.oneTimeTokenLogin(Customizer.withDefaults());
 		// @formatter:on
 		return http.build();
 	}
+
+	@Bean
+	AuthorizationManagerFactory authz() {
+		return new AuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
+	}
+
 
 
 }

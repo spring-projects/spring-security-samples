@@ -20,9 +20,9 @@ import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -30,21 +30,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MagicLinkOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
 
-	private final JavaMailSender mailSender;
-
-	public MagicLinkOneTimeTokenGenerationSuccessHandler(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+	private final Log logger = LogFactory.getLog(this.getClass());
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken)
 			throws IOException {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("noreply@example.com");
-		message.setTo("johndoe@example.com");
-		message.setSubject("Your token");
-		message.setText("Please enter this token " + oneTimeToken.getTokenValue());
-		this.mailSender.send(message);
+		this.logger.info("Use this one-time token: " + oneTimeToken.getTokenValue());
 		response.sendRedirect("/login/ott");
 	}
 

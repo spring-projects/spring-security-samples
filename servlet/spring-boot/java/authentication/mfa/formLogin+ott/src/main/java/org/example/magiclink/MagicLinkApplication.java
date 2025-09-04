@@ -19,6 +19,8 @@ package org.example.magiclink;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
+@EnableMethodSecurity
 public class MagicLinkApplication {
 
 	public static void main(String[] args) {
@@ -35,6 +38,8 @@ public class MagicLinkApplication {
 	@Controller
 	static class AppController {
 		@GetMapping("/profile")
+		@PreAuthorize("@authz.hasAuthority('profile:read')") 	// FIXME add hasAuthorityWithin once
+																// GrantedAuthority is timestamped
 		String profile() {
 			return "profile";
 		}
@@ -45,7 +50,7 @@ public class MagicLinkApplication {
 		UserDetails user = User.withDefaultPasswordEncoder()
 			.username("user")
 			.password("password")
-			.roles("USER")
+			.authorities("ROLE_USER", "profile:read")
 			.build();
 		return new InMemoryUserDetailsManager(user);
 	}
