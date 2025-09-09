@@ -46,13 +46,15 @@ public class SecurityConfig {
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/webauthn/**").permitAll()
 				.anyRequest().authenticated())
-			.x509((x509) -> x509.factor(Customizer.withDefaults()))
+			.x509(Customizer.withDefaults())
 			.formLogin(Customizer.withDefaults())
 			.webAuthn((webauthn) -> webauthn
 				.rpId("api.127.0.0.1.nip.io")
 				.rpName("X.509+WebAuthn MFA Sample")
 				.allowedOrigins("https://api.127.0.0.1.nip.io:8443")
-				.factor((f) -> f.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/webauthn")))
+			)
+			.exceptionHandling((exceptions) -> exceptions
+				.defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/webauthn"), "FACTOR_WEBAUTHN")
 			);
 		// @formatter:on
 		return http.build();
@@ -67,5 +69,10 @@ public class SecurityConfig {
 				.authorities("app")
 				.build()
 		);
+	}
+
+	@Bean
+	FactorAuthorizationManagerFactory authorizationManagerFactory() {
+		return new FactorAuthorizationManagerFactory("FACTOR_X509", "FACTOR_WEBAUTHN");
 	}
 }
