@@ -33,8 +33,8 @@ public class SecurityConfig {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-			.x509((x509) -> x509.factor(Customizer.withDefaults()))
-			.formLogin((form) -> form.factor(Customizer.withDefaults()));
+			.x509(Customizer.withDefaults())
+			.formLogin(Customizer.withDefaults());
 		// @formatter:on
 		return http.build();
 	}
@@ -48,5 +48,10 @@ public class SecurityConfig {
 				.authorities("app")
 				.build()
 		);
+	}
+
+	@Bean
+	FactorAuthorizationManagerFactory authorizationManagerFactory() {
+		return new FactorAuthorizationManagerFactory("FACTOR_X509", "FACTOR_PASSWORD");
 	}
 }
