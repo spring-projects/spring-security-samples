@@ -27,12 +27,10 @@ public class ElevatedSecurityPageSecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthorizationManagerFactory authz) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeHttpRequests((authorize) -> authorize
-				.anyRequest().access(authz.authenticated())
-			)
+			.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
 			.formLogin((form) -> form.loginPage("/login/form").permitAll())
 			.oneTimeTokenLogin((ott) -> ott.loginPage("/login/ott").permitAll());
 
@@ -41,7 +39,7 @@ public class ElevatedSecurityPageSecurityConfig {
 	}
 
 	@Bean
-	AuthorizationManagerFactory authz() {
-		return new AuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
+	FactorAuthorizationManagerFactory authz() {
+		return new FactorAuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
 	}
 }

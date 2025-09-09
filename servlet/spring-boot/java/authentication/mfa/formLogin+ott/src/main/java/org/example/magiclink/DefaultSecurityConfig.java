@@ -28,12 +28,10 @@ import org.springframework.security.web.SecurityFilterChain;
 class DefaultSecurityConfig {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthorizationManagerFactory authz) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
-			.authorizeHttpRequests((authorize) -> authorize
-				.anyRequest().access(authz.authenticated())
-			)
+			.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
 			.formLogin(Customizer.withDefaults())
 			.oneTimeTokenLogin(Customizer.withDefaults());
 		// @formatter:on
@@ -41,8 +39,8 @@ class DefaultSecurityConfig {
 	}
 
 	@Bean
-	AuthorizationManagerFactory authz() {
-		return new AuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
+	FactorAuthorizationManagerFactory authz() {
+		return new FactorAuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
 	}
 
 
