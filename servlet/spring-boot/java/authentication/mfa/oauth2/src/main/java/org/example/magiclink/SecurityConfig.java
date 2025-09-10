@@ -17,6 +17,7 @@
 package org.example.magiclink;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,13 +27,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authorization.AuthorizationRequest;
+import org.springframework.security.authorization.AuthorityAuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -41,25 +42,27 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.web.AuthorizationEntryPoint;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.stereotype.Component;
-
-import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
 @Configuration(proxyBeanMethods = false)
 class SecurityConfig {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2ScopeAuthorizationEntryPoint oauth2) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint oauth2) throws Exception {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz
-				.requestMatchers("/profile").access(hasScope("https://www.googleapis.com/auth/gmail.readonly"))
+				.requestMatchers("/profile").hasAuthority("SCOPE_https://www.googleapis.com/auth/gmail.readonly")
 				.anyRequest().authenticated()
 			)
 			.oauth2Login(Customizer.withDefaults())
-			.exceptionHandling((exceptions) -> exceptions.authorizationEntryPoint((a) -> a.add(oauth2)));
+			.exceptionHandling((exceptions) -> exceptions
+				.defaultAuthenticationEntryPointFor(oauth2, "SCOPE_https://www.googleapis.com/auth/gmail.readonly")
+			);
 		// @formatter:on
 		return http.build();
 	}
@@ -75,23 +78,38 @@ class SecurityConfig {
 	}
 
 	@Component
-	static class OAuth2ScopeAuthorizationEntryPoint implements AuthorizationEntryPoint {
+	static class OAuth2ScopeAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 		private final ClientRegistration google;
 
 		private final OAuth2AuthorizationRequestResolver authorizationRequestResolver;
 
+		private final ThrowableAnalyzer throwableAnalyzer = new ThrowableAnalyzer();
+
 		private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository =
 			new HttpSessionOAuth2AuthorizationRequestRepository();
 
-		public OAuth2ScopeAuthorizationEntryPoint(ClientRegistrationRepository clients) {
+		private final AuthenticationEntryPoint entryPoint = new Http403ForbiddenEntryPoint();
+
+		OAuth2ScopeAuthenticationEntryPoint(ClientRegistrationRepository clients) {
 			this.google = clients.findByRegistrationId("google");
 			this.authorizationRequestResolver = new DefaultOAuth2AuthorizationRequestResolver(clients);
 		}
 
 		@Override
-		public boolean commence(HttpServletRequest request, HttpServletResponse response, AuthorizationRequest authorizationRequest) throws IOException, ServletException {
-			Set<String> needed = AuthorityUtils.authorityListToSet(authorizationRequest.getAuthorities());
+		public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
+			Throwable[] chain = this.throwableAnalyzer.determineCauseChain(ex);
+			AuthorizationDeniedException denied = (AuthorizationDeniedException) this.throwableAnalyzer
+				.getFirstThrowableOfType(AuthorizationDeniedException.class, chain);
+			if (denied == null) {
+				this.entryPoint.commence(request, response, ex);
+				return;
+			}
+			if (!(denied.getAuthorizationResult() instanceof AuthorityAuthorizationDecision decision)) {
+				this.entryPoint.commence(request, response, ex);
+				return;
+			}
+			Set<String> needed = AuthorityUtils.authorityListToSet(decision.getAuthorities());
 			Set<String> scopes = new HashSet<>();
 			for (String scope : needed) {
 				if (scope.startsWith("SCOPE_")) {
@@ -99,13 +117,13 @@ class SecurityConfig {
 				}
 			}
 			if (scopes.isEmpty()) {
-				return false;
+				this.entryPoint.commence(request, response, ex);
+				return;
 			}
 			OAuth2AuthorizationRequest oauth2 = this.authorizationRequestResolver.resolve(request, this.google.getRegistrationId());
 			oauth2 = OAuth2AuthorizationRequest.from(oauth2).scopes(scopes).build();
 			this.authorizationRequestRepository.saveAuthorizationRequest(oauth2, request, response);
 			response.sendRedirect(oauth2.getAuthorizationRequestUri());
-			return true;
 		}
 	}
 }
