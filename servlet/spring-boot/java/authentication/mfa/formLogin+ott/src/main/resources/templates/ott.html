@@ -10,15 +10,15 @@
 </head>
 <body>
 <div class="content">
-    <form class="login-form" method="post" th:action="@{/login/ott}">
-        <h2>Please supply a token</h2>
+    <form class="ott" method="post" th:action="@{/ott/generate}">
+        <h2>Please click below to send a one-time token</h2>
 
         <p>
-            <label for="token" class="screenreader">Token</label>
-            <input type="text" id="token" name="token" placeholder="Token" required autofocus>
+            <label for="username" class="screenreader">Username</label>
+            <input type="text" id="username" name="username" th:value="${username}" placeholder="Username" required autofocus>
         </p>
 
-        <button type="submit" class="primary">Use this Token</button>
+        <button type="submit" class="primary">Send Token</button>
     </form>
 </div>
 </body>

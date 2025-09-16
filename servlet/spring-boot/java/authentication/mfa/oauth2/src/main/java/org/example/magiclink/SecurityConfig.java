@@ -61,7 +61,10 @@ class SecurityConfig {
 			)
 			.oauth2Login(Customizer.withDefaults())
 			.exceptionHandling((exceptions) -> exceptions
-				.defaultAuthenticationEntryPointFor(oauth2, "SCOPE_https://www.googleapis.com/auth/gmail.readonly")
+				.missingAuthoritiesHandler((handler) -> handler
+					.authorities("SCOPE_https://www.googleapis.com/auth/gmail.readonly")
+					.commence(oauth2)
+				)
 			);
 		// @formatter:on
 		return http.build();

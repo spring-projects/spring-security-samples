@@ -35,7 +35,12 @@ public class MagicLinkOneTimeTokenGenerationSuccessHandler implements OneTimeTok
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken)
 			throws IOException {
-		this.logger.info("Use this one-time token: " + oneTimeToken.getTokenValue());
+		this.logger.info(String.format("""
+		********************************************************
+		
+		Use this one-time token: %s
+		
+		********************************************************""", oneTimeToken.getTokenValue()));
 		response.sendRedirect("/login/ott");
 	}
 
