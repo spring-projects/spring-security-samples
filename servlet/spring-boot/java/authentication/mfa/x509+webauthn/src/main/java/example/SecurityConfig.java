@@ -54,10 +54,7 @@ public class SecurityConfig {
 				.allowedOrigins("https://api.127.0.0.1.nip.io:8443")
 			)
 			.exceptionHandling((exceptions) -> exceptions
-				.missingAuthoritiesHandler((handler) -> handler
-					.authorities("FACTOR_WEBAUTHN")
-					.commence(new LoginUrlAuthenticationEntryPoint("/webauthn"))
-				)
+				.defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/webauthn"), "FACTOR_WEBAUTHN")
 			);
 		// @formatter:on
 		return http.build();

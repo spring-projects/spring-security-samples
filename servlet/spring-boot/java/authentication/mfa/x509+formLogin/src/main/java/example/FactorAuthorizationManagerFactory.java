@@ -16,24 +16,14 @@
 
 package example;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Supplier;
-
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
-import org.springframework.security.authorization.AuthorityAuthorizationDecision;
+import org.springframework.security.authorization.AllAuthoritiesAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authorization.AuthorizationManagerFactory;
 import org.springframework.security.authorization.AuthorizationManagers;
-import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.authorization.DefaultAuthorizationManagerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 
 @NullMarked
 public final class FactorAuthorizationManagerFactory implements AuthorizationManagerFactory<Object> {
@@ -45,7 +35,7 @@ public final class FactorAuthorizationManagerFactory implements AuthorizationMan
 	private final AuthorizationManagerFactory<Object> defaults = new DefaultAuthorizationManagerFactory<>();
 
 	public FactorAuthorizationManagerFactory(String... authorities) {
-		this.factors = new HasAll(authorities);
+		this.factors = AllAuthoritiesAuthorizationManager.hasAllAuthorities(authorities);
 	}
 
 	@Override
@@ -96,26 +86,6 @@ public final class FactorAuthorizationManagerFactory implements AuthorizationMan
 	@Override
 	public AuthorizationManager<Object> anonymous() {
 		return this.defaults.anonymous();
-	}
-
-	private static final class HasAll implements AuthorizationManager<Object> {
-		private final Collection<String> authorities;
-
-		private HasAll(String... authorities) {
-			this.authorities = List.of(authorities);
-		}
-
-		@Override
-		public AuthorizationResult authorize(Supplier<? extends @Nullable Authentication> supplier, @Nullable Object object) {
-			Authentication authentication = supplier.get();
-			List<String> authorities = List.of();
-			if (authentication != null) {
-				authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-			}
-			List<String> needed = new ArrayList<>(this.authorities);
-			needed.removeIf(authorities::contains);
-			return new AuthorityAuthorizationDecision(needed.isEmpty(), AuthorityUtils.createAuthorityList(needed));
-		}
 	}
 
 }
