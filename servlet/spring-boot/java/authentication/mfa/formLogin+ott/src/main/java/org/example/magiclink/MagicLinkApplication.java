@@ -38,8 +38,6 @@ public class MagicLinkApplication {
 	@Controller
 	static class AppController {
 		@GetMapping("/profile")
-		@PreAuthorize("@authz.hasAuthority('profile:read')") 	// FIXME add hasAuthorityWithin once
-																// GrantedAuthority is timestamped
 		String profile() {
 			return "profile";
 		}

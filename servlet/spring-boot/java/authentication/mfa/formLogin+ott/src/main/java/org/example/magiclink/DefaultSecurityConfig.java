@@ -19,6 +19,8 @@ package org.example.magiclink;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authorization.AuthorizationManagerFactory;
+import org.springframework.security.authorization.DefaultAuthorizationManagerFactory;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -39,8 +41,9 @@ class DefaultSecurityConfig {
 	}
 
 	@Bean
-	FactorAuthorizationManagerFactory authz() {
-		return new FactorAuthorizationManagerFactory("FACTOR_PASSWORD", "FACTOR_OTT");
+	AuthorizationManagerFactory<Object> factors() {
+		return DefaultAuthorizationManagerFactory.builder()
+				.requireAdditionalAuthorities("FACTOR_PASSWORD", "FACTOR_OTT").build();
 	}
 
 

@@ -15,7 +15,7 @@
 
         <p>
             <label for="username" class="screenreader">Username</label>
-            <input type="text" id="username" name="username" th:value="${username}" placeholder="Username" required autofocus>
+            <input type="text" id="username" name="username" th:value="${#authentication.name}" placeholder="Username" required autofocus>
         </p>
 
         <button type="submit" class="primary">Send Token</button>
