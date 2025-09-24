@@ -1,0 +1,8 @@
+# logging.level.org.springframework.security: TRACE
+
+spring:
+  config:
+    import: classpath:application.yml
+  mail:
+    port: 3025
+    host: localhost
