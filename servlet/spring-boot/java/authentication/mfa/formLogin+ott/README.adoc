@@ -1,0 +1,61 @@
+= Form Login + One-Time-Token Login MFA Sample
+
+This sample demonstrates Spring Security's support for multifactor authentication, specifically when using username/password and one-time-token as the two factors.
+
+[[usage]]
+== Usage
+
+To use the application, please run:
+
+[source,bash]
+----
+./gradlew :bootRun
+----
+
+You can then navigate to http://localhost:8080 where you will be presented with the default page, showing both the login and ott forms.
+
+You can start with either; once authenticated, you'll be asked to give the other as well.
+
+=== Username/Password Login
+
+The username/password is `user/password`.
+
+=== One-Time-Token Login
+
+The username is `user`.
+
+After clicking the submission button, you will be redirected to a page where you can enter the code given.
+You can find the code in the logs like so:
+
+[source,bash]
+----
+********************************************************
+
+Use this one-time token: 1319c31d-c5e0-4123-9b1f-3ffc34aba673
+
+********************************************************
+----
+
+== Configuring
+
+There are three profiles in this sample; `default`, `custom-pages`, and `elevated-security`.
+
+`default` is the arrangement described in <<usage>>.
+
+`custom-pages` shows the same, but with a custom page for login and a custom page for one-time-token.
+
+This can be launched with:
+
+[source,bash]
+----
+./gradlew :bootRun --args='spring.profiles.active=custom-pages'
+----
+
+`elevated-security` allows login with either, and will ask for one-time-token login for only the `/profile` page.
+
+This can be launched with:
+
+[source,bash]
+----
+./gradlew :bootRun --args='spring.profiles.active=elevated-security'
+----

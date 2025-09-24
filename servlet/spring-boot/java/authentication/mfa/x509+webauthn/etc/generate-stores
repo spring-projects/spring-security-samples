@@ -1,0 +1,56 @@
+#!/bin/bash
+set -euo pipefail
+
+# Ensure CA exists
+generate-ca
+
+# Shared configuration
+PASSWORD="password"
+HOST="localhost"
+
+# App definitions: CN, keystore name, truststore name
+declare -A APPS=(
+  [api]="api"
+  [client]="josh"
+)
+
+# Ensure required scripts are on PATH
+for cmd in generate-cert add-to-keystore add-to-truststore; do
+  if ! command -v $cmd >/dev/null 2>&1; then
+    echo "❌ Required script '$cmd' not found in PATH" >&2
+    exit 1
+  fi
+done
+
+# Generate certs and populate keystores and truststores
+for APP in "${!APPS[@]}"; do
+  CN="${APPS[$APP]}"
+  KEYSTORE="${CN}-keystore.p12"
+
+  echo "🔐 Generating and installing cert for $APP ($CN)..."
+
+  # Generate cert and install in own keystore
+  generate-cert "$CN" "$APP.127.0.0.1.nip.io" | tee >(add-to-keystore "$KEYSTORE") > "${CN}-bundle.tar"
+
+done
+
+# Second pass: truststores — each app must trust all
+for RECEIVER in "${!APPS[@]}"; do
+  RECEIVER_CN="${APPS[$RECEIVER]}"
+  TRUSTSTORE="${RECEIVER_CN}-truststore.p12"
+
+  echo "🤝 Updating truststore for $RECEIVER..."
+
+  for ISSUER in "${!APPS[@]}"; do
+    ISSUER_CN="${APPS[$ISSUER]}"
+    BUNDLE="${ISSUER_CN}-bundle.tar"
+
+    echo "  ↪ Trusting $ISSUER ($ISSUER_CN)"
+    cat "$BUNDLE" | add-to-truststore "$TRUSTSTORE"
+  done
+done
+
+# Cleanup bundles
+rm -f ./*-bundle.tar
+
+echo "✅ All keystores and truststores generated successfully."
