@@ -54,6 +54,7 @@ include ":servlet:spring-boot:java:authentication:username-password:user-details
 include ":servlet:spring-boot:java:authentication:username-password:mfa"
 include ":servlet:spring-boot:java:authentication:mfa:formLogin+ott"
 include ":servlet:spring-boot:java:authentication:mfa:x509+formLogin"
+include ":servlet:spring-boot:java:authentication:mfa:x509+webauthn"
 include ":servlet:spring-boot:java:authentication:username-password:compromised-password-checker"
 include ":servlet:spring-boot:java:authentication:one-time-token:magic-link"
 include ":servlet:spring-boot:java:data"
