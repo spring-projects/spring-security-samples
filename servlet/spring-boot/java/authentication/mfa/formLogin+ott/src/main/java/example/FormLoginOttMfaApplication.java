@@ -19,12 +19,16 @@ package example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authorization.EnableGlobalMultiFactorAuthentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import static org.springframework.security.core.authority.FactorGrantedAuthority.OTT_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.PASSWORD_AUTHORITY;
 
 @SpringBootApplication
 public class FormLoginOttMfaApplication {
@@ -33,21 +37,11 @@ public class FormLoginOttMfaApplication {
 		SpringApplication.run(FormLoginOttMfaApplication.class, args);
 	}
 
-	@Controller
-	static class AppController {
-		@GetMapping("/profile")
-		String profile() {
-			return "profile";
-		}
-	}
-
-	@Bean
-	UserDetailsService users() {
-		UserDetails user = User.withDefaultPasswordEncoder()
-			.username("user")
-			.password("password")
-			.authorities("app")
-			.build();
-		return new InMemoryUserDetailsManager(user);
-	}
+    @Controller
+    static class AppController {
+        @GetMapping("/profile")
+        String profile() {
+            return "profile";
+        }
+    }
 }

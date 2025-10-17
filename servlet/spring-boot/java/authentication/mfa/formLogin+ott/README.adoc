@@ -36,9 +36,14 @@ Use this one-time token: 1319c31d-c5e0-4123-9b1f-3ffc34aba673
 ********************************************************
 ----
 
+=== Time-sensitive Endpoints
+
+Navigating to `/profile` is authorized if you have entered your password within the last five minutes.
+Otherwise, you are directed back to the login page.
+
 == Configuring
 
-There are three profiles in this sample; `default`, `custom-pages`, and `elevated-security`.
+There are two profiles in this sample: `default` and `custom-pages`.
 
 `default` is the arrangement described in <<usage>>.
 
