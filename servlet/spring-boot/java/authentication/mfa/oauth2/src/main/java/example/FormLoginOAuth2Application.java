@@ -32,16 +32,6 @@ public class FormLoginOAuth2Application {
 		SpringApplication.run(FormLoginOAuth2Application.class, args);
 	}
 
-	@Controller
-	static class AppController {
-
-		@GetMapping("/profile")
-		String profile() {
-			return "profile";
-		}
-
-	}
-
 	@Bean
 	InMemoryUserDetailsManager userDetailsService() {
 		UserDetails user = User.withDefaultPasswordEncoder()
@@ -50,6 +40,16 @@ public class FormLoginOAuth2Application {
 			.roles("USER")
 			.build();
 		return new InMemoryUserDetailsManager(user);
+	}
+
+	@Controller
+	static class AppController {
+
+		@GetMapping("/profile")
+		String profile() {
+			return "profile";
+		}
+
 	}
 
 }

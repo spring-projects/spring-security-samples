@@ -47,8 +47,7 @@ class SecurityConfig {
 	static final String SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint oauth2)
-			throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint oauth2) throws Exception {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz
