@@ -20,6 +20,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-webflux-test'
+	testImplementation 'org.springframework.boot:spring-boot-security-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	integTestImplementation "org.seleniumhq.selenium:htmlunit-driver:4.13.0"
