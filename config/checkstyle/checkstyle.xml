@@ -7,7 +7,7 @@
 		<property name="file" value="${config_loc}/suppressions.xml"/>
 	</module>
 	<module name="io.spring.javaformat.checkstyle.SpringChecks">
-		<property name="avoidStaticImportExcludes" value="org.springframework.security.core.GrantedAuthorities.*,
+		<property name="avoidStaticImportExcludes" value="org.springframework.security.core.authority.FactorGrantedAuthority.*,
 			org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.*,
 			org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.*,
 			org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.*,
