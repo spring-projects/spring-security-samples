@@ -18,10 +18,11 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-rsocket'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-rsocket-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.withType(Test).configureEach {
 	useJUnitPlatform()
-	
+
 }
