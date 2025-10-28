@@ -42,9 +42,7 @@ class MfaApplicationTests {
 
 	@Test
 	void indexWhenUnauthenticatedThenRedirectsToLogin() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/login"));
+		this.mvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
 	}
 
 	@Test
@@ -58,7 +56,7 @@ class MfaApplicationTests {
 	void indexWhenAuthenticatedWithX509ThenRedirectsToLogin() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/login?factor=password"));
+			.andExpect(redirectedUrl("/login?factor.type=password&factor.reason=missing"));
 	}
 
 	@Test

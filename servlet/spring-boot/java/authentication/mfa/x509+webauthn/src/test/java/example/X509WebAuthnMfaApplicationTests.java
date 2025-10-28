@@ -42,9 +42,7 @@ public class X509WebAuthnMfaApplicationTests {
 
 	@Test
 	void indexWhenUnauthenticatedThenRedirectsToLogin() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/login"));
+		this.mvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
 	}
 
 	@Test
@@ -64,7 +62,7 @@ public class X509WebAuthnMfaApplicationTests {
 	void indexWhenAuthenticatedWithX509ThenRedirectsToWebAuthn() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/login?factor=webauthn"));
+			.andExpect(redirectedUrl("/login?factor.type=webauthn&factor.reason=missing"));
 	}
 
 }

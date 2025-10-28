@@ -25,9 +25,7 @@ class CustomPagesConfigTests {
 
 	@Test
 	void indexWhenUnauthenticatedThenRedirectsToLogin() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/auth/password"));
+		this.mvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/auth/password"));
 	}
 
 	@Test
@@ -35,7 +33,8 @@ class CustomPagesConfigTests {
 	void indexWhenAuthenticatedButNoFactorsThenRedirectsToLogin() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/auth/password?factor=password"));
+			.andExpect(redirectedUrl(
+					"/auth/password?factor.type=password&factor.type=ott&factor.reason=missing&factor.reason=missing"));
 	}
 
 	@Test
@@ -43,7 +42,7 @@ class CustomPagesConfigTests {
 	void indexWhenAuthenticatedWithX509ThenRedirectsToLogin() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/auth/password?factor=password"));
+			.andExpect(redirectedUrl("/auth/password?factor.type=password&factor.reason=missing"));
 	}
 
 	@Test
@@ -51,7 +50,7 @@ class CustomPagesConfigTests {
 	void indexWhenAuthenticatedWithPasswordThenRedirectsToOtt() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/auth/ott?factor=ott"));
+			.andExpect(redirectedUrl("/auth/ott?factor.type=ott&factor.reason=missing"));
 	}
 
 }
