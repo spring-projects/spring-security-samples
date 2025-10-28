@@ -24,9 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
@@ -83,35 +82,14 @@ public class ContactManagerTests {
 		return null;
 	}
 
-	private void makeActiveUser(String username) {
-		String password = "";
-
-		if ("rod".equals(username)) {
-			password = "koala";
-		}
-		else if ("dianne".equals(username)) {
-			password = "emu";
-		}
-		else if ("scott".equals(username)) {
-			password = "wombat";
-		}
-		else if ("peter".equals(username)) {
-			password = "opal";
-		}
-
-		Authentication authRequest = new UsernamePasswordAuthenticationToken(username, password);
-		SecurityContextHolder.getContext().setAuthentication(authRequest);
-	}
-
 	@AfterEach
 	void clearContext() {
 		SecurityContextHolder.clearContext();
 	}
 
 	@Test
+	@WithMockUser("dianne")
 	void testDianne() {
-		makeActiveUser("dianne"); // has ROLE_USER
-
 		List<Contact> contacts = this.contactManager.getAll();
 		assertThat(contacts).hasSize(4);
 
@@ -126,9 +104,8 @@ public class ContactManagerTests {
 	}
 
 	@Test
+	@WithMockUser("rod")
 	void testrod() {
-		makeActiveUser("rod"); // has ROLE_SUPERVISOR
-
 		List<Contact> contacts = this.contactManager.getAll();
 
 		assertThat(contacts).hasSize(4);
@@ -147,9 +124,8 @@ public class ContactManagerTests {
 	}
 
 	@Test
+	@WithMockUser("scott")
 	void testScott() {
-		makeActiveUser("scott"); // has ROLE_USER
-
 		List<Contact> contacts = this.contactManager.getAll();
 
 		assertThat(contacts).hasSize(5);
