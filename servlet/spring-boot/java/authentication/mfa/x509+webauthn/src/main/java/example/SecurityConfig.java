@@ -26,8 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.core.GrantedAuthorities.FACTOR_WEBAUTHN_AUTHORITY;
-import static org.springframework.security.core.GrantedAuthorities.FACTOR_X509_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_WEBAUTHN_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_X509_AUTHORITY;
 
 @Configuration
 @EnableGlobalMultiFactorAuthentication(authorities = { FACTOR_X509_AUTHORITY, FACTOR_WEBAUTHN_AUTHORITY})

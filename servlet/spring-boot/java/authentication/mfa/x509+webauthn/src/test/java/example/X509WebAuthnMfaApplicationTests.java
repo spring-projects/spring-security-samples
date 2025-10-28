@@ -24,8 +24,8 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.security.core.GrantedAuthorities.FACTOR_WEBAUTHN_AUTHORITY;
-import static org.springframework.security.core.GrantedAuthorities.FACTOR_X509_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_WEBAUTHN_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_X509_AUTHORITY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
