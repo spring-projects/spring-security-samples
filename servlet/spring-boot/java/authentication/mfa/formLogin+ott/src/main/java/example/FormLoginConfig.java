@@ -12,19 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Profile("custom-pages")
 class FormLoginConfig {
-    static final String PATH = "/auth/password";
 
-    @GetMapping(PATH)
-    String auth() {
-        return "password";
-    }
+	static final String PATH = "/auth/password";
 
-    @Bean
-    Customizer<HttpSecurity> formLogin() {
-        // @formatter:off
+	@GetMapping(PATH)
+	String auth() {
+		return "password";
+	}
+
+	@Bean
+	Customizer<HttpSecurity> formLogin() {
+		// @formatter:off
         return (http) -> http
             .authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
             .formLogin((form) -> form.loginPage(PATH));
         // @formatter:on
-    }
+	}
+
 }

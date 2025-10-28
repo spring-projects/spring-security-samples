@@ -47,7 +47,8 @@ class SecurityConfig {
 	static final String SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint oauth2) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint oauth2)
+			throws Exception {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((authz) -> authz
@@ -79,8 +80,7 @@ class SecurityConfig {
 
 		private final OAuth2AuthorizationRequestResolver authorizationRequestResolver;
 
-		private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository =
-			new HttpSessionOAuth2AuthorizationRequestRepository();
+		private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
 
 		OAuth2ScopeAuthenticationEntryPoint(ClientRegistrationRepository clients) {
 			this.google = clients.findByRegistrationId("google");
@@ -88,11 +88,15 @@ class SecurityConfig {
 		}
 
 		@Override
-		public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
-			OAuth2AuthorizationRequest oauth2 = this.authorizationRequestResolver.resolve(request, this.google.getRegistrationId());
+		public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
+				throws IOException, ServletException {
+			OAuth2AuthorizationRequest oauth2 = this.authorizationRequestResolver.resolve(request,
+					this.google.getRegistrationId());
 			oauth2 = OAuth2AuthorizationRequest.from(oauth2).scopes(Set.of(SCOPE)).build();
 			this.authorizationRequestRepository.saveAuthorizationRequest(oauth2, request, response);
 			response.sendRedirect(oauth2.getAuthorizationRequestUri());
 		}
+
 	}
+
 }

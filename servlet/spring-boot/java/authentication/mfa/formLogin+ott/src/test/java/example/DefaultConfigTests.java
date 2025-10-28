@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("default")
 class DefaultConfigTests {
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -52,4 +53,5 @@ class DefaultConfigTests {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("http://localhost/login?factor=ott"));
 	}
+
 }

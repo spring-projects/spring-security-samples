@@ -28,57 +28,54 @@ import static org.springframework.security.core.authority.FactorGrantedAuthority
 @Configuration(proxyBeanMethods = false)
 @EnableGlobalMultiFactorAuthentication(authorities = { PASSWORD_AUTHORITY, OTT_AUTHORITY })
 class SecurityDefaultsConfig {
-    @Bean
-    SecurityFilterChain app(HttpSecurity http, AuthorizationManager<Object> passwordIn5m) {
-        http
-            .authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/profile").access(passwordIn5m)
-                .anyRequest().authenticated()
-            )
-            .formLogin(Customizer.withDefaults())
-            .oneTimeTokenLogin(Customizer.withDefaults());
-        return http.build();
-    }
 
-    @Bean
-    AuthorizationManager<Object> passwordIn5m() {
-        return AuthorizationManagerFactories.multiFactor()
-                .requireFactor((f) -> f.passwordAuthority().validDuration(Duration.ofMinutes(5)))
-                .requireFactor((f) -> f.ottAuthority()).build().authenticated();
-    }
+	@Bean
+	SecurityFilterChain app(HttpSecurity http, AuthorizationManager<Object> passwordIn5m) {
+		http.authorizeHttpRequests(
+				(authz) -> authz.requestMatchers("/profile").access(passwordIn5m).anyRequest().authenticated())
+			.formLogin(Customizer.withDefaults())
+			.oneTimeTokenLogin(Customizer.withDefaults());
+		return http.build();
+	}
 
-    @Bean
-    UserDetailsService users() {
-        return new InMemoryUserDetailsManager(User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .authorities("app")
-                .build());
-    }
+	@Bean
+	AuthorizationManager<Object> passwordIn5m() {
+		return AuthorizationManagerFactories.multiFactor()
+			.requireFactor((f) -> f.passwordAuthority().validDuration(Duration.ofMinutes(5)))
+			.requireFactor((f) -> f.ottAuthority())
+			.build()
+			.authenticated();
+	}
 
-    @Bean
-    OneTimeTokenGenerationSuccessHandler ottSuccessHandler() {
-        return new LoggingOneTimeTokenGenerationSuccessHandler();
-    }
+	@Bean
+	UserDetailsService users() {
+		return new InMemoryUserDetailsManager(
+				User.withDefaultPasswordEncoder().username("user").password("password").authorities("app").build());
+	}
 
-    static final class LoggingOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
+	@Bean
+	OneTimeTokenGenerationSuccessHandler ottSuccessHandler() {
+		return new LoggingOneTimeTokenGenerationSuccessHandler();
+	}
 
-        private static final String TOKEN_TEMPLATE = """
-		********************************************************
-		
-		Use this one-time token: %s
-		
-		********************************************************""";
+	static final class LoggingOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
 
-        private final Log logger = LogFactory.getLog(this.getClass());
+		private static final String TOKEN_TEMPLATE = """
+				********************************************************
 
-        @Override
-        public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken)
-                throws IOException {
-            this.logger.info(String.format(TOKEN_TEMPLATE, oneTimeToken.getTokenValue()));
-            response.sendRedirect("/login/ott");
-        }
+				Use this one-time token: %s
 
-    }
+				********************************************************""";
+
+		private final Log logger = LogFactory.getLog(this.getClass());
+
+		@Override
+		public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken)
+				throws IOException {
+			this.logger.info(String.format(TOKEN_TEMPLATE, oneTimeToken.getTokenValue()));
+			response.sendRedirect("/login/ott");
+		}
+
+	}
 
 }

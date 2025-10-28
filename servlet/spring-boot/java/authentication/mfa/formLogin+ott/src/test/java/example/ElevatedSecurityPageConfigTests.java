@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("elevated-security")
 class ElevatedSecurityPageConfigTests {
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -32,22 +33,19 @@ class ElevatedSecurityPageConfigTests {
 	@Test
 	@WithMockUser
 	void indexWhenAuthenticatedButNoFactorsThenAllows() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
 	@WithMockUser(authorities = OTT_AUTHORITY)
 	void indexWhenAuthenticatedWithOttThenAllows() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
 	@WithMockUser(authorities = PASSWORD_AUTHORITY)
 	void indexWhenAuthenticatedWithPasswordThenAllows() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
@@ -61,7 +59,7 @@ class ElevatedSecurityPageConfigTests {
 	@Test
 	@WithMockUser(authorities = OTT_AUTHORITY)
 	void profileWhenAuthenticatedWithOttThenAllows() throws Exception {
-		this.mvc.perform(get("/profile"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/profile")).andExpect(status().isOk());
 	}
+
 }

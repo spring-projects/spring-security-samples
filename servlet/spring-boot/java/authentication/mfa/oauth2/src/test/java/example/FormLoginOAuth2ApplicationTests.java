@@ -39,8 +39,7 @@ class FormLoginOAuth2ApplicationTests {
 	@Test
 	@WithMockUser
 	void indexWhenAuthenticatedThenAllows() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
@@ -48,14 +47,14 @@ class FormLoginOAuth2ApplicationTests {
 	void profileWhenAuthenticatedThenRedirectsToAuthorizationServer() throws Exception {
 		this.mvc.perform(get("/profile"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(header().string("Location", startsWith("https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=id&scope=https://www.googleapis.com/auth/gmail.readonly")));
+			.andExpect(header().string("Location", startsWith(
+					"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=id&scope=https://www.googleapis.com/auth/gmail.readonly")));
 	}
 
 	@Test
 	@WithMockUser(authorities = "SCOPE_" + SecurityConfig.SCOPE)
 	void profileWhenAuthenticatedWithScopeThenAllows() throws Exception {
-		this.mvc.perform(get("/profile"))
-			.andExpect(status().isOk());
+		this.mvc.perform(get("/profile")).andExpect(status().isOk());
 	}
 
 }

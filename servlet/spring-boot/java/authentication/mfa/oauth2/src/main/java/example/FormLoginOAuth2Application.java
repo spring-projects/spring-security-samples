@@ -34,10 +34,12 @@ public class FormLoginOAuth2Application {
 
 	@Controller
 	static class AppController {
+
 		@GetMapping("/profile")
 		String profile() {
 			return "profile";
 		}
+
 	}
 
 	@Bean
@@ -49,4 +51,5 @@ public class FormLoginOAuth2Application {
 			.build();
 		return new InMemoryUserDetailsManager(user);
 	}
+
 }

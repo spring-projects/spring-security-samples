@@ -30,7 +30,7 @@ import static org.springframework.security.core.authority.FactorGrantedAuthority
 import static org.springframework.security.core.authority.FactorGrantedAuthority.X509_AUTHORITY;
 
 @Configuration
-@EnableGlobalMultiFactorAuthentication(authorities = { X509_AUTHORITY, WEBAUTHN_AUTHORITY})
+@EnableGlobalMultiFactorAuthentication(authorities = { X509_AUTHORITY, WEBAUTHN_AUTHORITY })
 public class SecurityConfig {
 
 	@Bean
@@ -52,12 +52,7 @@ public class SecurityConfig {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new InMemoryUserDetailsManager(
-			User.withDefaultPasswordEncoder()
-				.username("josh")
-				.password("password")
-				.authorities("app")
-				.build()
-		);
+				User.withDefaultPasswordEncoder().username("josh").password("password").authorities("app").build());
 	}
 
 }

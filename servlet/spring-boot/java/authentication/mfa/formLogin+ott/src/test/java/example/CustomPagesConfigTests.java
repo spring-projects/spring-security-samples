@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("custom-pages")
 class CustomPagesConfigTests {
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -52,4 +53,5 @@ class CustomPagesConfigTests {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("http://localhost/auth/ott?factor=ott"));
 	}
+
 }

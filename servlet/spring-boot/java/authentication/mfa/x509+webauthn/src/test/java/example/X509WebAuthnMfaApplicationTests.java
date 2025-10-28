@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class X509WebAuthnMfaApplicationTests {
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -49,15 +50,13 @@ public class X509WebAuthnMfaApplicationTests {
 	@Test
 	@WithMockUser
 	void indexWhenAuthenticatedButNoFactorsThenRedirectsToLogin() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isForbidden());
+		this.mvc.perform(get("/")).andExpect(status().isForbidden());
 	}
 
 	@Test
 	@WithMockUser(authorities = WEBAUTHN_AUTHORITY)
 	void indexWhenAuthenticatedWithWebAuthnThenForbidden() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isForbidden());
+		this.mvc.perform(get("/")).andExpect(status().isForbidden());
 	}
 
 	@Test

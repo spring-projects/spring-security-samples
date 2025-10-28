@@ -28,11 +28,14 @@ public class FormLoginOttMfaApplication {
 		SpringApplication.run(FormLoginOttMfaApplication.class, args);
 	}
 
-    @Controller
-    static class AppController {
-        @GetMapping("/profile")
-        String profile() {
-            return "profile";
-        }
-    }
+	@Controller
+	static class AppController {
+
+		@GetMapping("/profile")
+		String profile() {
+			return "profile";
+		}
+
+	}
+
 }

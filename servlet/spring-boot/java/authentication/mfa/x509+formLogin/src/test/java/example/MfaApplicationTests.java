@@ -50,8 +50,7 @@ class MfaApplicationTests {
 	@Test
 	@WithMockUser
 	void indexWhenAuthenticatedButNoFactorsThenForbidden() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isForbidden());
+		this.mvc.perform(get("/")).andExpect(status().isForbidden());
 	}
 
 	@Test
@@ -65,9 +64,7 @@ class MfaApplicationTests {
 	@Test
 	@WithMockUser(authorities = PASSWORD_AUTHORITY)
 	void indexWhenAuthenticatedWithPasswordThenForbidden() throws Exception {
-		this.mvc.perform(get("/"))
-			.andExpect(status().isForbidden());
+		this.mvc.perform(get("/")).andExpect(status().isForbidden());
 	}
-
 
 }

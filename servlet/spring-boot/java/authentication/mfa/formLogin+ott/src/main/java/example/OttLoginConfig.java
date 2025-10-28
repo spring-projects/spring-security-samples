@@ -12,20 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Profile("custom-pages")
 class OttLoginConfig {
-    static final String PATH = "/auth/ott";
 
-    @GetMapping(PATH)
-    String auth() {
-        return "ott";
-    }
+	static final String PATH = "/auth/ott";
 
-    @Bean
-    Customizer<HttpSecurity> ottLogin() {
-        // @formatter:off
+	@GetMapping(PATH)
+	String auth() {
+		return "ott";
+	}
+
+	@Bean
+	Customizer<HttpSecurity> ottLogin() {
+		// @formatter:off
         return (http) -> http
             .authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
             .oneTimeTokenLogin((ott) -> ott.loginPage(PATH));
         // @formatter:on
-    }
+	}
 
 }
