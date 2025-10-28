@@ -39,10 +39,10 @@ class FormLoginConfig {
 	@Bean
 	Customizer<HttpSecurity> formLogin() {
 		// @formatter:off
-        return (http) -> http
-            .authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
-            .formLogin((form) -> form.loginPage(PATH));
-        // @formatter:on
+		return (http) -> http
+			.authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
+			.formLogin((form) -> form.loginPage(PATH));
+		// @formatter:on
 	}
 
 }

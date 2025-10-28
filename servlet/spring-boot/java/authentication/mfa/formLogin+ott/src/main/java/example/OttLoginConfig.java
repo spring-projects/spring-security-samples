@@ -39,10 +39,10 @@ class OttLoginConfig {
 	@Bean
 	Customizer<HttpSecurity> ottLogin() {
 		// @formatter:off
-        return (http) -> http
-            .authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
-            .oneTimeTokenLogin((ott) -> ott.loginPage(PATH));
-        // @formatter:on
+		return (http) -> http
+			.authorizeHttpRequests((authz) -> authz.requestMatchers(PATH).permitAll())
+			.oneTimeTokenLogin((ott) -> ott.loginPage(PATH));
+		// @formatter:on
 	}
 
 }
