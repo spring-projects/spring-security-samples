@@ -20,7 +20,8 @@ dependencies {
 
 	implementation "org.springframework.security:spring-security-config"
 	implementation "org.springframework.security:spring-security-web"
-	implementation "org.springframework.security:spring-security-acl"
+    implementation("org.springframework.security:spring-security-access")
+    implementation "org.springframework.security:spring-security-acl"
 	implementation "org.springframework.security:spring-security-taglibs"
 	implementation 'org.springframework:spring-web'
 	implementation "org.springframework:spring-webmvc"

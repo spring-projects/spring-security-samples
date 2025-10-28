@@ -17,7 +17,8 @@ dependencies {
 	implementation 'org.springframework:spring-beans'
 	implementation 'org.springframework:spring-jdbc'
 	implementation 'org.springframework:spring-tx'
-	implementation "org.springframework.security:spring-security-acl"
+    implementation "org.springframework.security:spring-security-access"
+    implementation "org.springframework.security:spring-security-acl"
 	implementation "org.springframework.security:spring-security-core"
 	implementation "org.springframework.security:spring-security-config"
 	implementation 'org.slf4j:slf4j-api:2.0.13'
