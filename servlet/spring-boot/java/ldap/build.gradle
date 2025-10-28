@@ -18,10 +18,11 @@ dependencies {
 	implementation 'com.unboundid:unboundid-ldapsdk:6.0.10'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.withType(Test).configureEach {
 	useJUnitPlatform()
-	
+
 }
