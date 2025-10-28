@@ -30,7 +30,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.csrf;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureWebTestClient
 class MaximumSessionsApplicationTests {
 
