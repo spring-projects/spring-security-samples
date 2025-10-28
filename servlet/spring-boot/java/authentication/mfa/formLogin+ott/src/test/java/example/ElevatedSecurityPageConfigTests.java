@@ -9,8 +9,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_OTT_AUTHORITY;
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_PASSWORD_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.OTT_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.PASSWORD_AUTHORITY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,21 +37,21 @@ class ElevatedSecurityPageConfigTests {
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_OTT_AUTHORITY)
+	@WithMockUser(authorities = OTT_AUTHORITY)
 	void indexWhenAuthenticatedWithOttThenAllows() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().isOk());
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_PASSWORD_AUTHORITY)
+	@WithMockUser(authorities = PASSWORD_AUTHORITY)
 	void indexWhenAuthenticatedWithPasswordThenAllows() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().isOk());
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_PASSWORD_AUTHORITY)
+	@WithMockUser(authorities = PASSWORD_AUTHORITY)
 	void profileWhenAuthenticatedWithPasswordThenRedirectsToOtt() throws Exception {
 		this.mvc.perform(get("/profile"))
 			.andExpect(status().is3xxRedirection())
@@ -59,7 +59,7 @@ class ElevatedSecurityPageConfigTests {
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_OTT_AUTHORITY)
+	@WithMockUser(authorities = OTT_AUTHORITY)
 	void profileWhenAuthenticatedWithOttThenAllows() throws Exception {
 		this.mvc.perform(get("/profile"))
 			.andExpect(status().isOk());

@@ -26,11 +26,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_PASSWORD_AUTHORITY;
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_X509_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.PASSWORD_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.X509_AUTHORITY;
 
 @Configuration(proxyBeanMethods = false)
-@EnableGlobalMultiFactorAuthentication(authorities = { FACTOR_X509_AUTHORITY, FACTOR_PASSWORD_AUTHORITY })
+@EnableGlobalMultiFactorAuthentication(authorities = { X509_AUTHORITY, PASSWORD_AUTHORITY })
 public class SecurityConfig {
 
 	@Bean

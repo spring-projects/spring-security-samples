@@ -9,8 +9,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_OTT_AUTHORITY;
-import static org.springframework.security.core.authority.FactorGrantedAuthority.FACTOR_PASSWORD_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.OTT_AUTHORITY;
+import static org.springframework.security.core.authority.FactorGrantedAuthority.PASSWORD_AUTHORITY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +38,7 @@ class CustomPagesConfigTests {
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_OTT_AUTHORITY)
+	@WithMockUser(authorities = OTT_AUTHORITY)
 	void indexWhenAuthenticatedWithX509ThenRedirectsToLogin() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
@@ -46,7 +46,7 @@ class CustomPagesConfigTests {
 	}
 
 	@Test
-	@WithMockUser(authorities = FACTOR_PASSWORD_AUTHORITY)
+	@WithMockUser(authorities = PASSWORD_AUTHORITY)
 	void indexWhenAuthenticatedWithPasswordThenRedirectsToOtt() throws Exception {
 		this.mvc.perform(get("/"))
 			.andExpect(status().is3xxRedirection())
