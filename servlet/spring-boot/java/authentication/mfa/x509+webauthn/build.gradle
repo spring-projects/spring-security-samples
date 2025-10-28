@@ -22,6 +22,7 @@ dependencies {
 	implementation "com.webauthn4j:webauthn4j-core:0.29.4.RELEASE"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 

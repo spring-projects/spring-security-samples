@@ -35,6 +35,7 @@ dependencies {
 	implementation 'com.nimbusds:oauth2-oidc-sdk:9.43.4'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
