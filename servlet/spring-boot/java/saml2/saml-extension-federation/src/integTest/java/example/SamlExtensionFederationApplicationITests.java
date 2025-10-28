@@ -73,7 +73,7 @@ public class SamlExtensionFederationApplicationITests {
 	}
 
 	private void performLogin() throws Exception {
-		HtmlPage login = this.webClient.getPage("/");
+		HtmlPage login = this.webClient.getPage("http://localhost:" + this.port);
 		login.getAnchors().get(0).click();
 		this.webClient.waitForBackgroundJavaScript(10000);
 		HtmlForm form = findForm(login);
