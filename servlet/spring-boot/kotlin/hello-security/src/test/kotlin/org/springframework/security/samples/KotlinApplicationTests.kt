@@ -48,7 +48,7 @@ class KotlinApplicationTests(@Autowired private val mockMvc: MockMvc) {
                 .andExpect {
                     status { is3xxRedirection() }
                     header {
-                        redirectedUrlPattern("**/log-in")
+                        redirectedUrl("/log-in")
                     }
                 }
     }
