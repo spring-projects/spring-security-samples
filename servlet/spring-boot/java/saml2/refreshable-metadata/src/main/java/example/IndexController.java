@@ -16,8 +16,8 @@
 
 package example;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticatedPrincipal;
+import org.springframework.security.saml2.provider.service.authentication.Saml2AssertionAuthentication;
+import org.springframework.security.saml2.provider.service.authentication.Saml2ResponseAssertionAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +26,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
 	@GetMapping("/")
-	public String index(Model model, @AuthenticationPrincipal Saml2AuthenticatedPrincipal principal) {
-		String emailAddress = principal.getFirstAttribute("email");
+	public String index(Model model, Saml2AssertionAuthentication authentication) {
+		Saml2ResponseAssertionAccessor assertion = authentication.getCredentials();
+		String emailAddress = assertion.getFirstAttribute("email");
 		model.addAttribute("emailAddress", emailAddress);
-		model.addAttribute("userAttributes", principal.getAttributes());
+		model.addAttribute("userAttributes", assertion.getAttributes());
 		return "index";
 	}
 
