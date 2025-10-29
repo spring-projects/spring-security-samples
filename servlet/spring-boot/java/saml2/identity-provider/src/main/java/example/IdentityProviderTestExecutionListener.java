@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import org.testcontainers.containers.ComposeContainer;
-import org.testcontainers.containers.DockerComposeContainer;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestContext;
