@@ -19,5 +19,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1.2.0
       - name: Build with Gradle
         run: ./gradlew check --continue
