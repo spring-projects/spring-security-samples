@@ -19,7 +19,7 @@ package example;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authorization.EnableGlobalMultiFactorAuthentication;
+import org.springframework.security.config.annotation.authorization.EnableMultiFactorAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +30,7 @@ import static org.springframework.security.core.authority.FactorGrantedAuthority
 import static org.springframework.security.core.authority.FactorGrantedAuthority.X509_AUTHORITY;
 
 @Configuration
-@EnableGlobalMultiFactorAuthentication(authorities = { X509_AUTHORITY, WEBAUTHN_AUTHORITY })
+@EnableMultiFactorAuthentication(authorities = { X509_AUTHORITY, WEBAUTHN_AUTHORITY })
 public class SecurityConfig {
 
 	@Bean

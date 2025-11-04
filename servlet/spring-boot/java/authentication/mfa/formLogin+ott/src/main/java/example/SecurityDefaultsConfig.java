@@ -30,7 +30,7 @@ import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authorization.AuthorizationManagerFactories;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authorization.EnableGlobalMultiFactorAuthentication;
+import org.springframework.security.config.annotation.authorization.EnableMultiFactorAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,7 +42,7 @@ import static org.springframework.security.core.authority.FactorGrantedAuthority
 import static org.springframework.security.core.authority.FactorGrantedAuthority.PASSWORD_AUTHORITY;
 
 @Configuration(proxyBeanMethods = false)
-@EnableGlobalMultiFactorAuthentication(authorities = { PASSWORD_AUTHORITY, OTT_AUTHORITY })
+@EnableMultiFactorAuthentication(authorities = { PASSWORD_AUTHORITY, OTT_AUTHORITY })
 class SecurityDefaultsConfig {
 
 	@Bean

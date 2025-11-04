@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authorization.EnableMultiFactorAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.core.AuthenticationException;
@@ -42,6 +43,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 
 @Configuration(proxyBeanMethods = false)
+@EnableMultiFactorAuthentication(authorities = {})
 class SecurityConfig {
 
 	static final String SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
