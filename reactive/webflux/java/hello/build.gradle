@@ -18,6 +18,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-webflux-test'
+	testImplementation 'org.springframework.boot:spring-boot-webtestclient'
 }
 
 tasks.withType(Test).configureEach {

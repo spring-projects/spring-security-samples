@@ -19,6 +19,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-webflux-test'
+	testImplementation 'org.springframework.boot:spring-boot-webtestclient'
 	testImplementation 'org.springframework.boot:spring-boot-security-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
