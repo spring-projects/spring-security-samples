@@ -33,7 +33,6 @@ import static org.hamcrest.Matchers.containsString;
  * Integration tests for resource server.
  *
  * @author Rob Winch
- * @since 5.1
  */
 @SpringBootTest
 @AutoConfigureWebTestClient(timeout = "36000")

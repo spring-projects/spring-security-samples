@@ -72,7 +72,7 @@ class DmsIntegrationTests {
 		SecurityContextHolder.clearContext();
 	}
 
-	public void setDocumentDao(DocumentDao documentDao) {
+	void setDocumentDao(DocumentDao documentDao) {
 		this.documentDao = documentDao;
 	}
 

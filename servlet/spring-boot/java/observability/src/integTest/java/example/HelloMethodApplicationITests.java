@@ -39,7 +39,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests.
  *
  * @author Rob Winch
- * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class HelloMethodApplicationITests {

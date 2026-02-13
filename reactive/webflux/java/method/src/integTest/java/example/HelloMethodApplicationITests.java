@@ -29,7 +29,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * Integration tests.
  *
  * @author Rob Winch
- * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class HelloMethodApplicationITests {

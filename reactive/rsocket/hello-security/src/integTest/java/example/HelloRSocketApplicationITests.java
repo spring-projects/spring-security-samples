@@ -37,7 +37,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Rob Winch
  * @author Eddú Meléndez
- * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.rsocket.server.port=0")

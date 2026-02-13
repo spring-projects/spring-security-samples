@@ -84,7 +84,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * 2.0 Login leveraging the Authorization Code Grant flow.
  *
  * @author Joe Grandja
- * @since 5.0
  */
 @SpringBootTest(classes = { OAuth2LoginApplication.class, OAuth2LoginApplicationTests.SecurityTestConfig.class })
 @AutoConfigureMockMvc

@@ -31,7 +31,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
  * Integration tests for WebFlux based form log in sample.
  *
  * @author Rob Winch
- * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WebfluxFormApplicationITests {
