@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DataConfiguration.class)
-public class SecurityMessageRepositoryTests {
+class SecurityMessageRepositoryTests {
 
 	@Autowired
 	SecurityMessageRepository repository;

@@ -33,12 +33,11 @@ import static org.hamcrest.Matchers.containsString;
  * Integration tests for resource server.
  *
  * @author Rob Winch
- * @since 5.1
  */
 @SpringBootTest
 @AutoConfigureWebTestClient(timeout = "36000")
 @ActiveProfiles("test")
-public class ServerOAuth2ResourceServerApplicationITests {
+class ServerOAuth2ResourceServerApplicationITests {
 
 	Consumer<HttpHeaders> noScopesToken = (http) -> http.setBearerAuth(
 			"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdWJqZWN0IiwiZXhwIjo0NjgzODA1MTI4fQ.ULEPdHG-MK5GlrTQMhgqcyug2brTIZaJIrahUeq9zaiwUSdW83fJ7W1IDd2Z3n4a25JY2uhEcoV95lMfccHR6y_2DLrNvfta22SumY9PEDF2pido54LXG6edIGgarnUbJdR4rpRe_5oRGVa8gDx8FnuZsNv6StSZHAzw5OsuevSTJ1UbJm4UfX3wiahFOQ2OI6G-r5TB2rQNdiPHuNyzG5yznUqRIZ7-GCoMqHMaC-1epKxiX8gYXRROuUYTtcMNa86wh7OVDmvwVmFioRcR58UWBRoO1XQexTtOQq_t8KYsrPZhb9gkyW8x2bAQF-d0J0EJY8JslaH6n4RBaZISww");

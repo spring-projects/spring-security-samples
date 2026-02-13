@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class OAuth2AuthorizationServerApplicationITests {
+class OAuth2AuthorizationServerApplicationITests {
 
 	private static final String CLIENT_ID = "messaging-client";
 

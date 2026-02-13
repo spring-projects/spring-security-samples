@@ -30,7 +30,7 @@ import org.springframework.security.samples.pages.HomePage;
  *
  * @author Michael Simons
  */
-public class ContactsTests {
+class ContactsTests {
 
 	private WebDriver driver;
 

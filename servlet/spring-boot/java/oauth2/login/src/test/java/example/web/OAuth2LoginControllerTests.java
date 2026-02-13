@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Josh Cummings
  */
 @WebMvcTest(OAuth2LoginController.class)
-public class OAuth2LoginControllerTests {
+class OAuth2LoginControllerTests {
 
 	@Autowired
 	MockMvc mvc;

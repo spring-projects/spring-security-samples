@@ -30,11 +30,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * Integration tests.
  *
  * @author Rob Winch
- * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-public class HelloMethodApplicationITests {
+class HelloMethodApplicationITests {
 
 	@Autowired
 	WebTestClient rest;

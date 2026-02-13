@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest({ HelloController.class, TokenController.class })
 @Import(RestConfig.class)
-public class HelloControllerTests {
+class HelloControllerTests {
 
 	@Autowired
 	MockMvc mvc;

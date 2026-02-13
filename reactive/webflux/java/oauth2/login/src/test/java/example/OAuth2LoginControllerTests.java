@@ -43,7 +43,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
  */
 @WebFluxTest(OAuth2LoginController.class)
 @ExtendWith(MockitoExtension.class)
-public class OAuth2LoginControllerTests {
+class OAuth2LoginControllerTests {
 
 	@Autowired
 	OAuth2LoginController controller;

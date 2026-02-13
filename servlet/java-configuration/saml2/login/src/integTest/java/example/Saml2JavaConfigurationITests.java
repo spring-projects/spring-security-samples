@@ -51,7 +51,7 @@ import static org.awaitility.Awaitility.await;
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 @WebAppConfiguration
 @Disabled("gh-127")
-public class Saml2JavaConfigurationITests {
+class Saml2JavaConfigurationITests {
 
 	private MockMvc mvc;
 

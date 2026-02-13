@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class OAuth2OpaqueTokenResourceServerApplicationITests {
+class OAuth2OpaqueTokenResourceServerApplicationITests {
 
 	String noScopesToken = "00ed5855-1869-47a0-b0c9-0f3ce520aee7";
 

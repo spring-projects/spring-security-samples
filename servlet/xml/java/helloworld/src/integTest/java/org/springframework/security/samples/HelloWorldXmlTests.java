@@ -30,7 +30,7 @@ import org.springframework.security.samples.pages.LoginPage;
  *
  * @author Michael Simons
  */
-public class HelloWorldXmlTests {
+class HelloWorldXmlTests {
 
 	private WebDriver driver;
 

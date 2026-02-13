@@ -59,7 +59,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 		locations = { "classpath:applicationContext-dms-shared.xml", "classpath:applicationContext-dms-insecure.xml" })
 @ExtendWith(SpringExtension.class)
 @Transactional
-public class DmsIntegrationTests {
+class DmsIntegrationTests {
 
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
@@ -72,7 +72,7 @@ public class DmsIntegrationTests {
 		SecurityContextHolder.clearContext();
 	}
 
-	public void setDocumentDao(DocumentDao documentDao) {
+	void setDocumentDao(DocumentDao documentDao) {
 		this.documentDao = documentDao;
 	}
 

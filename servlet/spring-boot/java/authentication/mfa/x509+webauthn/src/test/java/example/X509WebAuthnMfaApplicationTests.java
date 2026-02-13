@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-public class X509WebAuthnMfaApplicationTests {
+class X509WebAuthnMfaApplicationTests {
 
 	@Autowired
 	private MockMvc mvc;

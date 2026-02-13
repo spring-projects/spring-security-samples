@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @ContextConfiguration(
 		locations = { "classpath:applicationContext-dms-shared.xml", "classpath:applicationContext-dms-secure.xml" })
-public class SecureDmsIntegrationTests extends DmsIntegrationTests {
+class SecureDmsIntegrationTests extends DmsIntegrationTests {
 
 	@Override
 	@Test

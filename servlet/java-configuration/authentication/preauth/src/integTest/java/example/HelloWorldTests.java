@@ -29,7 +29,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  *
  * @author Michael Simons
  */
-public class HelloWorldTests {
+class HelloWorldTests {
 
 	private WebDriver driver;
 

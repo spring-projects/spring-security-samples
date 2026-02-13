@@ -50,7 +50,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * @author Michael Simons
  */
 // @Disabled
-public class X509Tests {
+class X509Tests {
 
 	@Test
 	void notCertificateThenSslHandshakeException() {

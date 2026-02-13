@@ -38,7 +38,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 @WebFluxTest
 @Import({ SecurityConfiguration.class, OAuth2WebClientController.class })
 @AutoConfigureWebTestClient(timeout = "36000")
-public class OAuth2WebClientControllerTests {
+class OAuth2WebClientControllerTests {
 
 	private static MockWebServer web = new MockWebServer();
 

@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitWebConfig(classes = SecurityConfiguration.class)
-public class MaxSessionTests {
+class MaxSessionTests {
 
 	@Test
 	void run(WebApplicationContext context) throws Exception {

@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestRestTemplate
-public class HelloSecurityExplicitITests {
+class HelloSecurityExplicitITests {
 
 	@Autowired
 	private TestRestTemplate rest;

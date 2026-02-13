@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-public class OAuth2WebClientApplicationTests {
+class OAuth2WebClientApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;

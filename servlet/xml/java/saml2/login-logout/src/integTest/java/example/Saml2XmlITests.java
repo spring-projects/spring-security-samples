@@ -50,7 +50,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 		"file:src/main/webapp/WEB-INF/spring/security.xml" })
 @WebAppConfiguration
 @Disabled("gh-127")
-public class Saml2XmlITests {
+class Saml2XmlITests {
 
 	private MockMvc mvc;
 

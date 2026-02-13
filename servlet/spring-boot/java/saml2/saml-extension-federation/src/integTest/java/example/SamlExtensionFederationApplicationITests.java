@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
-public class SamlExtensionFederationApplicationITests {
+class SamlExtensionFederationApplicationITests {
 
 	@LocalServerPort
 	int port;

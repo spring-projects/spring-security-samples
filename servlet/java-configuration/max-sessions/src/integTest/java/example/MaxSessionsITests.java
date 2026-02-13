@@ -29,7 +29,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  *
  * @author Rob Winch
  */
-public class MaxSessionsITests {
+class MaxSessionsITests {
 
 	private WebDriver user1;
 

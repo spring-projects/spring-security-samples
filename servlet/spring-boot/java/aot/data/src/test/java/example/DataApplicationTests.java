@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Rob Winch
  */
 @SpringBootTest
-public class DataApplicationTests {
+class DataApplicationTests {
 
 	@Autowired
 	MessageRepository repository;

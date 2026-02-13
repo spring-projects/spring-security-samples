@@ -30,7 +30,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @SpringBootTest
 @AutoConfigureWebTestClient(timeout = "36000")
-public class HelloTests {
+class HelloTests {
 
 	@Autowired
 	WebTestClient rest;
