@@ -7,5 +7,5 @@ org-springframework-security-spring-security-bom = "org.springframework.security
 org-springframework-data-spring-data-bom = "org.springframework.data:spring-data-bom:2025.1.0-M4"
 
 [plugins]
-io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.6" }
+io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 org-springframework-boot = { id = "org.springframework.boot", version.ref = "org-springframework-boot" }
