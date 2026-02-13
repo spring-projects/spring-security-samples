@@ -31,7 +31,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext-security.xml")
 @WebAppConfiguration
-public class PreAuthXmlTests {
+class PreAuthXmlTests {
 
 	@Autowired
 	FilterChainProxy filterChainProxy;

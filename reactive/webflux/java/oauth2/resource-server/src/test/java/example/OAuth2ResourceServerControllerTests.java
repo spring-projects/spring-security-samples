@@ -37,7 +37,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
  */
 @WebFluxTest(OAuth2ResourceServerController.class)
 @Import(SecurityConfiguration.class)
-public class OAuth2ResourceServerControllerTests {
+class OAuth2ResourceServerControllerTests {
 
 	@Autowired
 	WebTestClient rest;

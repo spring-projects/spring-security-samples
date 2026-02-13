@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.fail;
 @ContextConfiguration(locations = { "/applicationContext-security.xml", "/applicationContext-common-authorization.xml",
 		"/applicationContext-common-business.xml" })
 @SpringJUnitWebConfig
-public class ContactManagerTests {
+class ContactManagerTests {
 
 	@Autowired
 	protected ContactManager contactManager;

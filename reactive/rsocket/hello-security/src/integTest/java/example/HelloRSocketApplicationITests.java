@@ -41,7 +41,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.rsocket.server.port=0")
-public class HelloRSocketApplicationITests {
+class HelloRSocketApplicationITests {
 
 	@Autowired
 	RSocketRequester.Builder requester;

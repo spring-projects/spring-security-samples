@@ -29,7 +29,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  *
  * @author Michael Simons
  */
-public class FormLoginTests {
+class FormLoginTests {
 
 	private WebDriver driver;
 

@@ -58,7 +58,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(OAuth2ResourceServerController.class)
 @Import(OAuth2ResourceServerSecurityConfiguration.class)
-public class OAuth2ResourceServerControllerTests {
+class OAuth2ResourceServerControllerTests {
 
 	@Autowired
 	MockMvc mockMvc;

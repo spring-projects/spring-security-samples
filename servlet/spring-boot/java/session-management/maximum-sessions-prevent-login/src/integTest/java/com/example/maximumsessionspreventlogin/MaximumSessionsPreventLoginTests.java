@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(SecurityConfig.class)
 @AutoConfigureMockMvc
-public class MaximumSessionsPreventLoginTests {
+class MaximumSessionsPreventLoginTests {
 
 	@Autowired
 	private MockMvc mvc;

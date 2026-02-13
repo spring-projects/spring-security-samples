@@ -55,7 +55,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class OAuth2RestClientApplicationITests {
+class OAuth2RestClientApplicationITests {
 
 	private static final String TOKEN_VALUE = "123abc";
 

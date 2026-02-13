@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Disabled
-public class MfaApplicationTests {
+class MfaApplicationTests {
 
 	private static final String hexKey = "80ed266dd80bcd32564f0f4aaa8d9b149a2b1eaa";
 

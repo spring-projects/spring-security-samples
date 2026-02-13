@@ -88,7 +88,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = { OAuth2LoginApplication.class, OAuth2LoginApplicationTests.SecurityTestConfig.class })
 @AutoConfigureMockMvc
-public class OAuth2LoginApplicationTests {
+class OAuth2LoginApplicationTests {
 
 	private static final String AUTHORIZATION_BASE_URI = "/oauth2/authorization";
 

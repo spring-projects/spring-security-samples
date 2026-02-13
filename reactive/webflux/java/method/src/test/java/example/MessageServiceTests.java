@@ -29,7 +29,7 @@ import org.springframework.security.test.context.support.WithMockUser;
  * @since 5.0
  */
 @SpringBootTest
-public class MessageServiceTests {
+class MessageServiceTests {
 
 	@Autowired
 	MessageService messages;

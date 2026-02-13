@@ -33,7 +33,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
  * @author Michael Simons
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HelloSecurityExplicitITests {
+class HelloSecurityExplicitITests {
 
 	private WebDriver driver;
 

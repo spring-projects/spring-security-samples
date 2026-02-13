@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
-public class SamlExtensionUrlsApplicationITests {
+class SamlExtensionUrlsApplicationITests {
 
 	@LocalServerPort
 	int port;

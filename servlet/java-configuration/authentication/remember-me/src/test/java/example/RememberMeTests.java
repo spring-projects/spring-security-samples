@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitWebConfig(classes = SecurityConfiguration.class)
-public class RememberMeTests {
+class RememberMeTests {
 
 	@Test
 	void loginWhenRemembermeThenAuthenticated(WebApplicationContext context) throws Exception {

@@ -34,7 +34,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
  * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WebfluxFormApplicationITests {
+class WebfluxFormApplicationITests {
 
 	WebDriver driver;
 

@@ -32,7 +32,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HelloMethodApplicationITests {
+class HelloMethodApplicationITests {
 
 	@Autowired
 	WebTestClient rest;

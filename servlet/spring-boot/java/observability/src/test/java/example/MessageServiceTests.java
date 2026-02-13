@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  * @author Josh Cummings
  */
 @SpringBootTest
-public class MessageServiceTests {
+class MessageServiceTests {
 
 	@Autowired
 	MessageService messages;

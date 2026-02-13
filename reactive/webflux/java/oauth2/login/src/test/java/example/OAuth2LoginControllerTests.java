@@ -40,7 +40,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
  * @author Josh Cummings
  */
 @WebFluxTest(OAuth2LoginController.class)
-public class OAuth2LoginControllerTests {
+class OAuth2LoginControllerTests {
 
 	@Autowired
 	OAuth2LoginController controller;

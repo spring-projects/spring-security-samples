@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 5.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HelloMethodApplicationITests {
+class HelloMethodApplicationITests {
 
 	@Autowired
 	TestRestTemplate rest;

@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @Import({ SecurityConfiguration.class, OAuth2WebClientController.class })
 @AutoConfigureMockMvc
-public class OAuth2WebClientControllerTests {
+class OAuth2WebClientControllerTests {
 
 	private static MockWebServer web = new MockWebServer();
 
