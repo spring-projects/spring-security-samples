@@ -2,7 +2,7 @@
 org-springframework-boot = "4.0.2"
 
 [libraries]
-org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:7.0.4"
+org-springframework-spring-framework-bom = "org.springframework:spring-framework-bom:7.0.5"
 org-springframework-security-spring-security-bom = "org.springframework.security:spring-security-bom:7.0.3"
 org-springframework-data-spring-data-bom = "org.springframework.data:spring-data-bom:2025.1.3"
 
