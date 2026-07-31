@@ -52,7 +52,7 @@ public class TokenController {
 				.issuedAt(now)
 				.expiresAt(now.plusSeconds(expiry))
 				.subject(authentication.getName())
-				.claim("scope", scope)
+				.claim("scp", scope)
 				.build();
 		// @formatter:on
 		return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
