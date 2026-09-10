@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+	<title>OAuth 2.0 Login and Resource Server</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+<h1>OAuth 2.0 Login and Resource Server</h1>
+<p>This application supports browser login via OAuth 2.0 and API access via Bearer tokens.</p>
+<div sec:authorize="!isAuthenticated()">
+	<p><a th:href="@{/oauth2/authorization/login-client}">Login with Spring Authorization Server</a></p>
+	<p><a th:href="@{/oauth2/authorization/google}">Login with Google</a></p>
+	<p><a th:href="@{/oauth2/authorization/github}">Login with GitHub</a></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+	<p>You are logged in as <span sec:authentication="name"></span>.</p>
+	<p><a th:href="@{/authenticated}">View authenticated page</a></p>
+	<form action="#" th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+</div>
+</body>
+</html>

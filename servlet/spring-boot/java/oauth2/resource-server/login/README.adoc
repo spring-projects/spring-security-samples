@@ -1,0 +1,113 @@
+= OAuth 2.0 Login and Resource Server Sample
+
+This sample demonstrates how to configure a single application that supports both:
+
+* Browser-based login using OAuth 2.0 Login (Google, GitHub, or a local Authorization Server)
+* REST API access using OAuth 2.0 Bearer tokens
+
+This addresses the common pattern where an application starts as a full-stack web app and later needs to support native mobile clients or JavaScript applications that authenticate with Bearer tokens.
+
+== Security Filter Chains
+
+This application uses two `SecurityFilterChain` beans:
+
+* *Resource Server chain* (`@Order(1)`) -- matches `/api/**` requests, is stateless, and validates JWT Bearer tokens
+* *Default chain* (`@Order(2)`) -- handles browser requests with OAuth 2.0 Login and server-side sessions
+
+The public home page (`/`) is accessible without authentication. The `/authenticated` page requires a browser login session. API endpoints under `/api/**` require a valid Bearer token.
+
+TIP: As an alternative, you can match the resource server chain using the `Authorization: Bearer` request header instead of a path prefix. See https://github.com/spring-projects/spring-security-samples/issues/99[issue #99] for the original discussion.
+
+== 1. Running the tests
+
+To run the tests, do:
+
+[source,bash]
+----
+./gradlew check
+----
+
+Or import the project into your IDE and run the test classes from there.
+
+By default, integration tests use the `test` profile with an embedded mock Authorization Server.
+
+== 2. Running with Spring Authorization Server
+
+Before running this application with the default configuration, start the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/authorization-server[authorization-server sample] on port `9000`.
+
+Then run this sample:
+
+[source,bash]
+----
+./gradlew bootRun
+----
+
+=== Browser login
+
+. Go to `http://127.0.0.1:8080/` -- the public home page
+. Click *Login with Spring Authorization Server*
+. After authenticating, visit `http://127.0.0.1:8080/authenticated` to see your profile
+
+=== Bearer token API
+
+Obtain a token from the Authorization Server:
+
+[source,bash]
+----
+curl -X POST messaging-client:secret@localhost:9000/oauth2/token -d "grant_type=client_credentials" -d "scope=message:read"
+----
+
+Then call the API:
+
+[source,bash]
+----
+export TOKEN=...
+curl -H "Authorization: Bearer $TOKEN" localhost:8080/api
+curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/message
+----
+
+== 3. Configuring Google and GitHub
+
+To use Google or GitHub for browser login, update `application.yml` with your OAuth 2.0 credentials:
+
+[source,yaml]
+----
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: google-client-id
+            client-secret: google-client-secret
+          github:
+            client-id: github-client-id
+            client-secret: github-client-secret
+----
+
+Set the redirect URI to `http://127.0.0.1:8080/login/oauth2/code/{registrationId}` in your provider's console.
+
+For Bearer token validation against Google, configure:
+
+[source,yaml]
+----
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+----
+
+See the https://github.com/spring-projects/spring-security-samples/tree/main/servlet/spring-boot/java/oauth2/login[OAuth 2.0 Login sample] for detailed provider setup instructions.
+
+== 4. Running with the test profile
+
+To run with an embedded mock Authorization Server:
+
+[source,bash]
+----
+./gradlew bootRun --args='--spring.profiles.active=test'
+----
+
+Use the hard-coded tokens from the integration tests to explore the API endpoints.
