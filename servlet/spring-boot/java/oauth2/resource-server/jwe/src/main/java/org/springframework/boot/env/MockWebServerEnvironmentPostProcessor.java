@@ -17,6 +17,7 @@
 package org.springframework.boot.env;
 
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.ConfigurableEnvironment;
 
