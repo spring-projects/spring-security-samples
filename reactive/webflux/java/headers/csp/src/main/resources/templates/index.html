@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>CSP Sample</title>
+    <script th:attr="nonce=${_csp.nonce}">
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("status").textContent = "The inline script ran.";
+        });
+    </script>
+</head>
+<body>
+    <h1>CSP Sample</h1>
+    <p id="status">The inline script was blocked.</p>
+</body>
+</html>

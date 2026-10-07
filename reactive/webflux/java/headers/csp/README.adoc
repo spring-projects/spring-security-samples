@@ -1,0 +1,47 @@
+= Content Security Policy Nonce Sample
+
+This sample demonstrates Spring Security's nonce-based Content Security Policy (CSP) support in a WebFlux application.
+
+Under a strict CSP, the browser refuses to run an inline `<script>` unless it carries a `nonce` that matches the one in the `Content-Security-Policy` header.
+
+== Using the Sample
+
+To run, please use:
+
+[source,bash]
+----
+./gradlew :bootRun
+----
+
+Then browse to http://localhost:8080.
+The page says "The inline script ran." when the nonce on its inline script matches the one in the header.
+
+== Exploring the Sample
+
+The `Content-Security-Policy` header is configured with a `{nonce}` placeholder:
+
+[source,java]
+----
+http
+    .headers((headers) -> headers
+        .contentSecurityPolicy((csp) -> csp
+            .policyDirectives("default-src 'self'; script-src 'self' 'nonce-{nonce}'")
+        )
+    );
+----
+
+For each request, Spring Security generates a nonce, substitutes it for `{nonce}` in the header, and makes it available to the view as the `_csp` attribute.
+The template renders it on its inline script:
+
+[source,html]
+----
+<script th:attr="nonce=${_csp.nonce}">
+----
+
+NOTE: Browsers hide `nonce` values in the live DOM, so the developer tools' Elements panel shows an empty `nonce`.
+Use `view-source:` or `curl` to see the value the server sent:
+
+[source,bash]
+----
+curl -si http://localhost:8080/ | grep -i -E "content-security-policy|<script"
+----

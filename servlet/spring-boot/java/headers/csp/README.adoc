@@ -1,0 +1,55 @@
+= Content Security Policy Nonce Sample
+
+This sample demonstrates Spring Security's nonce-based Content Security Policy (CSP) support, using Spring Security's passkey JavaScript on a custom login and registration page.
+
+Under a strict CSP, the browser refuses to run an inline `<script>` unless it carries a `nonce` that matches the one in the `Content-Security-Policy` header.
+Spring Security's default login and passkey registration pages bootstrap passkey support with an inline script, so this sample provides its own pages.
+
+== Using the Sample
+
+To run, please use:
+
+[source,bash]
+----
+./gradlew :bootRun
+----
+
+Then:
+
+1. Browse to http://localhost:8080 and log in with `user` / `password`
+2. Follow the link to register a passkey
+3. Log out and use "Sign in with a passkey"
+
+NOTE: Passkeys are bound to the relying party id, so use `localhost` (not `127.0.0.1`) in the browser.
+
+== Exploring the Sample
+
+The `Content-Security-Policy` header is configured with a `{nonce}` placeholder:
+
+[source,java]
+----
+http
+    .headers((headers) -> headers
+        .contentSecurityPolicy((csp) -> csp
+            .policyDirectives("default-src 'self'; script-src 'self' 'nonce-{nonce}'")
+        )
+    );
+----
+
+For each request, Spring Security generates a nonce, substitutes it for `{nonce}` in the header, and makes it available to the view as the `_csp` request attribute.
+The templates render it on their inline scripts:
+
+[source,html]
+----
+<script th:attr="nonce=${_csp.nonce}">
+----
+
+Compare the nonce in the `Content-Security-Policy` response header with the `nonce` attribute in the page source; removing the `nonce` attribute causes the browser to block the script.
+
+NOTE: Browsers hide `nonce` values in the live DOM, so the developer tools' Elements panel shows an empty `nonce`.
+Use `view-source:` or `curl` to see the value the server sent:
+
+[source,bash]
+----
+curl -si http://localhost:8080/login | grep -i -E "content-security-policy|<script"
+----

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Register a Passkey</title>
+    <script th:src="@{/login/webauthn.js}"></script>
+    <script th:attr="nonce=${_csp.nonce}" th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            const csrfHeader = /*[[${_csrf.headerName}]]*/ "X-CSRF-TOKEN";
+            const csrfToken = /*[[${_csrf.token}]]*/ "";
+            const headers = { [csrfHeader]: csrfToken };
+            setupRegistration(headers, "", {
+                getRegisterButton: () => document.getElementById("register"),
+                getSuccess: () => document.getElementById("success"),
+                getError: () => document.getElementById("error"),
+                getLabelInput: () => document.getElementById("label"),
+                getDeleteForms: () => []
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Register a Passkey</h1>
+    <p id="success">Success!</p>
+    <p id="error"></p>
+    <p><input type="text" id="label" placeholder="Passkey label" autofocus></p>
+    <button id="register" type="button">Register</button>
+    <p><a th:href="@{/}">Home</a></p>
+</body>
+</html>

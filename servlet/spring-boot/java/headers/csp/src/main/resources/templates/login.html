@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Log In</title>
+    <script th:src="@{/login/webauthn.js}"></script>
+    <script th:attr="nonce=${_csp.nonce}" th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            const csrfHeader = /*[[${_csrf.headerName}]]*/ "X-CSRF-TOKEN";
+            const csrfToken = /*[[${_csrf.token}]]*/ "";
+            const headers = { [csrfHeader]: csrfToken };
+            setupLogin(headers, "", document.getElementById("passkey-signin"));
+        });
+    </script>
+</head>
+<body>
+    <h1>Log In</h1>
+    <p th:if="${param.error}">Login failed</p>
+    <form th:action="@{/login}" method="post">
+        <p><input type="text" name="username" placeholder="Username (user)" autofocus></p>
+        <p><input type="password" name="password" placeholder="Password (password)"></p>
+        <button type="submit">Log in</button>
+    </form>
+    <p><button id="passkey-signin" type="button">Sign in with a passkey</button></p>
+</body>
+</html>

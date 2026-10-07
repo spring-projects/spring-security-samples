@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>CSP Nonce Sample</title>
+</head>
+<body>
+    <h1>CSP Nonce Sample</h1>
+    <p><a th:href="@{/webauthn/register}">Register a passkey</a></p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Log out</button>
+    </form>
+</body>
+</html>
