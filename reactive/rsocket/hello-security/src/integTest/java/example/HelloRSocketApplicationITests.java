@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.rsocket.server.LocalRSocketServerPort;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.security.rsocket.metadata.SimpleAuthenticationEncoder;
@@ -38,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Rob Winch
  * @author Eddú Meléndez
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.rsocket.server.port=0")
 class HelloRSocketApplicationITests {
 

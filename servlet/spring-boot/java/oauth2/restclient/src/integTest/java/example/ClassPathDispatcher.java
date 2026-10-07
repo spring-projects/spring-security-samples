@@ -22,9 +22,9 @@ import java.nio.charset.StandardCharsets;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.jspecify.annotations.NonNull;
 
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,9 +36,8 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 final class ClassPathDispatcher extends Dispatcher {
 
-	@NonNull
 	@Override
-	public MockResponse dispatch(RecordedRequest recordedRequest) {
+	public @NonNull MockResponse dispatch(RecordedRequest recordedRequest) {
 		if (recordedRequest.getPath() != null && recordedRequest.getRequestUrl() != null) {
 			try {
 				String requestUrl = recordedRequest.getRequestUrl().toString();

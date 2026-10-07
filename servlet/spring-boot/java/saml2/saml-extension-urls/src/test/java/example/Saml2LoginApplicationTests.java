@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class Saml2LoginApplicationTests {
+class Saml2LoginApplicationTests {
 
 	@Autowired
 	MockMvc mvc;
