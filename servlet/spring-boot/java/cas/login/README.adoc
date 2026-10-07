@@ -6,7 +6,8 @@ This sample provides a very simple implementation of a CAS Service (application)
 
 === Requirements
 
-In order to run the sample locally, you must have https://www.docker.com/[Docker] installed or a running CAS server.
+In order to run the sample locally, you must have JDK 21 or later, since the CAS client library is compiled for Java 21.
+You must also have https://www.docker.com/[Docker] installed or a running CAS server.
 
 === Start Up the Local CAS Server
 
