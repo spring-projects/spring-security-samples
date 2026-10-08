@@ -12,6 +12,12 @@ repositories {
 	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
+dependencyManagement {
+	imports {
+		mavenBom libs.org.springframework.security.spring.security.bom.get().toString()
+	}
+}
+
 dependencies {
 	constraints {
 		implementation "org.opensaml:opensaml-saml-api:5.1.2"

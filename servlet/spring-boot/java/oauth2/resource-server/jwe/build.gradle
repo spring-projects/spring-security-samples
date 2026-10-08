@@ -27,6 +27,12 @@ repositories {
 	maven { url "https://repo.spring.io/snapshot" }
 }
 
+dependencyManagement {
+	imports {
+		mavenBom libs.org.springframework.security.spring.security.bom.get().toString()
+	}
+}
+
 
 dependencies {
 	implementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
