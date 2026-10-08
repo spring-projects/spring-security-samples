@@ -2,8 +2,9 @@ plugins {
 	id 'java'
 	alias(libs.plugins.org.springframework.boot)
 	alias(libs.plugins.io.spring.dependency.management)
-	id "nebula.integtest" version "8.2.0"
 }
+
+apply from: "$rootDir/gradle/integ-test.gradle"
 
 repositories {
 	mavenCentral()

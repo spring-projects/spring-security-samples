@@ -1,0 +1,34 @@
+/*
+ * Adds support for integration tests to Java projects. Replaces the nebula.integtest
+ * plugin, which is no longer maintained and does not work with Gradle 9.
+ *
+ * - Adds an integTest source set (src/integTest/java and src/integTest/resources)
+ * - Adds integTestImplementation and integTestRuntimeOnly configurations that extend
+ *   their test counterparts
+ * - Adds an integrationTest task, which runs after test and is part of check
+ */
+apply plugin: 'java'
+
+sourceSets {
+	integTest {
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
+}
+
+configurations {
+	integTestImplementation.extendsFrom testImplementation
+	integTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+def integrationTest = tasks.register('integrationTest', Test) {
+	group = 'verification'
+	description = 'Runs the integration tests.'
+	testClassesDirs = sourceSets.integTest.output.classesDirs
+	classpath = sourceSets.integTest.runtimeClasspath
+	shouldRunAfter tasks.named('test')
+}
+
+tasks.named('check') {
+	dependsOn integrationTest
+}

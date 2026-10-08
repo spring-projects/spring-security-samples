@@ -16,10 +16,11 @@
 
 plugins {
 	id "java"
-	id "nebula.integtest" version "8.2.0"
-	id "org.gretty" version "4.0.3"
+	id "org.gretty" version "4.1.10"
 	id "war"
 }
+
+apply from: "$rootDir/gradle/integ-test.gradle"
 
 apply from: "gradle/gretty.gradle"
 
