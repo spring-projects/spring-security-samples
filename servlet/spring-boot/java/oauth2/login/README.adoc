@@ -10,6 +10,7 @@ The following sections provide detailed steps for setting up OAuth 2.0 Login for
 * <<github-login, GitHub>>
 * <<facebook-login, Facebook>>
 * <<okta-login, Okta>>
+* <<mockatoo-login, Mockatoo (no provider registration)>>
 
 [[spring-login]]
 == Login with Spring Authorization Server
@@ -408,3 +409,17 @@ Click on the Okta link, and you are then redirected to Okta for authentication.
 
 After authenticating with your Okta account credentials, the OAuth Client retrieves your email address and basic profile information
 from the https://openid.net/specs/openid-connect-core-1_0.html#UserInfo[UserInfo Endpoint] and establishes an authenticated session.
+
+[[mockatoo-login]]
+== Login with Mockatoo
+
+For local development and integration tests, the `mockatoo` Spring profile points the Google and GitHub registrations at https://mockatoo.globalunderdog.com[Mockatoo], a free hosted mock OAuth provider. It uses the shared `mockatoo` / `mockatoo-secret` client, so no provider application registration is required.
+
+The default profile and the real-provider configuration remain unchanged. Start the sample with:
+
+[source,shell]
+----
+./gradlew bootRun --args='--spring.profiles.active=mockatoo'
+----
+
+Open http://127.0.0.1:8080 and choose Google or GitHub. Sign in with a Mockatoo test account, then authorize the client.
