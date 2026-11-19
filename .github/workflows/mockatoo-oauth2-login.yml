@@ -1,0 +1,42 @@
+name: Mockatoo OAuth2 login
+
+on:
+  push:
+    paths:
+      - '.github/workflows/mockatoo-oauth2-login.yml'
+      - 'servlet/spring-boot/java/oauth2/login/**'
+  pull_request:
+    paths:
+      - '.github/workflows/mockatoo-oauth2-login.yml'
+      - 'servlet/spring-boot/java/oauth2/login/**'
+
+jobs:
+  test:
+    name: OAuth2 login integration test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Run Mockatoo integration test
+        env:
+          MOCKATOO_TEST_EMAIL: ${{ secrets.MOCKATOO_TEST_EMAIL }}
+          MOCKATOO_TEST_PASSWORD: ${{ secrets.MOCKATOO_TEST_PASSWORD }}
+        run: |
+          if [ -z "$MOCKATOO_TEST_EMAIL" ] || [ -z "$MOCKATOO_TEST_PASSWORD" ]; then
+            echo "::notice::Mockatoo credentials are unavailable; the hosted sign-in test will be skipped."
+          fi
+          ./gradlew :servlet:spring-boot:java:oauth2:login:integrationTest --no-daemon --info
+          if [ -n "$MOCKATOO_TEST_EMAIL" ] && [ -n "$MOCKATOO_TEST_PASSWORD" ]; then
+            result_file="servlet/spring-boot/java/oauth2/login/build/integTest-results/TEST-example.MockatooOAuth2LoginApplicationTests.xml"
+            sign_in_result=$(grep 'name="signInWithGitHubWhenMockatooProfileActiveThenShowsAuthenticatedPage()"' "$result_file" || true)
+            if [ -z "$sign_in_result" ] || echo "$sign_in_result" | grep -q '<skipped'; then
+              echo "::error::The hosted Mockatoo sign-in test did not pass."
+              exit 1
+            fi
+            echo "::notice::Full hosted Mockatoo sign-in test passed: $sign_in_result"
+          fi
